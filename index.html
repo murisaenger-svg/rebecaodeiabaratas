@@ -2,9 +2,14 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
+
 <meta name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0,
-               minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
+      content="width=device-width,
+               initial-scale=1,
+               maximum-scale=1,
+               minimum-scale=1,
+               user-scalable=no,
+               viewport-fit=cover">
 
 <title>Muriel: Extermínio</title>
 
@@ -87,7 +92,7 @@ button:active{
     font-size:18px;
 }
 
-/* GAME */
+/* ================= GAME ================= */
 
 #game{
     width:100%;
@@ -102,7 +107,7 @@ button:active{
     display:flex;
 }
 
-/* HUD */
+/* ================= HUD ================= */
 
 #hud{
     flex:0 0 auto;
@@ -157,7 +162,7 @@ button:active{
     flex:1;
 }
 
-/* GAME AREA */
+/* ================= GAME AREA ================= */
 
 #gameArea{
     position:relative;
@@ -218,7 +223,7 @@ button:active{
     text-shadow:0 2px 5px #000;
 }
 
-/* BOSS */
+/* ================= BOSS ================= */
 
 #bossUI{
     display:none;
@@ -251,7 +256,7 @@ button:active{
     background:#e53935;
 }
 
-/* COCKROACH */
+/* ================= BARATA ================= */
 
 .roach{
     position:absolute;
@@ -280,11 +285,16 @@ button:active{
 }
 
 @keyframes flying{
-    from{transform:translateY(-4px) rotate(-4deg)}
-    to{transform:translateY(4px) rotate(4deg)}
+    from{
+        transform:translateY(-4px) rotate(-4deg);
+    }
+
+    to{
+        transform:translateY(4px) rotate(4deg);
+    }
 }
 
-/* MOBILE BAR */
+/* ================= CONTROLES MOBILE ================= */
 
 #mobileControls{
     display:none;
@@ -308,7 +318,7 @@ button:active{
     padding:8px 3px;
 }
 
-/* MENUS */
+/* ================= MODAIS ================= */
 
 .modal{
     position:fixed;
@@ -373,7 +383,7 @@ button:active{
     color:#aaa;
 }
 
-/* PAUSE */
+/* ================= PAUSA ================= */
 
 #pauseScreen{
     background:#000c;
@@ -384,7 +394,7 @@ button:active{
     color:white;
 }
 
-/* SETTINGS */
+/* ================= SETTINGS ================= */
 
 .setting{
     display:flex;
@@ -396,7 +406,7 @@ button:active{
     margin:7px 0;
 }
 
-/* PARTICLES */
+/* ================= PARTICULAS ================= */
 
 .particle{
     position:absolute;
@@ -407,7 +417,7 @@ button:active{
     z-index:40;
 }
 
-/* MOBILE */
+/* ================= MOBILE ================= */
 
 @media(max-width:700px){
 
@@ -467,21 +477,7 @@ button:active{
     }
 }
 
-/* RETRATO */
-
-@media(max-width:700px) and (orientation:portrait){
-
-    #gameArea{
-        min-height:0;
-    }
-
-    #message{
-        font-size:18px;
-        width:90%;
-    }
-}
-
-/* PAISAGEM */
+/* ================= PAISAGEM ================= */
 
 @media(max-width:900px) and (orientation:landscape){
 
@@ -521,7 +517,7 @@ button:active{
     }
 }
 
-/* TELAS MUITO PEQUENAS */
+/* ================= PEQUENOS ================= */
 
 @media(max-width:380px){
 
@@ -538,8 +534,6 @@ button:active{
     }
 }
 
-/* REDUZ ANIMAÇÕES EM DISPOSITIVOS FRACOS */
-
 .reduce-effects .particle{
     display:none;
 }
@@ -552,9 +546,10 @@ button:active{
 
 <body>
 
-<!-- INTRO -->
+<!-- ================= INTRO ================= -->
 
 <div id="intro" class="screen active">
+
     <h1>MURIEL: EXTERMÍNIO</h1>
 
     <p>
@@ -581,9 +576,10 @@ button:active{
     <button class="primary" onclick="startGame()">
         COMEÇAR EXTERMÍNIO
     </button>
+
 </div>
 
-<!-- GAME -->
+<!-- ================= GAME ================= -->
 
 <div id="game">
 
@@ -618,11 +614,27 @@ button:active{
         </div>
 
         <div class="desktop-menu">
-            <button onclick="openModal('shopModal')">LOJA</button>
-            <button onclick="openModal('skillModal')">SKILLS</button>
-            <button onclick="openModal('missionModal')">MISSÕES</button>
-            <button onclick="openModal('achievementModal')">CONQUISTAS</button>
-            <button onclick="openModal('settingsModal')">CONFIG</button>
+
+            <button onclick="openModal('shopModal')">
+                LOJA
+            </button>
+
+            <button onclick="openModal('skillModal')">
+                SKILLS
+            </button>
+
+            <button onclick="openModal('missionModal')">
+                MISSÕES
+            </button>
+
+            <button onclick="openModal('achievementModal')">
+                CONQUISTAS
+            </button>
+
+            <button onclick="openModal('settingsModal')">
+                CONFIG
+            </button>
+
         </div>
 
     </div>
@@ -636,10 +648,15 @@ button:active{
         <div id="combo"></div>
 
         <div id="bossUI">
-            <div id="bossName">BOSS</div>
+
+            <div id="bossName">
+                BOSS
+            </div>
+
             <div id="bossBarBg">
                 <div id="bossBar"></div>
             </div>
+
         </div>
 
         <div id="weaponInfo">
@@ -680,20 +697,30 @@ button:active{
 
 </div>
 
-<!-- SHOP -->
+<!-- ================= LOJA ================= -->
 
 <div id="shopModal" class="modal">
+
     <div class="modalBox">
+
         <h2>LOJA</h2>
+
         <div id="shopList"></div>
-        <button class="close" onclick="closeModals()">FECHAR</button>
+
+        <button class="close" onclick="closeModals()">
+            FECHAR
+        </button>
+
     </div>
+
 </div>
 
-<!-- SKILLS -->
+<!-- ================= SKILLS ================= -->
 
 <div id="skillModal" class="modal">
+
     <div class="modalBox">
+
         <h2>ÁRVORE DE SKILLS</h2>
 
         <p>
@@ -704,99 +731,147 @@ button:active{
         <div class="skillItem">
             <b>FORÇA</b>
             <p>+10% de dano por nível.</p>
-            <button onclick="buySkill('damage')">MELHORAR</button>
+            <button onclick="buySkill('damage')">
+                MELHORAR
+            </button>
         </div>
 
         <div class="skillItem">
             <b>GANÂNCIA</b>
             <p>+15% dinheiro por nível.</p>
-            <button onclick="buySkill('money')">MELHORAR</button>
+            <button onclick="buySkill('money')">
+                MELHORAR
+            </button>
         </div>
 
         <div class="skillItem">
             <b>REFLEXOS</b>
             <p>Baratas aparecem mais lentamente.</p>
-            <button onclick="buySkill('speed')">MELHORAR</button>
+            <button onclick="buySkill('speed')">
+                MELHORAR
+            </button>
         </div>
 
         <div class="skillItem">
             <b>PRECISÃO</b>
             <p>Aumenta a chance de crítico.</p>
-            <button onclick="buySkill('crit')">MELHORAR</button>
+            <button onclick="buySkill('crit')">
+                MELHORAR
+            </button>
         </div>
 
         <div class="skillItem">
             <b>DEMOLIÇÃO</b>
             <p>+25% de dano explosivo por nível.</p>
-            <button onclick="buySkill('explosive')">MELHORAR</button>
+            <button onclick="buySkill('explosive')">
+                MELHORAR
+            </button>
         </div>
 
-        <button class="close" onclick="closeModals()">FECHAR</button>
+        <button class="close" onclick="closeModals()">
+            FECHAR
+        </button>
+
     </div>
+
 </div>
 
-<!-- MISSIONS -->
+<!-- ================= MISSÕES ================= -->
 
 <div id="missionModal" class="modal">
+
     <div class="modalBox">
+
         <h2>MISSÕES DA NAMORADA</h2>
+
         <div id="missionList"></div>
-        <button class="close" onclick="closeModals()">FECHAR</button>
+
+        <button class="close" onclick="closeModals()">
+            FECHAR
+        </button>
+
     </div>
+
 </div>
 
-<!-- ACHIEVEMENTS -->
+<!-- ================= CONQUISTAS ================= -->
 
 <div id="achievementModal" class="modal">
+
     <div class="modalBox">
+
         <h2>CONQUISTAS</h2>
+
         <div id="achievementList"></div>
-        <button class="close" onclick="closeModals()">FECHAR</button>
+
+        <button class="close" onclick="closeModals()">
+            FECHAR
+        </button>
+
     </div>
+
 </div>
 
-<!-- SETTINGS -->
+<!-- ================= CONFIG ================= -->
 
 <div id="settingsModal" class="modal">
+
     <div class="modalBox">
+
         <h2>CONFIGURAÇÕES</h2>
 
         <div class="setting">
             <span>MÚSICA</span>
-            <button onclick="toggleMusic()" id="musicButton">ON</button>
+            <button onclick="toggleMusic()" id="musicButton">
+                ON
+            </button>
         </div>
 
         <div class="setting">
             <span>EFEITOS</span>
-            <button onclick="toggleSfx()" id="sfxButton">ON</button>
+            <button onclick="toggleSfx()" id="sfxButton">
+                ON
+            </button>
         </div>
 
         <div class="setting">
             <span>MODO DIFÍCIL</span>
-            <button onclick="toggleHard()" id="hardButton">OFF</button>
+            <button onclick="toggleHard()" id="hardButton">
+                OFF
+            </button>
         </div>
 
         <div class="setting">
             <span>TELA CHEIA</span>
-            <button onclick="fullscreen()">ATIVAR</button>
+            <button onclick="fullscreen()">
+                ATIVAR
+            </button>
         </div>
 
-        <button class="close" onclick="closeModals()">FECHAR</button>
+        <button class="close" onclick="closeModals()">
+            FECHAR
+        </button>
+
     </div>
+
 </div>
 
-<!-- PAUSE -->
+<!-- ================= PAUSE ================= -->
 
 <div id="pauseScreen" class="screen">
+
     <h1>PAUSADO</h1>
+
     <button class="primary" onclick="togglePause()">
         CONTINUAR
     </button>
+
 </div>
 
-<!-- END -->
+<!-- ================= FINAL ================= -->
 
 <div id="ending" class="screen">
+
     <h1>10.000 BARATAS</h1>
 
     <p>
@@ -827,12 +902,13 @@ button:active{
     <button class="primary" onclick="newGamePlus()">
         NOVO JOGO+
     </button>
+
 </div>
 
 <script>
 
 /* =========================================================
-   CONFIGURAÇÃO MOBILE
+   CONFIGURAÇÃO
 ========================================================= */
 
 const isMobile =
@@ -841,34 +917,48 @@ const isMobile =
     ) ||
     window.innerWidth <= 700;
 
-const maxRoaches = isMobile ? 10 : 20;
-const maxParticles = isMobile ? 18 : 45;
+const maxRoaches =
+    isMobile ? 10 : 20;
 
-if(isMobile){
-    document.documentElement.classList.add("mobile");
+const maxParticles =
+    isMobile ? 18 : 45;
+
+if(
+    isMobile &&
+    navigator.hardwareConcurrency &&
+    navigator.hardwareConcurrency <= 4
+){
+    document.body.classList.add(
+        "reduce-effects"
+    );
 }
 
 /* =========================================================
    ESTADO
 ========================================================= */
 
-const state = {
+const state={
 
     money:0,
+
     kills:0,
 
     level:1,
+
     xp:0,
 
     damage:1,
 
     weapon:"MÃO",
+
     weaponType:"melee",
 
     ammo:Infinity,
+
     maxAmmo:Infinity,
 
     combo:0,
+
     comboTimer:null,
 
     area:0,
@@ -884,7 +974,9 @@ const state = {
     },
 
     music:true,
+
     sfx:true,
+
     hard:false,
 
     missions:{
@@ -898,27 +990,40 @@ const state = {
     achievements:[],
 
     playing:false,
+
     paused:false,
+
     bossActive:false,
+
     boss:null
+
 };
 
 /* =========================================================
    ÁREAS
 ========================================================= */
 
-const areas = [
+const areas=[
 
-    ["COZINHA",100],
-    ["BANHEIRO",250],
-    ["PORÃO",500],
-    ["RESTAURANTE",800],
-    ["ESGOTO",1200],
-    ["LABORATÓRIO",1800],
-    ["CIDADE",2500],
-    ["BASE MILITAR",4000],
-    ["ÓRBITA TERRESTRE",6000],
-    ["DIMENSÃO DAS BARATAS",10000]
+    ["COZINHA",0],
+
+    ["BANHEIRO",100],
+
+    ["PORÃO",250],
+
+    ["RESTAURANTE",500],
+
+    ["ESGOTO",800],
+
+    ["LABORATÓRIO",1200],
+
+    ["CIDADE",1800],
+
+    ["BASE MILITAR",2500],
+
+    ["ÓRBITA TERRESTRE",4000],
+
+    ["DIMENSÃO DAS BARATAS",6000]
 
 ];
 
@@ -926,7 +1031,7 @@ const areas = [
    ARMAS
 ========================================================= */
 
-const weapons = [
+const weapons=[
 
     {
         name:"MÃO",
@@ -1006,7 +1111,7 @@ const weapons = [
    BOSSES
 ========================================================= */
 
-const bosses = [
+const bosses=[
 
     {
         name:"BARATA GORDONA",
@@ -1035,10 +1140,10 @@ const bosses = [
 ];
 
 /* =========================================================
-   TIPOS DE BARATA
+   BARATAS
 ========================================================= */
 
-const roachTypes = [
+const roachTypes=[
 
     {
         name:"normal",
@@ -1094,25 +1199,49 @@ const roachTypes = [
    ELEMENTOS
 ========================================================= */
 
-const game = document.getElementById("game");
-const gameArea = document.getElementById("gameArea");
+const game=
+    document.getElementById("game");
 
-const moneyEl = document.getElementById("money");
-const killsEl = document.getElementById("kills");
-const levelEl = document.getElementById("level");
-const damageEl = document.getElementById("damage");
-const xpBar = document.getElementById("xpBar");
+const gameArea=
+    document.getElementById("gameArea");
 
-const areaInfo = document.getElementById("areaInfo");
-const weaponInfo = document.getElementById("weaponInfo");
-const comboEl = document.getElementById("combo");
-const messageEl = document.getElementById("message");
+const moneyEl=
+    document.getElementById("money");
 
-const bossUI = document.getElementById("bossUI");
-const bossName = document.getElementById("bossName");
-const bossBar = document.getElementById("bossBar");
+const killsEl=
+    document.getElementById("kills");
 
-const reloadButton =
+const levelEl=
+    document.getElementById("level");
+
+const damageEl=
+    document.getElementById("damage");
+
+const xpBar=
+    document.getElementById("xpBar");
+
+const areaInfo=
+    document.getElementById("areaInfo");
+
+const weaponInfo=
+    document.getElementById("weaponInfo");
+
+const comboEl=
+    document.getElementById("combo");
+
+const messageEl=
+    document.getElementById("message");
+
+const bossUI=
+    document.getElementById("bossUI");
+
+const bossName=
+    document.getElementById("bossName");
+
+const bossBar=
+    document.getElementById("bossBar");
+
+const reloadButton=
     document.getElementById("reloadButton");
 
 /* =========================================================
@@ -1120,24 +1249,37 @@ const reloadButton =
 ========================================================= */
 
 function random(min,max){
+
     return Math.random()*(max-min)+min;
+
 }
 
 function randInt(min,max){
-    return Math.floor(random(min,max+1));
+
+    return Math.floor(
+        random(min,max+1)
+    );
+
 }
 
 function clamp(value,min,max){
-    return Math.max(min,Math.min(max,value));
+
+    return Math.max(
+        min,
+        Math.min(max,value)
+    );
+
 }
 
 /* =========================================================
-   INÍCIO
+   INICIAR
 ========================================================= */
 
 function startGame(){
 
-    document.getElementById("intro").classList.remove("active");
+    document
+        .getElementById("intro")
+        .classList.remove("active");
 
     game.classList.add("active");
 
@@ -1146,16 +1288,21 @@ function startGame(){
     updateUI();
 
     renderShop();
+
     renderMissions();
+
     renderAchievements();
 
     startMusic();
 
     spawnLoop();
 
-    showMessage("ACABE COM TODAS ELAS.");
+    showMessage(
+        "ACABE COM TODAS ELAS."
+    );
 
     saveGame();
+
 }
 
 /* =========================================================
@@ -1164,54 +1311,99 @@ function startGame(){
 
 function updateUI(){
 
-    moneyEl.textContent =
-        "$"+Math.floor(state.money).toLocaleString("pt-BR");
+    moneyEl.textContent=
+        "$"+
+        Math.floor(
+            state.money
+        ).toLocaleString("pt-BR");
 
-    killsEl.textContent =
+    killsEl.textContent=
         state.kills.toLocaleString("pt-BR");
 
-    levelEl.textContent =
+    levelEl.textContent=
         state.level;
 
-    damageEl.textContent =
-        Math.floor(getDamage()).toLocaleString("pt-BR");
+    damageEl.textContent=
+        Math.floor(
+            getDamage()
+        ).toLocaleString("pt-BR");
 
-    const requiredXP =
+    const requiredXP=
         state.level*100;
 
-    xpBar.style.width =
+    xpBar.style.width=
         clamp(
-            state.xp/requiredXP*100,
+            state.xp/
+            requiredXP*
+            100,
             0,
             100
         )+"%";
 
-    const area = areas[state.area];
+    const area=
+        areas[state.area];
 
-    areaInfo.textContent =
-        `${area[0]} • ${state.kills.toLocaleString("pt-BR")} / ${area[1].toLocaleString("pt-BR")}`;
+    areaInfo.textContent=
+        `${area[0]} • ${
+            state.kills.toLocaleString("pt-BR")
+        } / ${
+            getNextGoal().toLocaleString("pt-BR")
+        }`;
 
-    weaponInfo.textContent =
-        `${state.weapon} • DANO ${Math.floor(getDamage()).toLocaleString("pt-BR")}`;
+    weaponInfo.textContent=
+        `${state.weapon} • DANO ${
+            Math.floor(
+                getDamage()
+            ).toLocaleString("pt-BR")
+        }`;
 
     if(isFinite(state.ammo)){
-        reloadButton.textContent =
+
+        reloadButton.textContent=
             "RECARREGAR "+state.ammo;
+
     }else{
+
         reloadButton.textContent="∞";
+
     }
 
-    document.getElementById("skillPoints").textContent =
+    document
+        .getElementById("skillPoints")
+        .textContent=
         state.skillPoints;
 
-    document.getElementById("musicButton").textContent =
-        state.music ? "ON":"OFF";
+    document
+        .getElementById("musicButton")
+        .textContent=
+        state.music?"ON":"OFF";
 
-    document.getElementById("sfxButton").textContent =
-        state.sfx ? "ON":"OFF";
+    document
+        .getElementById("sfxButton")
+        .textContent=
+        state.sfx?"ON":"OFF";
 
-    document.getElementById("hardButton").textContent =
-        state.hard ? "ON":"OFF";
+    document
+        .getElementById("hardButton")
+        .textContent=
+        state.hard?"ON":"OFF";
+
+}
+
+/* =========================================================
+   PRÓXIMO OBJETIVO
+========================================================= */
+
+function getNextGoal(){
+
+    if(state.area >= areas.length-1){
+        return 10000;
+    }
+
+    return areas[
+        state.area+1
+    ][1];
+
 }
 
 /* =========================================================
@@ -1220,8 +1412,12 @@ function updateUI(){
 
 function getDamage(){
 
-    return state.damage *
-        (1 + state.skills.damage*0.10);
+    return state.damage*
+        (
+            1+
+            state.skills.damage*0.10
+        );
+
 }
 
 /* =========================================================
@@ -1234,27 +1430,40 @@ function spawnLoop(){
 
     clearTimeout(spawnTimer);
 
-    if(!state.playing || state.paused){
+    if(
+        !state.playing ||
+        state.paused
+    ){
         return;
     }
 
     if(state.bossActive){
-        spawnTimer=setTimeout(spawnLoop,1000);
+
+        spawnTimer=
+            setTimeout(
+                spawnLoop,
+                1000
+            );
+
         return;
     }
 
-    const current =
-        gameArea.querySelectorAll(".roach").length;
+    const current=
+        gameArea
+        .querySelectorAll(".roach")
+        .length;
 
-    if(current < maxRoaches){
+    if(current<maxRoaches){
+
         spawnRoach();
+
     }
 
-    let delay =
+    let delay=
         Math.max(
             300,
-            1100 -
-            state.level*25 -
+            1100-
+            state.level*25-
             state.skills.speed*50
         );
 
@@ -1263,67 +1472,105 @@ function spawnLoop(){
     }
 
     if(isMobile){
-        delay=Math.max(delay,500);
+        delay=
+            Math.max(
+                delay,
+                500
+            );
     }
 
-    spawnTimer=setTimeout(spawnLoop,delay);
+    spawnTimer=
+        setTimeout(
+            spawnLoop,
+            delay
+        );
+
 }
 
 /* =========================================================
-   SPAWN BARATA
+   CRIAR BARATA
 ========================================================= */
 
 function spawnRoach(){
 
-    if(!state.playing || state.paused) return;
+    if(
+        !state.playing ||
+        state.paused ||
+        state.bossActive
+    ){
+        return;
+    }
 
-    const type =
+    const type=
         roachTypes[
-            randInt(0,roachTypes.length-1)
+            randInt(
+                0,
+                roachTypes.length-1
+            )
         ];
 
-    const roach =
+    const roach=
         document.createElement("div");
 
-    roach.className =
-        "roach "+type.name;
+    roach.className=
+        "roach "+
+        type.name;
 
     roach.textContent="🪳";
 
-    roach.dataset.hp=type.hp;
-    roach.dataset.maxhp=type.hp;
-    roach.dataset.reward=type.reward;
-    roach.dataset.type=type.name;
+    roach.dataset.hp=
+        type.hp;
 
-    const rect =
+    roach.dataset.maxhp=
+        type.hp;
+
+    roach.dataset.reward=
+        type.reward;
+
+    roach.dataset.type=
+        type.name;
+
+    const rect=
         gameArea.getBoundingClientRect();
 
-    const x =
+    const x=
         random(
             5,
-            Math.max(6,rect.width-65)
+            Math.max(
+                6,
+                rect.width-65
+            )
         );
 
-    const y =
+    const y=
         random(
             55,
-            Math.max(60,rect.height-65)
+            Math.max(
+                60,
+                rect.height-65
+            )
         );
 
-    roach.style.left=x+"px";
-    roach.style.top=y+"px";
+    roach.style.left=
+        x+"px";
+
+    roach.style.top=
+        y+"px";
 
     roach.addEventListener(
         "pointerdown",
         function(e){
 
             e.preventDefault();
+
             e.stopPropagation();
 
             attackRoach(roach);
 
         },
-        {passive:false}
+        {
+            passive:false
+        }
     );
 
     gameArea.appendChild(roach);
@@ -1335,6 +1582,7 @@ function spawnRoach(){
     if(type.name==="flying"){
         moveFlying(roach);
     }
+
 }
 
 /* =========================================================
@@ -1343,71 +1591,99 @@ function spawnRoach(){
 
 function moveRoach(roach){
 
-    if(!roach.isConnected) return;
+    if(!roach.isConnected){
+        return;
+    }
 
-    const rect =
+    const rect=
         gameArea.getBoundingClientRect();
 
-    const x =
-        random(5,Math.max(6,rect.width-65));
+    const x=
+        random(
+            5,
+            Math.max(
+                6,
+                rect.width-65
+            )
+        );
 
-    const y =
-        random(55,Math.max(60,rect.height-65));
+    const y=
+        random(
+            55,
+            Math.max(
+                60,
+                rect.height-65
+            )
+        );
 
     roach.animate(
         [
             {
-                left:roach.offsetLeft+"px",
-                top:roach.offsetTop+"px"
+                left:
+                    roach.offsetLeft+
+                    "px",
+
+                top:
+                    roach.offsetTop+
+                    "px"
             },
+
             {
                 left:x+"px",
                 top:y+"px"
             }
         ],
         {
-            duration:random(500,1000),
+            duration:
+                random(500,1000),
+
             fill:"forwards"
         }
     ).onfinish=()=>{
+
         if(roach.isConnected){
             moveRoach(roach);
         }
+
     };
+
 }
 
 function moveFlying(roach){
 
-    if(!roach.isConnected) return;
-
-    const rect =
-        gameArea.getBoundingClientRect();
-
-    const x =
-        random(5,Math.max(6,rect.width-65));
-
-    const y =
-        random(55,Math.max(60,rect.height-65));
+    if(!roach.isConnected){
+        return;
+    }
 
     roach.animate(
         [
             {
-                transform:"translate(0,0)"
+                transform:
+                    "translate(0,0)"
             },
+
             {
                 transform:
-                    `translate(${random(-100,100)}px,${random(-70,70)}px)`
+                    `translate(
+                        ${random(-100,100)}px,
+                        ${random(-70,70)}px
+                    )`
             }
         ],
         {
-            duration:random(500,1200),
+            duration:
+                random(500,1200),
+
             fill:"forwards"
         }
     ).onfinish=()=>{
+
         if(roach.isConnected){
             moveFlying(roach);
         }
+
     };
+
 }
 
 /* =========================================================
@@ -1416,46 +1692,74 @@ function moveFlying(roach){
 
 function attackRoach(roach){
 
-    if(state.paused) return;
+    if(
+        state.paused ||
+        !roach.isConnected
+    ){
+        return;
+    }
 
-    let damage=getDamage();
+    if(
+        isFinite(state.ammo) &&
+        state.ammo<=0
+    ){
+
+        showMessage(
+            "SEM MUNIÇÃO!"
+        );
+
+        reload();
+
+        return;
+    }
+
+    let damage=
+        getDamage();
 
     if(
         state.skills.crit>0 &&
-        Math.random() <
+        Math.random()<
         state.skills.crit*0.05
     ){
 
         damage*=2;
 
-        showMessage("CRÍTICO!");
+        showMessage(
+            "CRÍTICO!"
+        );
 
     }
 
     if(
-        state.weaponType==="explosive"
+        state.weaponType===
+        "explosive"
     ){
 
         damage*=
             1+
-            state.skills.explosive*0.25;
+            state.skills.explosive*
+            0.25;
 
     }
 
     if(
-        state.weaponType==="spray"
+        state.weaponType===
+        "spray"
     ){
         damage*=1.1;
     }
 
     if(
-        state.weaponType==="flame"
+        state.weaponType===
+        "flame"
     ){
         damage*=1.2;
     }
 
-    let hp =
-        Number(roach.dataset.hp);
+    let hp=
+        Number(
+            roach.dataset.hp
+        );
 
     hp-=damage;
 
@@ -1478,19 +1782,29 @@ function attackRoach(roach){
 
         roach.animate(
             [
-                {transform:"scale(1)"},
-                {transform:"scale(1.25)"},
-                {transform:"scale(1)"}
+                {
+                    transform:"scale(1)"
+                },
+
+                {
+                    transform:"scale(1.25)"
+                },
+
+                {
+                    transform:"scale(1)"
+                }
             ],
             {
                 duration:100
             }
         );
+
     }
 
     useAmmo();
 
     updateUI();
+
 }
 
 /* =========================================================
@@ -1499,7 +1813,9 @@ function attackRoach(roach){
 
 function useAmmo(){
 
-    if(!isFinite(state.ammo)){
+    if(
+        !isFinite(state.ammo)
+    ){
         return;
     }
 
@@ -1507,34 +1823,47 @@ function useAmmo(){
 
     if(state.ammo<=0){
 
-        showMessage("SEM MUNIÇÃO!");
+        showMessage(
+            "SEM MUNIÇÃO!"
+        );
 
-        setTimeout(()=>{
-            reload();
-        },300);
+        setTimeout(
+            reload,
+            300
+        );
 
     }
 
     updateUI();
+
 }
 
 let reloading=false;
 
 function reload(){
 
-    if(!isFinite(state.maxAmmo)){
+    if(
+        !isFinite(state.maxAmmo)
+    ){
         return;
     }
 
-    if(reloading) return;
+    if(reloading){
+        return;
+    }
 
-    if(state.ammo>=state.maxAmmo){
+    if(
+        state.ammo>=
+        state.maxAmmo
+    ){
         return;
     }
 
     reloading=true;
 
-    showMessage("RECARREGANDO...");
+    showMessage(
+        "RECARREGANDO..."
+    );
 
     setTimeout(()=>{
 
@@ -1548,6 +1877,7 @@ function reload(){
         updateUI();
 
     },800);
+
 }
 
 /* =========================================================
@@ -1558,20 +1888,33 @@ function hitEffect(roach){
 
     roach.animate(
         [
-            {filter:"brightness(1)"},
-            {filter:"brightness(4)"},
-            {filter:"brightness(1)"}
+            {
+                filter:"brightness(1)"
+            },
+
+            {
+                filter:"brightness(4)"
+            },
+
+            {
+                filter:"brightness(1)"
+            }
         ],
         {
             duration:100
         }
     );
+
 }
 
-function weaponEffect(roach,damage){
+function weaponEffect(
+    roach,
+    damage
+){
 
     if(
-        state.weaponType==="explosive"
+        state.weaponType===
+        "explosive"
     ){
 
         explosion(
@@ -1579,25 +1922,39 @@ function weaponEffect(roach,damage){
             roach.offsetTop
         );
 
-        const nearby =
-            [...gameArea.querySelectorAll(".roach")]
-            .filter(r=>r!==roach);
+        const nearby=
+            [
+                ...gameArea
+                .querySelectorAll(
+                    ".roach"
+                )
+            ]
+            .filter(
+                r=>r!==roach
+            );
 
         nearby.forEach(r=>{
 
-            const dx =
-                r.offsetLeft-roach.offsetLeft;
+            const dx=
+                r.offsetLeft-
+                roach.offsetLeft;
 
-            const dy =
-                r.offsetTop-roach.offsetTop;
+            const dy=
+                r.offsetTop-
+                roach.offsetTop;
 
-            const distance =
-                Math.sqrt(dx*dx+dy*dy);
+            const distance=
+                Math.sqrt(
+                    dx*dx+
+                    dy*dy
+                );
 
             if(distance<120){
 
                 let hp=
-                    Number(r.dataset.hp);
+                    Number(
+                        r.dataset.hp
+                    );
 
                 hp-=damage*0.3;
 
@@ -1606,34 +1963,54 @@ function weaponEffect(roach,damage){
                 if(hp<=0){
                     killRoach(r);
                 }
+
             }
 
         });
+
     }
 
     if(
-        state.weaponType==="flame"
+        state.weaponType===
+        "flame"
     ){
 
         roach.style.filter=
             "sepia(1) saturate(5)";
 
     }
+
 }
 
 function explosion(x,y){
 
-    const e =
+    const e=
         document.createElement("div");
 
-    e.style.position="absolute";
-    e.style.left=(x-60)+"px";
-    e.style.top=(y-60)+"px";
-    e.style.width="120px";
-    e.style.height="120px";
-    e.style.borderRadius="50%";
-    e.style.border="5px solid #ff9800";
-    e.style.pointerEvents="none";
+    e.style.position=
+        "absolute";
+
+    e.style.left=
+        (x-60)+"px";
+
+    e.style.top=
+        (y-60)+"px";
+
+    e.style.width=
+        "120px";
+
+    e.style.height=
+        "120px";
+
+    e.style.borderRadius=
+        "50%";
+
+    e.style.border=
+        "5px solid #ff9800";
+
+    e.style.pointerEvents=
+        "none";
+
     e.style.zIndex="35";
 
     gameArea.appendChild(e);
@@ -1644,6 +2021,7 @@ function explosion(x,y){
                 transform:"scale(.2)",
                 opacity:1
             },
+
             {
                 transform:"scale(1.5)",
                 opacity:0
@@ -1655,6 +2033,7 @@ function explosion(x,y){
     ).onfinish=()=>{
         e.remove();
     };
+
 }
 
 /* =========================================================
@@ -1663,15 +2042,19 @@ function explosion(x,y){
 
 function killRoach(roach){
 
-    if(!roach.isConnected){
+    if(
+        !roach.isConnected
+    ){
         return;
     }
 
-    const type =
+    const type=
         roach.dataset.type;
 
-    let reward =
-        Number(roach.dataset.reward);
+    let reward=
+        Number(
+            roach.dataset.reward
+        );
 
     reward*=
         1+
@@ -1683,27 +2066,38 @@ function killRoach(roach){
 
     state.combo++;
 
-    clearTimeout(state.comboTimer);
+    clearTimeout(
+        state.comboTimer
+    );
 
     state.comboTimer=
         setTimeout(()=>{
+
             state.combo=0;
+
             comboEl.textContent="";
+
         },2500);
 
     if(state.combo>=2){
 
         comboEl.textContent=
-            "COMBO x"+state.combo;
+            "COMBO x"+
+            state.combo;
+
     }
 
     gainXP(10);
 
-    if(type==="explosive"){
+    if(
+        type==="explosive"
+    ){
+
         explosion(
             roach.offsetLeft,
             roach.offsetTop
         );
+
     }
 
     particles(
@@ -1714,12 +2108,15 @@ function killRoach(roach){
     roach.remove();
 
     checkMissions();
+
     checkAchievements();
+
     checkProgress();
 
     updateUI();
 
     saveGame();
+
 }
 
 /* =========================================================
@@ -1730,10 +2127,10 @@ function gainXP(amount){
 
     state.xp+=amount;
 
-    const required=
-        state.level*100;
-
-    while(state.xp>=required){
+    while(
+        state.xp>=
+        state.level*100
+    ){
 
         state.xp-=
             state.level*100;
@@ -1745,9 +2142,13 @@ function gainXP(amount){
         state.damage*=1.05;
 
         showMessage(
-            "NÍVEL "+state.level+"!"
+            "NÍVEL "+
+            state.level+
+            "!"
         );
+
     }
+
 }
 
 /* =========================================================
@@ -1756,59 +2157,91 @@ function gainXP(amount){
 
 function particles(x,y){
 
+    if(
+        document.body.classList.contains(
+            "reduce-effects"
+        )
+    ){
+        return;
+    }
+
     for(
         let i=0;
-        i<Math.min(maxParticles,18);
+        i<Math.min(
+            maxParticles,
+            18
+        );
         i++
     ){
 
-        const p =
+        const p=
             document.createElement("div");
 
         p.className="particle";
 
         p.style.left=
-            (x+random(-10,10))+"px";
+            (
+                x+
+                random(-10,10)
+            )+"px";
 
         p.style.top=
-            (y+random(-10,10))+"px";
+            (
+                y+
+                random(-10,10)
+            )+"px";
 
         p.style.background=
             Math.random()>.5
-            ? "#ff5252"
-            : "#ffd740";
+            ?"red"
+            :"yellow";
 
         gameArea.appendChild(p);
 
-        const dx=random(-70,70);
-        const dy=random(-70,70);
+        const dx=
+            random(-70,70);
+
+        const dy=
+            random(-70,70);
 
         p.animate(
             [
                 {
-                    transform:"translate(0,0)",
+                    transform:
+                        "translate(0,0)",
                     opacity:1
                 },
+
                 {
                     transform:
-                        `translate(${dx}px,${dy}px)`,
+                        `translate(
+                            ${dx}px,
+                            ${dy}px
+                        )`,
                     opacity:0
                 }
             ],
             {
-                duration:random(250,500)
+                duration:
+                    random(250,500)
             }
         ).onfinish=()=>{
             p.remove();
         };
+
     }
+
 }
 
 /* =========================================================
-   PROGRESSÃO
+   PROGRESSÃO CORRIGIDA
 ========================================================= */
 
 function checkProgress(){
+
+    /*
+        10.000 mortes = final
+    */
 
     if(state.kills>=10000){
 
@@ -1817,30 +2250,105 @@ function checkProgress(){
         return;
     }
 
+    /*
+        Descobre em qual fase estamos.
+
+        Exemplo:
+
+        0-99       = COZINHA
+        100-249    = BANHEIRO
+        250-499    = PORÃO
+        500-799    = RESTAURANTE
+        etc.
+    */
+
     let newArea=0;
 
-    for(let i=0;i<areas.length;i++){
-
-        if(state.kills>=areas[i][1]){
-            newArea=i;
-        }
-    }
-
-    if(newArea!==state.area){
-
-        state.area=newArea;
-
-        showMessage(
-            areas[state.area][0]
-        );
+    for(
+        let i=0;
+        i<areas.length;
+        i++
+    ){
 
         if(
-            [2,4,6,8].includes(state.area)
+            state.kills>=
+            areas[i][1]
         ){
 
-            startBoss();
+            newArea=i;
+
         }
+
     }
+
+    /*
+        Se mudou de fase:
+    */
+
+    if(
+        newArea!==state.area
+    ){
+
+        state.area=
+            newArea;
+
+        /*
+            Remove as baratas antigas.
+        */
+
+        gameArea
+            .querySelectorAll(
+                ".roach"
+            )
+            .forEach(
+                r=>r.remove()
+            );
+
+        /*
+            Atualiza o texto
+            imediatamente.
+        */
+
+        updateUI();
+
+        /*
+            Mostra a nova fase.
+        */
+
+        showMessage(
+            "NOVA FASE: "+
+            areas[
+                state.area
+            ][0]
+        );
+
+        /*
+            Bosses:
+
+            Porão
+            Restaurante
+            Cidade
+            Órbita
+        */
+
+        if(
+            [2,4,6,8]
+            .includes(
+                state.area
+            )
+        ){
+
+            setTimeout(
+                startBoss,
+                700
+            );
+
+        }
+
+        saveGame();
+
+    }
+
 }
 
 /* =========================================================
@@ -1849,56 +2357,103 @@ function checkProgress(){
 
 function startBoss(){
 
+    if(state.bossActive){
+        return;
+    }
+
     const bossIndex=
-        Math.floor(state.area/2)-1;
+        Math.floor(
+            state.area/2
+        )-1;
 
     const boss=
         bosses[bossIndex];
 
-    if(!boss) return;
+    if(!boss){
+        return;
+    }
 
     state.bossActive=true;
 
     state.boss={
+
         name:boss.name,
+
         hp:boss.hp,
+
         maxhp:boss.hp,
+
         reward:boss.reward
+
     };
 
     bossName.textContent=
         boss.name;
 
-    bossBar.style.width="100%";
+    bossBar.style.width=
+        "100%";
 
-    bossUI.style.display="block";
+    bossUI.style.display=
+        "block";
 
     showMessage(
-        "BOSS: "+boss.name
+        "BOSS: "+
+        boss.name
     );
+
+    updateUI();
+
 }
+
+/* =========================================================
+   ATAQUE BOSS
+========================================================= */
 
 function attackBoss(){
 
-    if(!state.bossActive){
+    if(
+        !state.bossActive
+    ){
         return;
     }
 
-    let damage=getDamage();
+    if(
+        isFinite(state.ammo) &&
+        state.ammo<=0
+    ){
+
+        reload();
+
+        return;
+    }
+
+    let damage=
+        getDamage();
 
     if(
         state.skills.crit>0 &&
-        Math.random() <
+        Math.random()<
         state.skills.crit*0.05
     ){
+
         damage*=2;
-        showMessage("CRÍTICO!");
+
+        showMessage(
+            "CRÍTICO!"
+        );
+
     }
 
-    if(state.weaponType==="explosive"){
+    if(
+        state.weaponType===
+        "explosive"
+    ){
+
         damage*=
             1+
-            state.skills.explosive*0.25;
+            state.skills.explosive*
+            0.25;
+
     }
 
     state.boss.hp-=damage;
@@ -1908,23 +2463,66 @@ function attackBoss(){
     bossBar.style.width=
         clamp(
             state.boss.hp/
-            state.boss.maxhp*100,
+            state.boss.maxhp*
+            100,
             0,
             100
         )+"%";
 
     useAmmo();
 
-    if(state.boss.hp<=0){
+    if(
+        state.boss.hp<=0
+    ){
 
         defeatBoss();
+
     }
 
     updateUI();
+
 }
 
 /* =========================================================
-   ÁREA DE TOQUE
+   DERROTAR BOSS
+========================================================= */
+
+function defeatBoss(){
+
+    if(
+        !state.bossActive
+    ){
+        return;
+    }
+
+    state.money+=
+        state.boss.reward;
+
+    state.skillPoints++;
+
+    state.bossActive=false;
+
+    bossUI.style.display=
+        "none";
+
+    state.boss=null;
+
+    state.missions.boss=true;
+
+    showMessage(
+        "BOSS DERROTADO!"
+    );
+
+    checkAchievements();
+
+    saveGame();
+
+    updateUI();
+
+}
+
+/* =========================================================
+   TOQUE NO CAMPO
 ========================================================= */
 
 gameArea.addEventListener(
@@ -1944,45 +2542,14 @@ gameArea.addEventListener(
             e.preventDefault();
 
             attackBoss();
+
         }
 
     },
-    {passive:false}
-);
-
-/* =========================================================
-   BOSS DERROTADO
-========================================================= */
-
-function defeatBoss(){
-
-    if(!state.bossActive){
-        return;
+    {
+        passive:false
     }
-
-    state.money+=
-        state.boss.reward;
-
-    state.skillPoints++;
-
-    state.bossActive=false;
-
-    bossUI.style.display="none";
-
-    state.boss=null;
-
-    state.missions.boss=true;
-
-    showMessage(
-        "BOSS DERROTADO!"
-    );
-
-    checkAchievements();
-
-    saveGame();
-
-    updateUI();
-}
+);
 
 /* =========================================================
    SKILLS
@@ -1990,8 +2557,14 @@ function defeatBoss(){
 
 function buySkill(type){
 
-    if(state.skillPoints<=0){
-        showMessage("SEM PONTOS!");
+    if(
+        state.skillPoints<=0
+    ){
+
+        showMessage(
+            "SEM PONTOS!"
+        );
+
         return;
     }
 
@@ -2002,6 +2575,7 @@ function buySkill(type){
     updateUI();
 
     saveGame();
+
 }
 
 /* =========================================================
@@ -2011,75 +2585,121 @@ function buySkill(type){
 function renderShop(){
 
     const list=
-        document.getElementById("shopList");
+        document.getElementById(
+            "shopList"
+        );
 
     list.innerHTML="";
 
-    weapons.forEach((weapon,index)=>{
+    weapons.forEach(
+        weapon=>{
 
-        const item=
-            document.createElement("div");
+            const item=
+                document.createElement(
+                    "div"
+                );
 
-        item.className="shopItem";
+            item.className=
+                "shopItem";
 
-        const owned =
-            weapon.damage<=state.damage;
+            const owned=
+                weapon.damage<=
+                state.damage;
 
-        item.innerHTML=`
+            item.innerHTML=`
 
-            <div>
-                <b>${weapon.name}</b><br>
-                <small>
-                    Dano: ${weapon.damage.toLocaleString("pt-BR")}
-                    |
-                    Preço: $${weapon.price.toLocaleString("pt-BR")}
-                </small>
-            </div>
+                <div>
 
-            <button>
-                ${owned ? "USAR" : "$"+weapon.price.toLocaleString("pt-BR")}
-            </button>
-        `;
+                    <b>
+                        ${weapon.name}
+                    </b>
 
-        item.querySelector("button")
-            .onclick=()=>{
+                    <br>
 
-                if(owned){
+                    <small>
+                        Dano:
+                        ${weapon.damage.toLocaleString("pt-BR")}
+                        |
+                        Preço:
+                        $${weapon.price.toLocaleString("pt-BR")}
+                    </small>
 
-                    equipWeapon(weapon);
+                </div>
 
-                }else{
+                <button>
+                    ${
+                        owned
+                        ?"USAR"
+                        :"$"+
+                        weapon.price.toLocaleString("pt-BR")
+                    }
+                </button>
 
-                    buyWeapon(weapon);
+            `;
 
-                }
+            item
+                .querySelector("button")
+                .onclick=()=>{
 
-            };
+                    if(owned){
 
-        list.appendChild(item);
+                        equipWeapon(
+                            weapon
+                        );
 
-    });
+                    }else{
+
+                        buyWeapon(
+                            weapon
+                        );
+
+                    }
+
+                };
+
+            list.appendChild(item);
+
+        }
+    );
+
 }
+
+/* =========================================================
+   COMPRAR ARMA
+========================================================= */
 
 function buyWeapon(weapon){
 
-    if(state.money<weapon.price){
+    if(
+        state.money<
+        weapon.price
+    ){
 
-        showMessage("DINHEIRO INSUFICIENTE!");
+        showMessage(
+            "DINHEIRO INSUFICIENTE!"
+        );
 
         return;
     }
 
-    state.money-=weapon.price;
+    state.money-=
+        weapon.price;
 
-    equipWeapon(weapon);
+    equipWeapon(
+        weapon
+    );
 
     renderShop();
 
     saveGame();
 
     updateUI();
+
 }
+
+/* =========================================================
+   EQUIPAR
+========================================================= */
 
 function equipWeapon(weapon){
 
@@ -2099,10 +2719,12 @@ function equipWeapon(weapon){
         weapon.ammo;
 
     showMessage(
-        weapon.name+" EQUIPADO"
+        weapon.name+
+        " EQUIPADO"
     );
 
     updateUI();
+
 }
 
 /* =========================================================
@@ -2111,23 +2733,38 @@ function equipWeapon(weapon){
 
 function checkMissions(){
 
-    if(state.kills>=100)
+    if(
+        state.kills>=100
+    ){
         state.missions.kills100=true;
+    }
 
-    if(state.kills>=1000)
+    if(
+        state.kills>=1000
+    ){
         state.missions.kills1000=true;
+    }
 
-    if(state.combo>=20)
+    if(
+        state.combo>=20
+    ){
         state.missions.combo20=true;
+    }
 
-    if(state.money>=10000)
+    if(
+        state.money>=10000
+    ){
         state.missions.money10000=true;
+    }
+
 }
 
 function renderMissions(){
 
     const list=
-        document.getElementById("missionList");
+        document.getElementById(
+            "missionList"
+        );
 
     list.innerHTML="";
 
@@ -2160,18 +2797,29 @@ function renderMissions(){
 
     ];
 
-    missions.forEach(m=>{
+    missions.forEach(
+        mission=>{
 
-        const div=
-            document.createElement("div");
+            const div=
+                document.createElement(
+                    "div"
+                );
 
-        div.className="missionItem";
+            div.className=
+                "missionItem";
 
-        div.innerHTML=
-            `${m[1]?"✓":"□"} ${m[0]}`;
+            div.innerHTML=
+                `${
+                    mission[1]
+                    ?"✓"
+                    :"□"
+                } ${mission[0]}`;
 
-        list.appendChild(div);
-    });
+            list.appendChild(div);
+
+        }
+    );
+
 }
 
 /* =========================================================
@@ -2180,108 +2828,213 @@ function renderMissions(){
 
 const achievements=[
 
-    ["first","Primeira Barata"],
-    ["100","100 Mortes"],
-    ["1000","1000 Mortes"],
-    ["combo","Combo 20"],
-    ["boss","Primeiro Boss"],
-    ["level10","Nível 10"],
-    ["titanium","Chinelo de Titânio"],
-    ["bazooka","Bazuca"],
-    ["orbital","Canhão Orbital"],
-    ["final","10.000 Mortes"]
+    [
+        "first",
+        "Primeira Barata"
+    ],
+
+    [
+        "100",
+        "100 Mortes"
+    ],
+
+    [
+        "1000",
+        "1000 Mortes"
+    ],
+
+    [
+        "combo",
+        "Combo 20"
+    ],
+
+    [
+        "boss",
+        "Primeiro Boss"
+    ],
+
+    [
+        "level10",
+        "Nível 10"
+    ],
+
+    [
+        "titanium",
+        "Chinelo de Titânio"
+    ],
+
+    [
+        "bazooka",
+        "Bazuca"
+    ],
+
+    [
+        "orbital",
+        "Canhão Orbital"
+    ],
+
+    [
+        "final",
+        "10.000 Mortes"
+    ]
 
 ];
 
 function checkAchievements(){
 
-    const unlock=(id)=>{
+    const unlock=
+        id=>{
 
-        if(!state.achievements.includes(id)){
+            if(
+                !state.achievements
+                    .includes(id)
+            ){
 
-            state.achievements.push(id);
+                state.achievements
+                    .push(id);
 
-            showMessage(
-                "CONQUISTA!"
-            );
-        }
-    };
+                showMessage(
+                    "CONQUISTA!"
+                );
 
-    if(state.kills>=1)
+            }
+
+        };
+
+    if(
+        state.kills>=1
+    ){
         unlock("first");
+    }
 
-    if(state.kills>=100)
+    if(
+        state.kills>=100
+    ){
         unlock("100");
+    }
 
-    if(state.kills>=1000)
+    if(
+        state.kills>=1000
+    ){
         unlock("1000");
+    }
 
-    if(state.combo>=20)
+    if(
+        state.combo>=20
+    ){
         unlock("combo");
+    }
 
-    if(state.missions.boss)
+    if(
+        state.missions.boss
+    ){
         unlock("boss");
+    }
 
-    if(state.level>=10)
+    if(
+        state.level>=10
+    ){
         unlock("level10");
+    }
 
-    if(state.weapon==="CHINELO DE TITÂNIO")
+    if(
+        state.weapon===
+        "CHINELO DE TITÂNIO"
+    ){
         unlock("titanium");
+    }
 
-    if(state.weapon==="BAZUCA")
+    if(
+        state.weapon===
+        "BAZUCA"
+    ){
         unlock("bazooka");
+    }
 
-    if(state.weapon==="CANHÃO ORBITAL")
+    if(
+        state.weapon===
+        "CANHÃO ORBITAL"
+    ){
         unlock("orbital");
+    }
 
-    if(state.kills>=10000)
+    if(
+        state.kills>=10000
+    ){
         unlock("final");
+    }
 
     renderAchievements();
 
     saveGame();
+
 }
 
 function renderAchievements(){
 
     const list=
-        document.getElementById("achievementList");
+        document.getElementById(
+            "achievementList"
+        );
 
     list.innerHTML="";
 
-    achievements.forEach(a=>{
+    achievements.forEach(
+        achievement=>{
 
-        const unlocked=
-            state.achievements.includes(a[0]);
+            const unlocked=
+                state.achievements
+                    .includes(
+                        achievement[0]
+                    );
 
-        const div=
-            document.createElement("div");
+            const div=
+                document.createElement(
+                    "div"
+                );
 
-        div.className="achievementItem";
+            div.className=
+                "achievementItem";
 
-        div.innerHTML=
-            `${unlocked?"✓":"🔒"} ${a[1]}`;
+            div.innerHTML=
+                `${
+                    unlocked
+                    ?"✓"
+                    :"🔒"
+                } ${
+                    achievement[1]
+                }`;
 
-        list.appendChild(div);
-    });
+            list.appendChild(div);
+
+        }
+    );
+
 }
 
 /* =========================================================
-   MENSAGENS
+   MENSAGEM
 ========================================================= */
 
 let messageTimer=null;
 
 function showMessage(text){
 
-    messageEl.textContent=text;
+    messageEl.textContent=
+        text;
 
-    clearTimeout(messageTimer);
+    clearTimeout(
+        messageTimer
+    );
 
     messageTimer=
-        setTimeout(()=>{
-            messageEl.textContent="";
-        },1200);
+        setTimeout(
+            ()=>{
+                messageEl.textContent="";
+            },
+            1200
+        );
+
 }
 
 /* =========================================================
@@ -2296,17 +3049,21 @@ function openModal(id){
 
     closeModals();
 
-    document.getElementById(id)
+    document
+        .getElementById(id)
         .classList.add("active");
 
-    if(id==="shopModal")
+    if(id==="shopModal"){
         renderShop();
+    }
 
-    if(id==="missionModal")
+    if(id==="missionModal"){
         renderMissions();
+    }
 
-    if(id==="achievementModal")
+    if(id==="achievementModal"){
         renderAchievements();
+    }
 
 }
 
@@ -2314,9 +3071,13 @@ function closeModals(){
 
     document
         .querySelectorAll(".modal")
-        .forEach(m=>{
-            m.classList.remove("active");
-        });
+        .forEach(
+            modal=>{
+                modal.classList
+                    .remove("active");
+            }
+        );
+
 }
 
 /* =========================================================
@@ -2337,17 +3098,27 @@ function togglePause(){
         closeModals();
 
         document
-            .getElementById("pauseScreen")
-            .classList.add("active");
+            .getElementById(
+                "pauseScreen"
+            )
+            .classList.add(
+                "active"
+            );
 
     }else{
 
         document
-            .getElementById("pauseScreen")
-            .classList.remove("active");
+            .getElementById(
+                "pauseScreen"
+            )
+            .classList.remove(
+                "active"
+            );
 
         spawnLoop();
+
     }
+
 }
 
 /* =========================================================
@@ -2356,7 +3127,8 @@ function togglePause(){
 
 function toggleMusic(){
 
-    state.music=!state.music;
+    state.music=
+        !state.music;
 
     if(!state.music){
         stopMusic();
@@ -2365,23 +3137,31 @@ function toggleMusic(){
     }
 
     updateUI();
+
     saveGame();
+
 }
 
 function toggleSfx(){
 
-    state.sfx=!state.sfx;
+    state.sfx=
+        !state.sfx;
 
     updateUI();
+
     saveGame();
+
 }
 
 function toggleHard(){
 
-    state.hard=!state.hard;
+    state.hard=
+        !state.hard;
 
     updateUI();
+
     saveGame();
+
 }
 
 /* =========================================================
@@ -2390,26 +3170,36 @@ function toggleHard(){
 
 function fullscreen(){
 
-    const element=document.documentElement;
+    const element=
+        document.documentElement;
 
-    if(element.requestFullscreen){
+    if(
+        element.requestFullscreen
+    ){
 
-        element.requestFullscreen()
-            .catch(()=>{});
+        element
+            .requestFullscreen()
+            .catch(
+                ()=>{}
+            );
 
     }else if(
         element.webkitRequestFullscreen
     ){
 
-        element.webkitRequestFullscreen();
+        element
+            .webkitRequestFullscreen();
+
     }
+
 }
 
 /* =========================================================
-   SONS
+   ÁUDIO
 ========================================================= */
 
 let audioCtx=null;
+
 let musicInterval=null;
 
 function getAudio(){
@@ -2417,25 +3207,34 @@ function getAudio(){
     if(!audioCtx){
 
         audioCtx=
-            new (
-                window.AudioContext ||
+            new(
+                window.AudioContext||
                 window.webkitAudioContext
             )();
 
     }
 
-    if(audioCtx.state==="suspended"){
+    if(
+        audioCtx.state===
+        "suspended"
+    ){
+
         audioCtx.resume();
+
     }
 
     return audioCtx;
+
 }
 
 function playSfx(type){
 
-    if(!state.sfx) return;
+    if(!state.sfx){
+        return;
+    }
 
-    const ctx=getAudio();
+    const ctx=
+        getAudio();
 
     const osc=
         ctx.createOscillator();
@@ -2444,13 +3243,15 @@ function playSfx(type){
         ctx.createGain();
 
     osc.connect(gain);
-    gain.connect(ctx.destination);
 
-    if(type==="hit"){
-        osc.frequency.value=120;
-    }else{
-        osc.frequency.value=250;
-    }
+    gain.connect(
+        ctx.destination
+    );
+
+    osc.frequency.value=
+        type==="hit"
+        ?120
+        :250;
 
     gain.gain.setValueAtTime(
         .08,
@@ -2467,6 +3268,7 @@ function playSfx(type){
     osc.stop(
         ctx.currentTime+.08
     );
+
 }
 
 /* =========================================================
@@ -2475,13 +3277,16 @@ function playSfx(type){
 
 function startMusic(){
 
-    if(!state.music) return;
+    if(!state.music){
+        return;
+    }
 
     if(musicInterval){
         return;
     }
 
-    const ctx=getAudio();
+    const ctx=
+        getAudio();
 
     const notes=[
         110,
@@ -2493,45 +3298,59 @@ function startMusic(){
     let index=0;
 
     musicInterval=
-        setInterval(()=>{
+        setInterval(
+            ()=>{
 
-            if(
-                !state.music ||
-                state.paused
-            ){
-                return;
-            }
+                if(
+                    !state.music||
+                    state.paused
+                ){
+                    return;
+                }
 
-            const osc=
-                ctx.createOscillator();
+                const osc=
+                    ctx.createOscillator();
 
-            const gain=
-                ctx.createGain();
+                const gain=
+                    ctx.createGain();
 
-            osc.connect(gain);
-            gain.connect(ctx.destination);
+                osc.connect(gain);
 
-            osc.frequency.value=
-                notes[index%notes.length];
+                gain.connect(
+                    ctx.destination
+                );
 
-            gain.gain.value=.015;
+                osc.frequency.value=
+                    notes[
+                        index%
+                        notes.length
+                    ];
 
-            osc.start();
+                gain.gain.value=
+                    .015;
 
-            osc.stop(
-                ctx.currentTime+.15
-            );
+                osc.start();
 
-            index++;
+                osc.stop(
+                    ctx.currentTime+.15
+                );
 
-        },350);
+                index++;
+
+            },
+            350
+        );
+
 }
 
 function stopMusic(){
 
-    clearInterval(musicInterval);
+    clearInterval(
+        musicInterval
+    );
 
     musicInterval=null;
+
 }
 
 /* =========================================================
@@ -2539,7 +3358,7 @@ function stopMusic(){
 ========================================================= */
 
 const SAVE_KEY=
-    "murielExterminioMobileV5";
+    "murielExterminioMobileV6";
 
 function saveGame(){
 
@@ -2551,6 +3370,7 @@ function saveGame(){
         );
 
     }catch(e){}
+
 }
 
 function loadGame(){
@@ -2558,7 +3378,9 @@ function loadGame(){
     try{
 
         const saved=
-            localStorage.getItem(SAVE_KEY);
+            localStorage.getItem(
+                SAVE_KEY
+            );
 
         if(!saved){
             return;
@@ -2572,7 +3394,9 @@ function loadGame(){
             data
         );
 
-        if(!state.skills){
+        if(
+            !state.skills
+        ){
 
             state.skills={
                 damage:0,
@@ -2581,11 +3405,27 @@ function loadGame(){
                 crit:0,
                 explosive:0
             };
+
+        }
+
+        if(
+            !state.missions
+        ){
+
+            state.missions={
+                kills100:false,
+                kills1000:false,
+                combo20:false,
+                money10000:false,
+                boss:false
+            };
+
         }
 
         updateUI();
 
     }catch(e){}
+
 }
 
 /* =========================================================
@@ -2595,48 +3435,73 @@ function loadGame(){
 function newGamePlus(){
 
     state.money=0;
+
     state.kills=0;
+
     state.level=1;
+
     state.xp=0;
+
     state.damage=1;
 
     state.weapon="MÃO";
+
     state.weaponType="melee";
 
     state.ammo=Infinity;
+
     state.maxAmmo=Infinity;
 
     state.combo=0;
+
     state.area=0;
 
     state.skillPoints=0;
 
     state.skills={
+
         damage:0,
+
         money:0,
+
         speed:0,
+
         crit:0,
+
         explosive:0
+
     };
 
     state.missions={
+
         kills100:false,
+
         kills1000:false,
+
         combo20:false,
+
         money10000:false,
+
         boss:false
+
     };
 
     state.achievements=[];
 
     state.bossActive=false;
+
     state.boss=null;
 
     document
-        .getElementById("ending")
-        .classList.remove("active");
+        .getElementById(
+            "ending"
+        )
+        .classList
+        .remove("active");
 
-    game.classList.add("active");
+    game.classList.add(
+        "active"
+    );
 
     state.playing=true;
 
@@ -2645,6 +3510,7 @@ function newGamePlus(){
     spawnLoop();
 
     saveGame();
+
 }
 
 /* =========================================================
@@ -2655,21 +3521,34 @@ function endGame(){
 
     state.playing=false;
 
-    clearTimeout(spawnTimer);
+    clearTimeout(
+        spawnTimer
+    );
 
     gameArea
-        .querySelectorAll(".roach")
-        .forEach(r=>r.remove());
+        .querySelectorAll(
+            ".roach"
+        )
+        .forEach(
+            r=>r.remove()
+        );
 
-    game.classList.remove("active");
+    game.classList.remove(
+        "active"
+    );
 
     document
-        .getElementById("ending")
-        .classList.add("active");
+        .getElementById(
+            "ending"
+        )
+        .classList.add(
+            "active"
+        );
 
     checkAchievements();
 
     saveGame();
+
 }
 
 /* =========================================================
@@ -2680,41 +3559,54 @@ document.addEventListener(
     "keydown",
     function(e){
 
-        if(e.key==="Escape" || e.key.toLowerCase()==="p"){
+        if(
+            e.key==="Escape"||
+            e.key.toLowerCase()==="p"
+        ){
 
             togglePause();
+
         }
 
-        if(e.key.toLowerCase()==="r"){
+        if(
+            e.key.toLowerCase()==="r"
+        ){
 
             reload();
+
         }
 
     }
 );
 
 /* =========================================================
-   MOBILE: IMPEDIR GESTOS INDESEJADOS
+   MOBILE
 ========================================================= */
 
 document.addEventListener(
     "contextmenu",
     function(e){
+
         e.preventDefault();
+
     }
 );
 
 document.addEventListener(
     "gesturestart",
     function(e){
+
         e.preventDefault();
+
     }
 );
 
 document.addEventListener(
     "dblclick",
     function(e){
+
         e.preventDefault();
+
     }
 );
 
@@ -2724,16 +3616,23 @@ document.addEventListener(
     "touchend",
     function(e){
 
-        const now=Date.now();
+        const now=
+            Date.now();
 
-        if(now-lastTouch<=300){
+        if(
+            now-lastTouch<=300
+        ){
+
             e.preventDefault();
+
         }
 
         lastTouch=now;
 
     },
-    {passive:false}
+    {
+        passive:false
+    }
 );
 
 /* =========================================================
@@ -2745,12 +3644,13 @@ document.addEventListener(
     function(){
 
         if(
-            document.hidden &&
-            state.playing &&
+            document.hidden&&
+            state.playing&&
             !state.paused
         ){
 
             togglePause();
+
         }
 
     }
@@ -2767,49 +3667,41 @@ window.addEventListener(
         updateUI();
 
         document
-            .querySelectorAll(".roach")
-            .forEach(r=>{
+            .querySelectorAll(
+                ".roach"
+            )
+            .forEach(
+                r=>{
 
-                const rect=
-                    gameArea.getBoundingClientRect();
+                    const rect=
+                        gameArea
+                        .getBoundingClientRect();
 
-                const x=
-                    clamp(
-                        r.offsetLeft,
-                        0,
-                        rect.width-60
-                    );
+                    const x=
+                        clamp(
+                            r.offsetLeft,
+                            0,
+                            rect.width-60
+                        );
 
-                const y=
-                    clamp(
-                        r.offsetTop,
-                        45,
-                        rect.height-60
-                    );
+                    const y=
+                        clamp(
+                            r.offsetTop,
+                            45,
+                            rect.height-60
+                        );
 
-                r.style.left=x+"px";
-                r.style.top=y+"px";
-            });
+                    r.style.left=
+                        x+"px";
+
+                    r.style.top=
+                        y+"px";
+
+                }
+            );
 
     }
 );
-
-/* =========================================================
-   OTIMIZAÇÃO
-========================================================= */
-
-if(
-    isMobile &&
-    (
-        navigator.hardwareConcurrency &&
-        navigator.hardwareConcurrency<=4
-    )
-){
-
-    document.body.classList.add(
-        "reduce-effects"
-    );
-}
 
 /* =========================================================
    AUTO SAVE
