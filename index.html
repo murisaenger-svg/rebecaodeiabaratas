@@ -1295,7 +1295,8 @@ const weapons=[
         price:12000,
         ammo:100,
         reload:1400,
-        type:"ranged"
+        type:"ranged",
+        areaRadius:.12
     },
 
     {
@@ -1304,7 +1305,8 @@ const weapons=[
         price:30000,
         ammo:5,
         reload:1700,
-        type:"explosive"
+        type:"explosive",
+        areaRadius:.18
     },
 
     {
@@ -1313,7 +1315,8 @@ const weapons=[
         price:100000,
         ammo:3,
         reload:2300,
-        type:"explosive"
+        type:"explosive",
+        areaRadius:.28
     },
 
     {
@@ -1322,7 +1325,8 @@ const weapons=[
         price:500000,
         ammo:2,
         reload:2800,
-        type:"explosive"
+        type:"explosive",
+        areaRadius:.40
     }
 
 ];
@@ -2731,14 +2735,15 @@ function hitRoach(
         getDamage();
 
     if(
-        weapon.type===
-        "explosive"
+        weapon.areaRadius
     ){
 
         damageRoachesAround(
             obj.x,
             obj.y,
-            damage
+            damage,
+            weapon.areaRadius,
+            el
         );
 
     }else{
@@ -2788,10 +2793,30 @@ function hitRoach(
 function damageRoachesAround(
     x,
     y,
-    damage
+    damage,
+    radiusPercent,
+    primaryEl
 ){
 
-    const radius=120;
+    /*
+        O raio é proporcional ao menor eixo da tela.
+        Assim o efeito continua utilizável em PC e celular.
+
+        12%  = lança-chamas
+        18%  = bazuca
+        28%  = canhão orbital
+        40%  = destruidor dimensional
+
+        O alvo principal recebe 100% do dano.
+        Na borda da explosão, o dano cai até 50%.
+    */
+
+    const radius=
+        Math.min(
+            window.innerWidth,
+            window.innerHeight
+        )*
+        radiusPercent;
 
     document
         .querySelectorAll(
@@ -2820,27 +2845,54 @@ function damageRoachesAround(
                 );
 
             if(
-                distance<=radius
+                distance>radius
+            )
+                return;
+
+            let multiplier=1;
+
+            if(
+                el!==primaryEl
             ){
 
-                obj.hp-=damage;
+                const normalized=
+                    distance/radius;
 
-                spawnText(
-                    "-"+damage,
-                    obj.x,
-                    obj.y
+                /*
+                    1.0 no centro
+                    0.5 na borda
+                */
+                multiplier=
+                    1-
+                    normalized*.5;
+
+            }
+
+            const areaDamage=
+                Math.max(
+                    1,
+                    Math.floor(
+                        damage*
+                        multiplier
+                    )
                 );
 
-                if(
-                    obj.hp<=0
-                ){
+            obj.hp-=areaDamage;
 
-                    killRoach(
-                        el,
-                        obj
-                    );
+            spawnText(
+                "-"+areaDamage,
+                obj.x,
+                obj.y
+            );
 
-                }
+            if(
+                obj.hp<=0
+            ){
+
+                killRoach(
+                    el,
+                    obj
+                );
 
             }
 
