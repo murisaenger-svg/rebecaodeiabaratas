@@ -2,10 +2,19 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+
+<meta
+    name="viewport"
+    content="width=device-width,
+    initial-scale=1,
+    maximum-scale=1,
+    user-scalable=no"
+>
+
 <title>Muriel: Extermínio</title>
 
 <style>
+
 *{
     box-sizing:border-box;
     user-select:none;
@@ -19,7 +28,7 @@ html,body{
     height:100%;
     overflow:hidden;
     background:#080808;
-    color:#fff;
+    color:white;
     font-family:Arial,Helvetica,sans-serif;
     touch-action:none;
 }
@@ -29,10 +38,14 @@ body{
     flex-direction:column;
 }
 
+/* =========================
+   BOTÕES
+========================= */
+
 button{
-    border:0;
-    color:#fff;
-    background:#202020;
+    border:none;
+    color:white;
+    background:#222;
     padding:10px 14px;
     border-radius:7px;
     cursor:pointer;
@@ -40,7 +53,11 @@ button{
 }
 
 button:hover{
-    background:#333;
+    background:#383838;
+}
+
+button:active{
+    transform:scale(.97);
 }
 
 button:disabled{
@@ -48,17 +65,26 @@ button:disabled{
     cursor:not-allowed;
 }
 
+/* =========================
+   TOPO
+========================= */
+
 #topbar{
     height:76px;
     min-height:76px;
+
     background:#111;
+
     border-bottom:2px solid #333;
+
     display:flex;
     align-items:center;
     justify-content:space-around;
+
     gap:8px;
     padding:7px;
-    z-index:20;
+
+    z-index:50;
 }
 
 .stat{
@@ -76,6 +102,10 @@ button:disabled{
     font-size:17px;
 }
 
+/* =========================
+   JOGO
+========================= */
+
 #game{
     position:relative;
     flex:1;
@@ -89,31 +119,134 @@ button:disabled{
     overflow:hidden;
 }
 
-#crosshair{
-    position:absolute;
-    width:22px;
-    height:22px;
-    border:2px solid rgba(255,255,255,.7);
-    border-radius:50%;
-    pointer-events:none;
-    transform:translate(-50%,-50%);
-    display:none;
-    z-index:30;
+/* =========================
+   CENÁRIOS
+========================= */
+
+.scenario-kitchen{
+    background:
+        linear-gradient(
+            #282828 0 70%,
+            #59432e 70% 100%
+        );
 }
+
+.scenario-bathroom{
+    background:
+        repeating-linear-gradient(
+            90deg,
+            #d0d0d0 0 55px,
+            #aaa 56px 58px
+        );
+}
+
+.scenario-basement{
+    background:
+        linear-gradient(
+            #171717 0 65%,
+            #292929 65%
+        );
+}
+
+.scenario-restaurant{
+    background:
+        linear-gradient(
+            #281b12 0 70%,
+            #513521 70%
+        );
+}
+
+.scenario-sewer{
+    background:
+        repeating-linear-gradient(
+            0deg,
+            #142319 0 35px,
+            #1d3024 36px 38px
+        );
+}
+
+.scenario-lab{
+    background:
+        radial-gradient(
+            circle at 50% 30%,
+            #397070,
+            #071111 70%
+        );
+}
+
+.scenario-city{
+    background:
+        linear-gradient(
+            #071329 0 60%,
+            #171717 60%
+        );
+}
+
+.scenario-military{
+    background:
+        repeating-linear-gradient(
+            135deg,
+            #343b25 0 40px,
+            #222718 41px 80px
+        );
+}
+
+.scenario-space{
+    background:
+        radial-gradient(
+            circle at 20% 30%,
+            white 0 1px,
+            transparent 2px
+        ),
+        radial-gradient(
+            circle at 70% 60%,
+            white 0 1px,
+            transparent 2px
+        ),
+        radial-gradient(
+            circle at 40% 80%,
+            white 0 1px,
+            transparent 2px
+        ),
+        #03030d;
+}
+
+.scenario-dimension{
+    background:
+        repeating-conic-gradient(
+            from 0deg,
+            #26103d 0 10deg,
+            #100522 10deg 20deg
+        );
+}
+
+/* =========================
+   BARATAS
+========================= */
 
 .roach{
     position:absolute;
+
     width:50px;
     height:50px;
+
     display:flex;
     align-items:center;
     justify-content:center;
+
     font-size:36px;
-    transform:translate(-50%,-50%);
+
+    transform:
+        translate(-50%,-50%);
+
     z-index:8;
+
     cursor:pointer;
-    filter:drop-shadow(2px 3px 2px #000);
-    transition:opacity .1s;
+
+    filter:
+        drop-shadow(
+            2px 3px 2px #000
+        );
 }
 
 .roach.fast{
@@ -144,142 +277,396 @@ button:disabled{
     opacity:.15;
 }
 
-.roach.mimic{
-    filter:grayscale(1);
-}
+/* =========================
+   BOSS
+========================= */
 
 .boss{
     width:180px;
     height:180px;
+
     font-size:130px;
-    z-index:12;
-    animation:breathe 1.2s infinite alternate;
+
+    z-index:15;
+
+    animation:
+        bossBreath 1.2s infinite alternate;
 }
 
-@keyframes breathe{
-    from{transform:translate(-50%,-50%) scale(1)}
-    to{transform:translate(-50%,-50%) scale(1.08)}
+@keyframes bossBreath{
+
+    from{
+        transform:
+            translate(-50%,-50%)
+            scale(1);
+    }
+
+    to{
+        transform:
+            translate(-50%,-50%)
+            scale(1.08);
+    }
 }
+
+.miniBoss{
+    width:120px;
+    height:120px;
+
+    font-size:85px;
+}
+
+/* =========================
+   BARRA DO BOSS
+========================= */
 
 #bossBar{
     position:absolute;
+
     top:10px;
     left:50%;
-    transform:translateX(-50%);
+
+    transform:
+        translateX(-50%);
+
     width:min(700px,85%);
     height:30px;
-    border:2px solid #fff;
+
+    border:2px solid white;
+
     background:#111;
+
     display:none;
-    z-index:25;
+
+    z-index:40;
 }
 
 #bossFill{
     width:100%;
     height:100%;
+
     background:#b00000;
 }
 
 #bossText{
     position:absolute;
     inset:0;
+
     display:flex;
     align-items:center;
     justify-content:center;
+
     font-weight:bold;
-    text-shadow:2px 2px #000;
+
+    text-shadow:
+        2px 2px #000;
 }
+
+/* =========================
+   NOME DA FASE
+========================= */
 
 #phaseName{
     position:absolute;
+
     left:50%;
-    top:50px;
-    transform:translateX(-50%);
+    top:52px;
+
+    transform:
+        translateX(-50%);
+
     font-size:20px;
     font-weight:bold;
-    text-shadow:2px 2px #000;
-    z-index:25;
+
+    text-shadow:
+        2px 2px #000;
+
+    z-index:30;
+
     pointer-events:none;
 }
 
+/* =========================
+   COMBO
+========================= */
+
+#combo{
+    position:absolute;
+
+    right:15px;
+    top:90px;
+
+    font-size:22px;
+    font-weight:bold;
+
+    color:#ffd000;
+
+    z-index:30;
+
+    text-shadow:
+        2px 2px #000;
+}
+
+/* =========================
+   EVENTO
+========================= */
+
+#eventText{
+    position:absolute;
+
+    top:90px;
+    left:50%;
+
+    transform:
+        translateX(-50%);
+
+    z-index:35;
+
+    font-weight:bold;
+
+    color:#ff4444;
+
+    text-shadow:
+        2px 2px #000;
+
+    pointer-events:none;
+}
+
+/* =========================
+   ARMA
+========================= */
+
+#weaponInfo{
+    position:absolute;
+
+    left:12px;
+    bottom:70px;
+
+    background:
+        rgba(0,0,0,.7);
+
+    padding:8px 12px;
+
+    border-radius:7px;
+
+    z-index:30;
+
+    font-size:13px;
+}
+
+/* =========================
+   XP
+========================= */
+
+#xpbar{
+    position:absolute;
+
+    left:50%;
+    bottom:60px;
+
+    transform:
+        translateX(-50%);
+
+    width:min(450px,50%);
+
+    height:12px;
+
+    border:1px solid #777;
+
+    background:#111;
+
+    z-index:30;
+}
+
+#xpfill{
+    width:0%;
+    height:100%;
+
+    background:#1688ff;
+}
+
+/* =========================
+   MENSAGEM
+========================= */
+
 #message{
     position:absolute;
+
     left:50%;
-    bottom:30px;
-    transform:translateX(-50%);
-    background:rgba(0,0,0,.8);
+    bottom:100px;
+
+    transform:
+        translateX(-50%);
+
+    background:
+        rgba(0,0,0,.85);
+
     border:1px solid #555;
+
     padding:10px 18px;
+
     border-radius:8px;
+
     opacity:0;
+
     transition:.2s;
-    z-index:40;
+
+    z-index:60;
+
     pointer-events:none;
+
     text-align:center;
+
+    white-space:nowrap;
 }
 
 #message.show{
     opacity:1;
 }
 
-#weaponInfo{
-    position:absolute;
-    left:12px;
-    bottom:12px;
-    background:rgba(0,0,0,.7);
-    padding:8px 12px;
-    border-radius:7px;
-    z-index:20;
-    font-size:13px;
-}
+/* =========================
+   PARTÍCULAS
+========================= */
 
-#combo{
+.particle{
     position:absolute;
-    right:15px;
-    top:90px;
-    font-size:22px;
+
+    pointer-events:none;
+
+    z-index:60;
+
+    font-size:15px;
     font-weight:bold;
-    color:#ffd000;
-    z-index:20;
-    text-shadow:2px 2px #000;
+
+    animation:
+        particle .7s forwards;
 }
 
-#xpbar{
+@keyframes particle{
+
+    from{
+        opacity:1;
+
+        transform:
+            translate(0,0)
+            scale(1);
+    }
+
+    to{
+        opacity:0;
+
+        transform:
+            translate(
+                var(--x),
+                var(--y)
+            )
+            scale(.5);
+    }
+}
+
+/* =========================
+   DROPS
+========================= */
+
+.drop{
     position:absolute;
-    left:50%;
-    bottom:8px;
-    transform:translateX(-50%);
-    width:min(450px,50%);
-    height:12px;
-    border:1px solid #777;
-    background:#111;
-    z-index:20;
+
+    transform:
+        translate(-50%,-50%);
+
+    z-index:18;
+
+    font-size:28px;
+
+    animation:
+        dropFloat .8s infinite alternate;
+
+    cursor:pointer;
 }
 
-#xpfill{
-    height:100%;
-    width:0%;
-    background:#1688ff;
+@keyframes dropFloat{
+
+    from{
+        margin-top:0;
+    }
+
+    to{
+        margin-top:-8px;
+    }
 }
 
-#menu{
+/* =========================
+   INTERFACE PRINCIPAL
+========================= */
+
+#controls{
+
     position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.75);
-    display:none;
+
+    left:0;
+    right:0;
+    bottom:0;
+
+    height:55px;
+
+    background:#111;
+
+    border-top:2px solid #333;
+
+    display:flex;
+
     align-items:center;
     justify-content:center;
+
+    gap:8px;
+
+    padding:5px;
+
+    z-index:90;
+}
+
+#controls button{
+
+    min-width:120px;
+    height:42px;
+}
+
+/* =========================
+   MENU
+========================= */
+
+#menu{
+
+    position:fixed;
+
+    inset:0;
+
+    background:
+        rgba(0,0,0,.78);
+
+    display:none;
+
+    align-items:center;
+    justify-content:center;
+
     z-index:100;
+
     padding:15px;
 }
 
 .panel{
-    width:min(800px,95vw);
+
+    width:min(850px,95vw);
+
     max-height:90vh;
+
     overflow:auto;
+
     background:#151515;
+
     border:2px solid #444;
+
     border-radius:12px;
+
     padding:20px;
 }
 
@@ -290,39 +677,61 @@ button:disabled{
 .shopGrid,
 .skillGrid,
 .missionGrid{
+
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(180px,1fr)
+        );
+
     gap:10px;
 }
 
 .card{
+
     background:#202020;
+
     border:1px solid #444;
+
     border-radius:8px;
+
     padding:12px;
 }
 
 .card h3{
-    margin:0 0 8px;
+    margin:
+        0 0 8px;
 }
 
 .card p{
+
     color:#bbb;
+
     font-size:13px;
 }
 
-#mobileControls{
-    display:none;
-}
+/* =========================
+   PAUSA
+========================= */
 
 #pauseOverlay{
+
     position:fixed;
+
     inset:0;
-    background:rgba(0,0,0,.8);
+
+    background:
+        rgba(0,0,0,.82);
+
     z-index:200;
+
     display:none;
+
     align-items:center;
     justify-content:center;
+
     text-align:center;
 }
 
@@ -330,21 +739,35 @@ button:disabled{
     font-size:50px;
 }
 
+/* =========================
+   INTRO / FINAL
+========================= */
+
 #intro,
 #ending{
+
     position:fixed;
+
     inset:0;
+
     z-index:300;
+
     background:#050505;
+
     display:flex;
+
     align-items:center;
     justify-content:center;
+
     padding:25px;
 }
 
 .story{
+
     max-width:700px;
+
     text-align:center;
+
     line-height:1.6;
 }
 
@@ -353,128 +776,26 @@ button:disabled{
 }
 
 .story button{
+
     margin-top:20px;
+
     font-size:18px;
-    padding:14px 25px;
+
+    padding:
+        14px 25px;
 }
 
-.particle{
-    position:absolute;
-    pointer-events:none;
-    z-index:50;
-    font-size:15px;
-    font-weight:bold;
-    animation:particle .7s forwards;
-}
-
-@keyframes particle{
-    from{
-        opacity:1;
-        transform:translate(0,0) scale(1);
-    }
-    to{
-        opacity:0;
-        transform:translate(var(--x),var(--y)) scale(.5);
-    }
-}
-
-.drop{
-    position:absolute;
-    transform:translate(-50%,-50%);
-    z-index:18;
-    font-size:28px;
-    animation:dropFloat .8s infinite alternate;
-    cursor:pointer;
-}
-
-@keyframes dropFloat{
-    from{margin-top:0}
-    to{margin-top:-8px}
-}
-
-.miniBoss{
-    width:100px;
-    height:100px;
-    font-size:75px;
-}
-
-#eventText{
-    position:absolute;
-    top:90px;
-    left:50%;
-    transform:translateX(-50%);
-    z-index:24;
-    font-weight:bold;
-    color:#ff4444;
-    text-shadow:2px 2px #000;
-}
-
-/* CENÁRIOS */
-
-.scenario-kitchen{
-    background:
-        linear-gradient(#252525 0 72%,#57412e 72% 100%);
-}
-
-.scenario-bathroom{
-    background:
-        repeating-linear-gradient(90deg,#c8c8c8 0 55px,#aaa 56px 58px);
-}
-
-.scenario-basement{
-    background:
-        linear-gradient(#171717 0 65%,#292929 65%);
-}
-
-.scenario-restaurant{
-    background:
-        linear-gradient(#241b13 0 70%,#513521 70%);
-}
-
-.scenario-sewer{
-    background:
-        repeating-linear-gradient(0deg,#15231a 0 35px,#1e3125 36px 38px);
-}
-
-.scenario-lab{
-    background:
-        radial-gradient(circle at 50% 30%,#3a6b6b,#071111 70%);
-}
-
-.scenario-city{
-    background:
-        linear-gradient(#071329 0 60%,#171717 60%);
-}
-
-.scenario-military{
-    background:
-        repeating-linear-gradient(135deg,#343b25 0 40px,#222718 41px 80px);
-}
-
-.scenario-space{
-    background:
-        radial-gradient(circle at 20% 30%,white 0 1px,transparent 2px),
-        radial-gradient(circle at 70% 60%,white 0 1px,transparent 2px),
-        radial-gradient(circle at 40% 80%,white 0 1px,transparent 2px),
-        #03030d;
-}
-
-.scenario-dimension{
-    background:
-        repeating-conic-gradient(
-            from 0deg,
-            #26103d 0 10deg,
-            #100522 10deg 20deg
-        );
-}
-
-/* RESPONSIVO */
+/* =========================
+   MOBILE
+========================= */
 
 @media(max-width:700px){
 
     #topbar{
+
         height:58px;
         min-height:58px;
+
         font-size:11px;
     }
 
@@ -482,222 +803,447 @@ button:disabled{
         min-width:55px;
     }
 
+    .stat small{
+        font-size:9px;
+    }
+
     .stat b{
         font-size:12px;
     }
 
-    #weaponInfo{
-        bottom:65px;
-        left:5px;
-        font-size:11px;
-    }
-
-    #xpbar{
-        width:45%;
-        bottom:52px;
-    }
-
-    #combo{
-        top:65px;
-        right:7px;
-        font-size:16px;
-    }
-
     #phaseName{
-        top:62px;
+
+        top:63px;
+
         font-size:15px;
     }
 
-    #mobileControls{
-        position:fixed;
-        display:grid;
-        grid-template-columns:repeat(3,1fr);
-        gap:5px;
-        bottom:0;
-        left:0;
-        right:0;
-        padding:5px;
-        background:#111;
-        z-index:80;
+    #combo{
+
+        top:65px;
+        right:7px;
+
+        font-size:16px;
     }
 
-    #mobileControls button{
+    #weaponInfo{
+
+        bottom:65px;
+        left:5px;
+
         font-size:10px;
-        padding:10px 3px;
+    }
+
+    #xpbar{
+
+        width:45%;
+
+        bottom:58px;
+    }
+
+    #controls{
+
+        height:auto;
+
+        display:grid;
+
+        grid-template-columns:
+            repeat(3,1fr);
+
+        gap:5px;
+
+        padding:5px;
+    }
+
+    #controls button{
+
+        min-width:0;
+
+        width:100%;
+
+        height:38px;
+
+        font-size:10px;
+
+        padding:
+            7px 3px;
+    }
+
+    #game{
+        padding-bottom:55px;
+    }
+
+    #message{
+
+        bottom:115px;
+
+        font-size:12px;
     }
 
     .roach{
+
         width:55px;
         height:55px;
     }
 
     .boss{
+
         width:140px;
         height:140px;
+
         font-size:100px;
     }
+
+    .story h1{
+        font-size:30px;
+    }
 }
+
 </style>
 </head>
 
 <body>
 
+<!-- =====================================================
+     INTRO
+===================================================== -->
+
 <div id="intro">
+
     <div class="story">
+
         <h1>MURIEL: EXTERMÍNIO</h1>
+
         <p>
-            Muriel era um cara normal. Casa normal. Rotina normal.
-            Namorada normal.
+            Muriel era um cara normal.
+            Casa normal.
+            Rotina normal.
         </p>
+
         <p>
-            Até que uma barata apareceu na cozinha.
+            Até que uma barata apareceu
+            na cozinha.
         </p>
+
         <p>
             Ele matou.
         </p>
+
         <p>
             Então apareceram outras.
         </p>
-        <p><b>"Acaba com todas elas."</b></p>
+
         <p>
-            O problema é que aparentemente as baratas tinham planos
-            muito maiores para a humanidade.
+            A namorada olhou para ele:
         </p>
-        <button onclick="startGame()">COMEÇAR</button>
+
+        <p>
+            <b>"Acaba com todas elas."</b>
+        </p>
+
+        <p>
+            O que ninguém esperava era que
+            as baratas tivessem planos para
+            dominar absolutamente tudo.
+        </p>
+
+        <button onclick="startGame()">
+            COMEÇAR
+        </button>
+
     </div>
+
 </div>
 
+<!-- =====================================================
+     FINAL
+===================================================== -->
+
 <div id="ending" style="display:none">
+
     <div class="story">
+
         <h1>FIM?</h1>
+
         <p>
-            Muriel finalmente derrotou a Barata Prime.
+            Muriel derrotou a Barata Prime.
         </p>
+
         <p>
             10.000 baratas exterminadas.
         </p>
+
         <p>
             Ele voltou para casa.
         </p>
+
         <p>
             Sua namorada olhou para ele.
         </p>
+
         <p>
             Então apontou para o chão.
         </p>
-        <p><b>Uma barata pequena.</b></p>
+
         <p>
-            "MURIEL."
+            Uma barata pequena.
         </p>
-        <h2>O trabalho nunca termina.</h2>
-        <button onclick="newGamePlus()">NOVO JOGO+</button>
+
+        <p>
+            <b>"MURIEL."</b>
+        </p>
+
+        <h2>
+            O trabalho nunca termina.
+        </h2>
+
+        <button onclick="newGamePlus()">
+            NOVO JOGO+
+        </button>
+
     </div>
+
 </div>
 
+<!-- =====================================================
+     PAUSA
+===================================================== -->
+
 <div id="pauseOverlay">
+
     <div>
+
         <h1>PAUSADO</h1>
-        <button onclick="togglePause()">CONTINUAR</button>
+
+        <button onclick="togglePause()">
+            CONTINUAR
+        </button>
+
     </div>
+
 </div>
+
+<!-- =====================================================
+     TOPO
+===================================================== -->
 
 <header id="topbar">
 
     <div class="stat">
+
         <small>BARATAS</small>
-        <b id="kills">0</b>/10000
+
+        <b>
+            <span id="kills">0</span>/10000
+        </b>
+
     </div>
 
     <div class="stat">
+
         <small>DINHEIRO</small>
-        <b>$<span id="money">0</span></b>
+
+        <b>
+            $<span id="money">0</span>
+        </b>
+
     </div>
 
     <div class="stat">
+
         <small>NÍVEL</small>
+
         <b id="level">1</b>
+
     </div>
 
     <div class="stat">
+
         <small>XP</small>
+
         <b id="xp">0</b>
+
     </div>
 
     <div class="stat">
-        <small>SKILL POINTS</small>
+
+        <small>SKILLS</small>
+
         <b id="skillPoints">0</b>
+
     </div>
 
 </header>
 
+<!-- =====================================================
+     JOGO
+===================================================== -->
+
 <div id="game">
 
-    <div id="world" class="scenario-kitchen"></div>
-
-    <div id="crosshair"></div>
+    <div
+        id="world"
+        class="scenario-kitchen"
+    ></div>
 
     <div id="bossBar">
+
         <div id="bossFill"></div>
+
         <div id="bossText"></div>
+
     </div>
 
-    <div id="phaseName">COZINHA</div>
+    <div id="phaseName">
+        COZINHA
+    </div>
 
-    <div id="combo">COMBO: 0</div>
+    <div id="combo">
+        COMBO: 0
+    </div>
 
     <div id="eventText"></div>
 
     <div id="weaponInfo"></div>
 
     <div id="xpbar">
+
         <div id="xpfill"></div>
+
     </div>
 
     <div id="message"></div>
 
 </div>
 
-<div id="mobileControls">
-    <button onclick="openMenu('shop')">LOJA</button>
-    <button onclick="openMenu('skills')">SKILLS</button>
-    <button onclick="openMenu('missions')">MISSÕES</button>
-    <button onclick="openMenu('achievements')">CONQUISTAS</button>
-    <button onclick="reloadWeapon()">RECARREGAR</button>
-    <button onclick="togglePause()">PAUSA</button>
+<!-- =====================================================
+     INTERFACE
+===================================================== -->
+
+<div id="controls">
+
+    <button onclick="openMenu('shop')">
+        LOJA
+    </button>
+
+    <button onclick="openMenu('skills')">
+        SKILLS
+    </button>
+
+    <button onclick="openMenu('missions')">
+        MISSÕES
+    </button>
+
+    <button onclick="openMenu('achievements')">
+        CONQUISTAS
+    </button>
+
+    <button onclick="reloadWeapon()">
+        RECARREGAR
+    </button>
+
+    <button onclick="togglePause()">
+        PAUSAR
+    </button>
+
 </div>
 
+<!-- =====================================================
+     MENU
+===================================================== -->
+
 <div id="menu">
+
     <div class="panel">
 
         <div id="menuContent"></div>
 
         <br>
 
-        <button onclick="closeMenu()">FECHAR</button>
+        <button onclick="closeMenu()">
+            FECHAR
+        </button>
 
     </div>
+
 </div>
 
 <script>
 
-/* =========================================================
+/* =====================================================
    DADOS
-========================================================= */
+===================================================== */
 
 const areas=[
-    ["COZINHA",0,"scenario-kitchen"],
-    ["BANHEIRO",100,"scenario-bathroom"],
-    ["PORÃO",250,"scenario-basement"],
-    ["RESTAURANTE",500,"scenario-restaurant"],
-    ["ESGOTO",800,"scenario-sewer"],
-    ["LABORATÓRIO",1200,"scenario-lab"],
-    ["CIDADE",1800,"scenario-city"],
-    ["BASE MILITAR",2500,"scenario-military"],
-    ["ÓRBITA TERRESTRE",4000,"scenario-space"],
-    ["DIMENSÃO DAS BARATAS",6000,"scenario-dimension"]
+
+    [
+        "COZINHA",
+        0,
+        "scenario-kitchen"
+    ],
+
+    [
+        "BANHEIRO",
+        100,
+        "scenario-bathroom"
+    ],
+
+    [
+        "PORÃO",
+        250,
+        "scenario-basement"
+    ],
+
+    [
+        "RESTAURANTE",
+        500,
+        "scenario-restaurant"
+    ],
+
+    [
+        "ESGOTO",
+        800,
+        "scenario-sewer"
+    ],
+
+    [
+        "LABORATÓRIO",
+        1200,
+        "scenario-lab"
+    ],
+
+    [
+        "CIDADE",
+        1800,
+        "scenario-city"
+    ],
+
+    [
+        "BASE MILITAR",
+        2500,
+        "scenario-military"
+    ],
+
+    [
+        "ÓRBITA TERRESTRE",
+        4000,
+        "scenario-space"
+    ],
+
+    [
+        "DIMENSÃO DAS BARATAS",
+        6000,
+        "scenario-dimension"
+    ]
+
 ];
 
+/* =====================================================
+   ARMAS
+===================================================== */
+
 const weapons=[
+
     {
         name:"MÃO",
         damage:1,
@@ -706,6 +1252,7 @@ const weapons=[
         reload:0,
         type:"melee"
     },
+
     {
         name:"CHINELO",
         damage:5,
@@ -714,6 +1261,7 @@ const weapons=[
         reload:0,
         type:"melee"
     },
+
     {
         name:"CHINELO DE TITÂNIO",
         damage:20,
@@ -722,6 +1270,7 @@ const weapons=[
         reload:0,
         type:"melee"
     },
+
     {
         name:"SPRAY QUÍMICO",
         damage:40,
@@ -730,6 +1279,7 @@ const weapons=[
         reload:900,
         type:"ranged"
     },
+
     {
         name:"ESPINGARDA",
         damage:180,
@@ -738,6 +1288,7 @@ const weapons=[
         reload:1100,
         type:"ranged"
     },
+
     {
         name:"LANÇA-CHAMAS",
         damage:450,
@@ -746,6 +1297,7 @@ const weapons=[
         reload:1400,
         type:"ranged"
     },
+
     {
         name:"BAZUCA",
         damage:2000,
@@ -754,6 +1306,7 @@ const weapons=[
         reload:1700,
         type:"explosive"
     },
+
     {
         name:"CANHÃO ORBITAL",
         damage:20000,
@@ -762,6 +1315,7 @@ const weapons=[
         reload:2300,
         type:"explosive"
     },
+
     {
         name:"DESTRUIDOR DIMENSIONAL",
         damage:100000,
@@ -770,9 +1324,15 @@ const weapons=[
         reload:2800,
         type:"explosive"
     }
+
 ];
 
+/* =====================================================
+   TIPOS DE BARATA
+===================================================== */
+
 const roachTypes={
+
     normal:{
         hp:1,
         reward:10,
@@ -836,107 +1396,132 @@ const roachTypes={
         emoji:"🪳",
         speed:.9
     }
+
 };
 
+/* =====================================================
+   MINI BOSSES
+===================================================== */
+
 const miniBosses=[
+
     {
         name:"BARATA ALFA",
         hp:1000,
         reward:1000,
         emoji:"🪳"
     },
+
     {
         name:"BARATA MUTANTE",
         hp:5000,
         reward:3000,
         emoji:"🦗"
     },
+
     {
         name:"BARATA TITÃ",
         hp:15000,
         reward:8000,
         emoji:"🪲"
     },
+
     {
         name:"BARATA COLOSSAL",
         hp:50000,
         reward:20000,
         emoji:"🪳"
     }
+
 ];
 
+/* =====================================================
+   BOSSES
+===================================================== */
+
 const bosses=[
+
     {
         name:"BARATA GORDONA",
         hp:5000,
         reward:5000,
         emoji:"🪳"
     },
+
     {
         name:"DR. BARATOVSKY",
         hp:20000,
         reward:15000,
         emoji:"🪳"
     },
+
     {
         name:"GENERAL BARATA",
         hp:70000,
         reward:50000,
         emoji:"🪳"
     },
+
     {
         name:"IMPERADOR DAS BARATAS",
         hp:200000,
         reward:150000,
         emoji:"🪳"
     }
+
 ];
 
-/* =========================================================
+/* =====================================================
    ESTADO
-========================================================= */
+===================================================== */
 
 const defaultState={
+
     money:0,
+
     kills:0,
+
     level:1,
+
     xp:0,
+
     damage:1,
 
     weapon:"MÃO",
+
     weaponType:"melee",
 
     ammo:Infinity,
+
     maxAmmo:Infinity,
 
     combo:0,
-    comboTimer:null,
 
     area:0,
 
     skillPoints:0,
 
     skills:{
+
         damage:0,
         money:0,
         speed:0,
         crit:0,
         explosive:0,
+
         reload:0,
         magazine:0
+
     },
 
-    music:true,
-    sfx:true,
-
-    hard:false,
-
     missions:{
+
         kills100:false,
         combo20:false,
         boss:false,
         money10000:false,
         kills1000:false
+
     },
 
     achievements:[],
@@ -945,115 +1530,191 @@ const defaultState={
 
     miniBossesDefeated:0,
 
+    primeDefeated:false,
+
+    divineDefeated:false,
+
+    divineSpawned:false,
+
     newGamePlus:false,
 
-    primeDefeated:false
+    hard:false
+
 };
 
-let state=JSON.parse(JSON.stringify(defaultState));
+let state=
+    JSON.parse(
+        JSON.stringify(defaultState)
+    );
 
 let gameStarted=false;
+
 let paused=false;
+
 let reloading=false;
+
 let currentBoss=null;
+
 let bossElement=null;
+
 let miniBossElement=null;
 
 let spawnTimer=null;
+
 let eventTimer=null;
+
+let comboTimer=null;
+
+let messageTimer=null;
 
 let audioCtx=null;
 
+let lastMiniBossThreshold=0;
 
-/* =========================================================
+
+/* =====================================================
    UTILIDADES
-========================================================= */
+===================================================== */
 
 function $(id){
+
     return document.getElementById(id);
+
 }
 
 function random(min,max){
+
     return Math.random()*(max-min)+min;
+
 }
 
 function randomInt(min,max){
-    return Math.floor(random(min,max+1));
+
+    return Math.floor(
+        random(min,max+1)
+    );
+
 }
 
 function chance(percent){
+
     return Math.random()*100<percent;
+
 }
 
 function clamp(value,min,max){
-    return Math.max(min,Math.min(max,value));
+
+    return Math.max(
+        min,
+        Math.min(max,value)
+    );
+
 }
 
 
-/* =========================================================
+/* =====================================================
    ÁUDIO
-========================================================= */
+===================================================== */
 
 function initAudio(){
 
-    if(audioCtx) return;
+    if(audioCtx)
+        return;
 
     try{
+
         audioCtx=new(
             window.AudioContext ||
             window.webkitAudioContext
         )();
+
     }catch(e){}
+
 }
 
-function beep(freq=300,duration=.05,type="square"){
+function beep(
+    frequency=300,
+    duration=.05,
+    type="square"
+){
 
-    if(!state.sfx || !audioCtx) return;
+    if(
+        !audioCtx ||
+        !state.sfx
+    )
+        return;
 
-    const osc=audioCtx.createOscillator();
-    const gain=audioCtx.createGain();
+    const osc=
+        audioCtx.createOscillator();
+
+    const gain=
+        audioCtx.createGain();
 
     osc.type=type;
-    osc.frequency.value=freq;
 
-    gain.gain.setValueAtTime(.04,audioCtx.currentTime);
+    osc.frequency.value=
+        frequency;
+
+    gain.gain.setValueAtTime(
+        .04,
+        audioCtx.currentTime
+    );
+
     gain.gain.exponentialRampToValueAtTime(
         .001,
-        audioCtx.currentTime+duration
+        audioCtx.currentTime+
+        duration
     );
 
     osc.connect(gain);
-    gain.connect(audioCtx.destination);
+
+    gain.connect(
+        audioCtx.destination
+    );
 
     osc.start();
-    osc.stop(audioCtx.currentTime+duration);
+
+    osc.stop(
+        audioCtx.currentTime+
+        duration
+    );
+
 }
 
 
-/* =========================================================
+/* =====================================================
    MENSAGENS
-========================================================= */
-
-let messageTimeout;
+===================================================== */
 
 function showMessage(text){
 
     $("message").textContent=text;
-    $("message").classList.add("show");
 
-    clearTimeout(messageTimeout);
+    $("message").classList.add(
+        "show"
+    );
 
-    messageTimeout=setTimeout(()=>{
-        $("message").classList.remove("show");
+    clearTimeout(
+        messageTimer
+    );
+
+    messageTimer=setTimeout(()=>{
+
+        $("message").classList.remove(
+            "show"
+        );
+
     },1800);
+
 }
 
 
-/* =========================================================
+/* =====================================================
    SAVE
-========================================================= */
+===================================================== */
 
-const SAVE_KEY="murielExterminioFinalV1";
+const SAVE_KEY=
+    "murielExterminioFinalV2";
 
 function saveGame(){
 
@@ -1065,256 +1726,391 @@ function saveGame(){
         );
 
     }catch(e){}
+
 }
 
 function loadGame(){
 
     try{
 
-        const raw=localStorage.getItem(SAVE_KEY);
+        const raw=
+            localStorage.getItem(
+                SAVE_KEY
+            );
 
-        if(!raw) return;
+        if(!raw)
+            return;
 
-        const saved=JSON.parse(raw);
+        const saved=
+            JSON.parse(raw);
 
         state={
+
             ...state,
+
             ...saved,
+
             skills:{
                 ...defaultState.skills,
                 ...(saved.skills||{})
             },
+
             missions:{
                 ...defaultState.missions,
                 ...(saved.missions||{})
             }
+
         };
 
     }catch(e){
-        console.log("Save inválido.");
+
+        console.log(
+            "Save inválido."
+        );
+
     }
+
 }
 
 
-/* =========================================================
+/* =====================================================
    ARMAS
-========================================================= */
+===================================================== */
 
 function getWeapon(){
 
     return weapons.find(
         w=>w.name===state.weapon
     ) || weapons[0];
+
 }
 
 function getMagazineSize(){
 
-    const weapon=getWeapon();
+    const weapon=
+        getWeapon();
 
-    if(weapon.ammo===Infinity)
+    if(
+        weapon.ammo===Infinity
+    )
         return Infinity;
 
     return Math.max(
+
         1,
+
         Math.ceil(
-            weapon.ammo *
-            (1 + state.skills.magazine*.25)
+
+            weapon.ammo*
+            (
+                1+
+                state.skills.magazine*.25
+            )
+
         )
+
     );
+
 }
 
 function getReloadTime(){
 
-    const weapon=getWeapon();
+    const weapon=
+        getWeapon();
 
-    if(weapon.reload<=0)
+    if(
+        weapon.reload<=0
+    )
         return 0;
 
     return Math.max(
+
         250,
-        weapon.reload *
-        Math.pow(.85,state.skills.reload)
+
+        weapon.reload*
+        Math.pow(
+            .85,
+            state.skills.reload
+        )
+
     );
+
 }
 
 function equipWeapon(name){
 
-    const weapon=weapons.find(
-        w=>w.name===name
-    );
+    const weapon=
+        weapons.find(
+            w=>w.name===name
+        );
 
-    if(!weapon) return;
+    if(!weapon)
+        return;
 
-    state.weapon=weapon.name;
-    state.weaponType=weapon.type;
+    state.weapon=
+        weapon.name;
 
-    state.maxAmmo=getMagazineSize();
-    state.ammo=state.maxAmmo;
+    state.weaponType=
+        weapon.type;
+
+    state.maxAmmo=
+        getMagazineSize();
+
+    state.ammo=
+        state.maxAmmo;
 
     reloading=false;
 
     updateUI();
+
     saveGame();
+
 }
 
 function buyWeapon(index){
 
-    const weapon=weapons[index];
+    const weapon=
+        weapons[index];
 
-    if(!weapon) return;
+    if(!weapon)
+        return;
 
-    if(state.money<weapon.price){
-        showMessage("Dinheiro insuficiente.");
+    if(
+        state.money<
+        weapon.price
+    ){
+
+        showMessage(
+            "DINHEIRO INSUFICIENTE"
+        );
+
         return;
     }
 
-    state.money-=weapon.price;
+    state.money-=
+        weapon.price;
 
-    equipWeapon(weapon.name);
+    equipWeapon(
+        weapon.name
+    );
 
-    showMessage("Arma comprada: "+weapon.name);
+    showMessage(
+        "ARMA COMPRADA: "+
+        weapon.name
+    );
 
-    saveGame();
+    renderShop();
+
 }
 
 
-/* =========================================================
+/* =====================================================
    SKILLS
-========================================================= */
+===================================================== */
 
 const skillData={
 
     damage:{
+
         name:"FORÇA",
-        description:"+10% de dano por nível.",
+
+        description:
+            "+10% de dano por nível.",
+
         cost:1
+
     },
 
     money:{
+
         name:"GANÂNCIA",
-        description:"+15% de dinheiro ganho por nível.",
+
+        description:
+            "+15% de dinheiro ganho por nível.",
+
         cost:1
+
     },
 
     speed:{
+
         name:"REFLEXOS",
-        description:"As baratas aparecem mais lentamente.",
+
+        description:
+            "Diminui o intervalo de aparecimento das baratas.",
+
         cost:1
+
     },
 
     crit:{
+
         name:"PRECISÃO",
-        description:"+5% de chance de crítico por nível.",
+
+        description:
+            "+5% de chance de crítico por nível.",
+
         cost:1
+
     },
 
     explosive:{
+
         name:"DEMOLIÇÃO",
-        description:"+20% de dano explosivo por nível.",
+
+        description:
+            "+20% de dano explosivo por nível.",
+
         cost:1
+
     },
 
     reload:{
+
         name:"RECARGA RÁPIDA",
-        description:"Diminui o tempo de recarga em 15% por nível.",
+
+        description:
+            "Diminui o tempo de recarga em 15% por nível.",
+
         cost:1
+
     },
 
     magazine:{
+
         name:"CARREGADOR MAIOR",
-        description:"+25% de munição máxima por nível.",
+
+        description:
+            "+25% de munição máxima por nível.",
+
         cost:1
+
     }
+
 };
 
 function buySkill(id){
 
-    const skill=skillData[id];
+    const skill=
+        skillData[id];
 
-    if(!skill) return;
+    if(!skill)
+        return;
 
-    if(state.skillPoints<skill.cost){
-        showMessage("Você precisa de mais pontos.");
+    if(
+        state.skillPoints<
+        skill.cost
+    ){
+
+        showMessage(
+            "PONTOS INSUFICIENTES"
+        );
+
         return;
     }
 
-    state.skillPoints-=skill.cost;
+    state.skillPoints-=
+        skill.cost;
 
     state.skills[id]++;
 
-    if(id==="magazine"){
+    if(
+        id==="magazine"
+    ){
 
-        const newMax=getMagazineSize();
+        state.maxAmmo=
+            getMagazineSize();
 
-        if(newMax!==Infinity){
+        state.ammo=
+            state.maxAmmo;
 
-            state.maxAmmo=newMax;
-            state.ammo=newMax;
-        }
     }
 
     updateUI();
+
     saveGame();
 
+    renderSkills();
+
     showMessage(
+
         skill.name+
-        " nível "+
+        " NÍVEL "+
         state.skills[id]
+
     );
+
 }
 
 
-/* =========================================================
+/* =====================================================
    DANO
-========================================================= */
+===================================================== */
 
 function getDamage(){
 
     let damage=
-        state.damage *
-        (1 + state.skills.damage*.10);
+        getWeapon().damage;
+
+    damage*=
+        state.damage;
+
+    damage*=
+        1+
+        state.skills.damage*.10;
 
     if(
-        state.weaponType==="explosive"
+        state.weaponType===
+        "explosive"
     ){
+
         damage*=
             1+
             state.skills.explosive*.20;
+
     }
 
-    if(chance(
-        5+
-        state.skills.crit*5
-    )){
+    if(
+        chance(
+            5+
+            state.skills.crit*5
+        )
+    ){
+
         damage*=2;
 
-        spawnText(
-            "CRÍTICO!",
-            window.innerWidth/2,
-            window.innerHeight/2
-        );
     }
 
-    return Math.max(1,Math.floor(damage));
+    return Math.max(
+        1,
+        Math.floor(damage)
+    );
+
 }
 
 
-/* =========================================================
-   EXPERIÊNCIA
-========================================================= */
+/* =====================================================
+   XP
+===================================================== */
 
 function xpRequired(){
 
-    return 100+(state.level-1)*75;
+    return 100+
+        (state.level-1)*75;
+
 }
 
 function gainXP(amount){
 
     state.xp+=amount;
 
-    while(state.xp>=xpRequired()){
+    while(
+        state.xp>=
+        xpRequired()
+    ){
 
-        state.xp-=xpRequired();
+        state.xp-=
+            xpRequired();
 
         state.level++;
 
@@ -1323,46 +2119,73 @@ function gainXP(amount){
         state.damage*=1.05;
 
         showMessage(
-            "LEVEL UP! Nível "+
+
+            "LEVEL UP! NÍVEL "+
             state.level+
-            " | +1 Skill Point"
+            " | +1 SKILL"
+
         );
 
-        beep(800,.12,"triangle");
+        beep(
+            800,
+            .12,
+            "triangle"
+        );
+
     }
 
     updateUI();
+
 }
 
 
-/* =========================================================
+/* =====================================================
    DINHEIRO
-========================================================= */
+===================================================== */
 
 function gainMoney(amount){
 
     amount=Math.floor(
+
         amount*
-        (1+state.skills.money*.15)
+        (
+            1+
+            state.skills.money*.15
+        )
+
     );
 
     state.money+=amount;
+
 }
 
 
-/* =========================================================
-   PARTICULAS
-========================================================= */
+/* =====================================================
+   PARTÍCULAS
+===================================================== */
 
-function spawnText(text,x,y){
+function spawnText(
+    text,
+    x,
+    y
+){
 
-    const el=document.createElement("div");
+    const el=
+        document.createElement(
+            "div"
+        );
 
-    el.className="particle";
-    el.textContent=text;
+    el.className=
+        "particle";
 
-    el.style.left=x+"px";
-    el.style.top=y+"px";
+    el.textContent=
+        text;
+
+    el.style.left=
+        x+"px";
+
+    el.style.top=
+        y+"px";
 
     el.style.setProperty(
         "--x",
@@ -1377,63 +2200,89 @@ function spawnText(text,x,y){
     $("world").appendChild(el);
 
     setTimeout(()=>{
+
         el.remove();
+
     },700);
+
 }
 
 
-/* =========================================================
+/* =====================================================
    DROPS
-========================================================= */
+===================================================== */
 
 const dropTypes=[
+
     {
         type:"money",
-        emoji:"💰",
-        text:"+$500"
+        emoji:"💰"
     },
+
     {
         type:"ammo",
-        emoji:"🔫",
-        text:"Munição"
+        emoji:"🔫"
     },
+
     {
         type:"damage",
-        emoji:"⚡",
-        text:"Dano x2"
+        emoji:"⚡"
     },
+
     {
         type:"xp",
-        emoji:"⭐",
-        text:"+XP"
+        emoji:"⭐"
     }
+
 ];
 
 function createDrop(x,y){
 
-    if(!chance(8)) return;
+    if(
+        !chance(8)
+    )
+        return;
 
     const drop=
         dropTypes[
-            randomInt(0,dropTypes.length-1)
+            randomInt(
+                0,
+                dropTypes.length-1
+            )
         ];
 
-    const el=document.createElement("div");
+    const el=
+        document.createElement(
+            "div"
+        );
 
-    el.className="drop";
-    el.textContent=drop.emoji;
+    el.className=
+        "drop";
 
-    el.style.left=x+"px";
-    el.style.top=y+"px";
+    el.textContent=
+        drop.emoji;
 
-    el.dataset.type=drop.type;
+    el.style.left=
+        x+"px";
 
-    el.addEventListener("pointerdown",e=>{
+    el.style.top=
+        y+"px";
 
-        e.stopPropagation();
+    el.addEventListener(
+        "pointerdown",
+        e=>{
 
-        collectDrop(el,drop.type);
-    });
+            e.preventDefault();
+
+            e.stopPropagation();
+
+            collectDrop(
+                el,
+                drop.type
+            );
+
+        }
+    );
 
     $("world").appendChild(el);
 
@@ -1443,254 +2292,447 @@ function createDrop(x,y){
             el.remove();
 
     },10000);
+
 }
 
-function collectDrop(el,type){
+function collectDrop(
+    el,
+    type
+){
 
-    if(!el.parentNode) return;
+    if(
+        !el.parentNode
+    )
+        return;
 
     el.remove();
 
-    if(type==="money"){
+    if(
+        type==="money"
+    ){
 
         state.money+=500;
 
-        showMessage("DROP: +$500");
+        showMessage(
+            "DROP: +$500"
+        );
+
     }
 
-    if(type==="ammo"){
+    if(
+        type==="ammo"
+    ){
 
-        if(state.maxAmmo!==Infinity){
-
-            state.ammo=state.maxAmmo;
-
-            showMessage("DROP: MUNIÇÃO COMPLETA");
-        }else{
+        if(
+            state.maxAmmo===
+            Infinity
+        ){
 
             state.money+=250;
 
-            showMessage("Munição inútil. +$250");
+            showMessage(
+                "MUNIÇÃO INÚTIL: +$250"
+            );
+
+        }else{
+
+            state.ammo=
+                state.maxAmmo;
+
+            showMessage(
+                "MUNIÇÃO COMPLETA"
+            );
+
         }
+
     }
 
-    if(type==="damage"){
+    if(
+        type==="damage"
+    ){
 
         state.damage*=2;
 
-        showMessage("DROP: DANO DOBRADO!");
+        showMessage(
+            "DROP: DANO DOBRADO!"
+        );
+
     }
 
-    if(type==="xp"){
+    if(
+        type==="xp"
+    ){
 
         gainXP(150);
 
-        showMessage("DROP: +150 XP");
+        showMessage(
+            "DROP: +150 XP"
+        );
+
     }
 
-    beep(700,.08,"triangle");
+    beep(
+        700,
+        .08,
+        "triangle"
+    );
 
     updateUI();
+
 }
 
 
-/* =========================================================
-   BARATAS
-========================================================= */
+/* =====================================================
+   ESCOLHA DE BARATA
+===================================================== */
 
 function chooseRoachType(){
 
-    const k=state.kills;
+    const k=
+        state.kills;
 
-    const roll=Math.random()*100;
+    const roll=
+        Math.random()*100;
 
     if(k<100)
         return "normal";
 
     if(k<250){
 
-        if(roll<20) return "fast";
+        if(roll<20)
+            return "fast";
 
         return "normal";
+
     }
 
     if(k<500){
 
-        if(roll<15) return "giant";
-        if(roll<35) return "fast";
+        if(roll<15)
+            return "giant";
+
+        if(roll<35)
+            return "fast";
 
         return "normal";
+
     }
 
     if(k<1200){
 
-        if(roll<10) return "mutant";
-        if(roll<20) return "giant";
-        if(roll<40) return "fast";
+        if(roll<10)
+            return "mutant";
+
+        if(roll<20)
+            return "giant";
+
+        if(roll<40)
+            return "fast";
 
         return "normal";
+
     }
 
     if(k<2500){
 
-        if(roll<10) return "armored";
-        if(roll<15) return "flying";
-        if(roll<30) return "mutant";
-        if(roll<45) return "giant";
+        if(roll<10)
+            return "armored";
+
+        if(roll<15)
+            return "flying";
+
+        if(roll<30)
+            return "mutant";
+
+        if(roll<45)
+            return "giant";
 
         return "fast";
+
     }
 
     if(k<4000){
 
-        if(roll<8) return "explosive";
-        if(roll<16) return "invisible";
-        if(roll<25) return "armored";
-        if(roll<40) return "flying";
-        if(roll<60) return "mutant";
+        if(roll<8)
+            return "explosive";
+
+        if(roll<16)
+            return "invisible";
+
+        if(roll<25)
+            return "armored";
+
+        if(roll<40)
+            return "flying";
+
+        if(roll<60)
+            return "mutant";
 
         return "fast";
+
     }
 
     if(k<6000){
 
-        if(roll<10) return "invisible";
-        if(roll<20) return "explosive";
-        if(roll<30) return "armored";
-        if(roll<45) return "flying";
-        if(roll<65) return "mutant";
+        if(roll<10)
+            return "invisible";
+
+        if(roll<20)
+            return "explosive";
+
+        if(roll<30)
+            return "armored";
+
+        if(roll<45)
+            return "flying";
+
+        if(roll<65)
+            return "mutant";
 
         return "giant";
+
     }
 
-    if(roll<15) return "invisible";
-    if(roll<30) return "explosive";
-    if(roll<45) return "armored";
-    if(roll<60) return "flying";
-    if(roll<80) return "mutant";
+    if(roll<15)
+        return "invisible";
+
+    if(roll<30)
+        return "explosive";
+
+    if(roll<45)
+        return "armored";
+
+    if(roll<60)
+        return "flying";
+
+    if(roll<80)
+        return "mutant";
 
     return "giant";
+
 }
+
+
+/* =====================================================
+   SPAWN BARATA
+===================================================== */
 
 function spawnRoach(){
 
-    if(paused || currentBoss) return;
-
-    const roaches=
-        document.querySelectorAll(".roach");
-
-    const maxRoaches=
-        window.innerWidth<700 ? 10 : 20;
-
-    if(roaches.length>=maxRoaches)
+    if(
+        paused ||
+        currentBoss
+    )
         return;
 
-    const type=chooseRoachType();
+    const roaches=
+        document.querySelectorAll(
+            ".roach"
+        );
 
-    const data=roachTypes[type];
+    const maxRoaches=
+        window.innerWidth<700
+            ?10
+            :20;
 
-    const el=document.createElement("div");
+    if(
+        roaches.length>=
+        maxRoaches
+    )
+        return;
 
-    el.className="roach "+type;
-    el.textContent=data.emoji;
+    const type=
+        chooseRoachType();
 
-    const x=random(5,95);
-    const y=random(12,88);
+    const data=
+        roachTypes[type];
 
-    el.style.left=x+"%";
-    el.style.top=y+"%";
+    const el=
+        document.createElement(
+            "div"
+        );
+
+    el.className=
+        "roach "+type;
+
+    el.textContent=
+        data.emoji;
+
+    const x=
+        random(5,95);
+
+    const y=
+        random(12,88);
+
+    el.style.left=
+        x+"%";
+
+    el.style.top=
+        y+"%";
 
     const obj={
-        type,
+
+        type:type,
+
         hp:data.hp,
+
         maxHp:data.hp,
+
         speed:data.speed,
-        x:x/100*window.innerWidth,
-        y:y/100*window.innerHeight
+
+        x:
+            x/100*
+            window.innerWidth,
+
+        y:
+            y/100*
+            window.innerHeight
+
     };
 
-    el._roach=obj;
+    el._roach=
+        obj;
 
-    el.addEventListener("pointerdown",e=>{
+    el.addEventListener(
+        "pointerdown",
+        e=>{
 
-        e.preventDefault();
-        e.stopPropagation();
+            e.preventDefault();
 
-        hitRoach(el,obj);
-    });
+            e.stopPropagation();
 
-    $("world").appendChild(el);
+            hitRoach(
+                el,
+                obj
+            );
 
-    moveRoach(el,obj);
+        }
+    );
+
+    $("world").appendChild(
+        el
+    );
+
+    moveRoach(
+        el,
+        obj
+    );
+
 }
 
-function moveRoach(el,obj){
 
-    if(!el.parentNode) return;
+/* =====================================================
+   MOVIMENTO DA BARATA
+===================================================== */
+
+function moveRoach(
+    el,
+    obj
+){
+
+    if(
+        !el.parentNode
+    )
+        return;
 
     if(paused){
 
         requestAnimationFrame(
-            ()=>moveRoach(el,obj)
+            ()=>{
+                moveRoach(
+                    el,
+                    obj
+                );
+            }
         );
 
         return;
+
     }
 
     obj.x+=
-        random(-obj.speed,obj.speed);
+        random(
+            -obj.speed,
+            obj.speed
+        );
 
     obj.y+=
-        random(-obj.speed,obj.speed);
+        random(
+            -obj.speed,
+            obj.speed
+        );
 
-    obj.x=clamp(
-        obj.x,
-        30,
-        window.innerWidth-30
-    );
+    obj.x=
+        clamp(
+            obj.x,
+            30,
+            window.innerWidth-30
+        );
 
-    obj.y=clamp(
-        obj.y,
-        100,
-        window.innerHeight-50
-    );
+    obj.y=
+        clamp(
+            obj.y,
+            100,
+            window.innerHeight-70
+        );
 
-    el.style.left=obj.x+"px";
-    el.style.top=obj.y+"px";
+    el.style.left=
+        obj.x+"px";
+
+    el.style.top=
+        obj.y+"px";
 
     requestAnimationFrame(
-        ()=>moveRoach(el,obj)
+        ()=>{
+            moveRoach(
+                el,
+                obj
+            );
+        }
     );
+
 }
 
 
-/* =========================================================
+/* =====================================================
    MATAR BARATA
-========================================================= */
+===================================================== */
 
-function hitRoach(el,obj){
+function hitRoach(
+    el,
+    obj
+){
 
-    if(reloading) return;
+    if(reloading)
+        return;
 
-    const weapon=getWeapon();
+    const weapon=
+        getWeapon();
 
-    if(weapon.ammo!==Infinity){
+    if(
+        weapon.ammo!==Infinity
+    ){
 
-        if(state.ammo<=0){
+        if(
+            state.ammo<=0
+        ){
 
             reloadWeapon();
 
             return;
+
         }
 
         state.ammo--;
 
-        updateUI();
     }
 
-    let damage=getDamage();
+    const damage=
+        getDamage();
 
     if(
-        weapon.type==="explosive"
+        weapon.type===
+        "explosive"
     ){
 
         damageRoachesAround(
@@ -1702,6 +2744,7 @@ function hitRoach(el,obj){
     }else{
 
         obj.hp-=damage;
+
     }
 
     spawnText(
@@ -1711,45 +2754,74 @@ function hitRoach(el,obj){
     );
 
     beep(
-        weapon.type==="explosive"
-            ? 90
-            : 300,
+        weapon.type===
+        "explosive"
+            ?90
+            :300,
         .04
     );
 
-    if(obj.hp<=0){
+    if(
+        obj.hp<=0
+    ){
 
-        killRoach(el,obj);
+        killRoach(
+            el,
+            obj
+        );
+
     }
 
     if(
         weapon.ammo!==Infinity &&
         state.ammo<=0
     ){
+
         reloadWeapon();
+
     }
+
+    updateUI();
+
 }
 
-function damageRoachesAround(x,y,damage){
+function damageRoachesAround(
+    x,
+    y,
+    damage
+){
 
     const radius=120;
 
     document
-        .querySelectorAll(".roach")
+        .querySelectorAll(
+            ".roach"
+        )
         .forEach(el=>{
 
-            const obj=el._roach;
+            if(
+                !el._roach
+            )
+                return;
 
-            if(!obj) return;
+            const obj=
+                el._roach;
 
-            const dx=obj.x-x;
-            const dy=obj.y-y;
+            const dx=
+                obj.x-x;
 
-            const dist=Math.sqrt(
-                dx*dx+dy*dy
-            );
+            const dy=
+                obj.y-y;
 
-            if(dist<=radius){
+            const distance=
+                Math.sqrt(
+                    dx*dx+
+                    dy*dy
+                );
+
+            if(
+                distance<=radius
+            ){
 
                 obj.hp-=damage;
 
@@ -1759,17 +2831,37 @@ function damageRoachesAround(x,y,damage){
                     obj.y
                 );
 
-                if(obj.hp<=0)
-                    killRoach(el,obj);
+                if(
+                    obj.hp<=0
+                ){
+
+                    killRoach(
+                        el,
+                        obj
+                    );
+
+                }
+
             }
+
         });
+
 }
 
-function killRoach(el,obj){
+function killRoach(
+    el,
+    obj
+){
 
-    if(!el.parentNode) return;
+    if(
+        !el.parentNode
+    )
+        return;
 
-    const data=roachTypes[obj.type];
+    const data=
+        roachTypes[
+            obj.type
+        ];
 
     el.remove();
 
@@ -1777,9 +2869,13 @@ function killRoach(el,obj){
 
     state.combo++;
 
-    gainMoney(data.reward);
+    gainMoney(
+        data.reward
+    );
 
-    gainXP(data.xp);
+    gainXP(
+        data.xp
+    );
 
     createDrop(
         obj.x,
@@ -1788,209 +2884,240 @@ function killRoach(el,obj){
 
     resetCombo();
 
-    if(
-        state.kills>=100 &&
-        !state.missions.kills100
-    ){
-
-        state.missions.kills100=true;
-
-        showMessage(
-            "MISSÃO: 100 BARATAS!"
-        );
-    }
-
-    if(
-        state.kills>=1000 &&
-        !state.missions.kills1000
-    ){
-
-        state.missions.kills1000=true;
-
-        showMessage(
-            "MISSÃO: 1000 BARATAS!"
-        );
-    }
-
-    if(
-        state.combo>=20 &&
-        !state.missions.combo20
-    ){
-
-        state.missions.combo20=true;
-
-        showMessage(
-            "MISSÃO: COMBO 20!"
-        );
-    }
+    checkMissions();
 
     checkProgress();
+
+    maybeSpawnMiniBoss();
 
     updateUI();
 
     saveGame();
 
-    maybeSpawnMiniBoss();
 }
 
 
-/* =========================================================
+/* =====================================================
    COMBO
-========================================================= */
+===================================================== */
 
 function resetCombo(){
 
-    clearTimeout(state.comboTimer);
+    clearTimeout(
+        comboTimer
+    );
 
-    state.comboTimer=setTimeout(()=>{
+    comboTimer=setTimeout(()=>{
 
         state.combo=0;
 
         updateUI();
 
     },3000);
+
 }
 
 
-/* =========================================================
-   MINI BOSSES
-========================================================= */
-
-let lastMiniBossKills=-1;
+/* =====================================================
+   MINI BOSS
+===================================================== */
 
 function maybeSpawnMiniBoss(){
 
-    if(currentBoss) return;
-
-    const k=state.kills;
-
-    if(k<200) return;
-
-    const threshold=
-        Math.floor(k/500)*500;
-
-    if(threshold<=0) return;
+    if(
+        currentBoss ||
+        miniBossElement
+    )
+        return;
 
     if(
-        threshold===lastMiniBossKills
-    ) return;
+        state.kills<200
+    )
+        return;
+
+    const threshold=
+        Math.floor(
+            state.kills/500
+        )*500;
+
+    if(
+        threshold<=0 ||
+        threshold===
+        lastMiniBossThreshold
+    )
+        return;
 
     if(
         threshold%500===0 &&
         chance(12)
     ){
 
-        lastMiniBossKills=threshold;
+        lastMiniBossThreshold=
+            threshold;
 
         spawnMiniBoss();
+
     }
+
 }
 
 function spawnMiniBoss(){
 
-    if(miniBossElement)
+    if(
+        miniBossElement ||
+        currentBoss
+    )
         return;
 
     const index=
         Math.min(
-            Math.floor(state.kills/1500),
+            Math.floor(
+                state.kills/1500
+            ),
             miniBosses.length-1
         );
 
-    const data=miniBosses[index];
+    const data=
+        miniBosses[index];
 
     const hp=
         Math.floor(
             data.hp*
-            (state.newGamePlus?1.5:1)
+            (
+                state.newGamePlus
+                    ?1.5
+                    :1
+            )
         );
 
     const obj={
+
         name:data.name,
-        hp,
+
+        hp:hp,
+
         maxHp:hp,
+
         reward:data.reward,
-        x:window.innerWidth/2,
-        y:window.innerHeight/2
+
+        x:
+            window.innerWidth/2,
+
+        y:
+            window.innerHeight*.55
+
     };
 
-    const el=document.createElement("div");
+    const el=
+        document.createElement(
+            "div"
+        );
 
-    el.className="roach boss miniBoss";
-    el.textContent=data.emoji;
+    el.className=
+        "roach boss miniBoss";
 
-    el.style.left="50%";
-    el.style.top="55%";
+    el.textContent=
+        data.emoji;
 
-    el._miniBoss=obj;
+    el.style.left=
+        "50%";
 
-    el.addEventListener("pointerdown",e=>{
+    el.style.top=
+        "55%";
 
-        e.preventDefault();
-        e.stopPropagation();
+    el._miniBoss=
+        obj;
 
-        hitMiniBoss(el,obj);
-    });
+    el.addEventListener(
+        "pointerdown",
+        e=>{
 
-    $("world").appendChild(el);
+            e.preventDefault();
 
-    miniBossElement=el;
+            e.stopPropagation();
+
+            hitMiniBoss(
+                el,
+                obj
+            );
+
+        }
+    );
+
+    $("world").appendChild(
+        el
+    );
+
+    miniBossElement=
+        el;
 
     showMessage(
-        "MINI-BOSS: "+data.name
+        "MINI-BOSS: "+
+        data.name
     );
-
-    beep(120,.3,"sawtooth");
 
     updateBossBar(
-        obj.name,
-        obj.hp,
-        obj.maxHp
+        data.name,
+        hp,
+        hp
     );
+
 }
 
-function hitMiniBoss(el,obj){
+function hitMiniBoss(
+    el,
+    obj
+){
 
-    if(reloading) return;
+    if(reloading)
+        return;
 
-    const weapon=getWeapon();
+    const weapon=
+        getWeapon();
 
     if(
         weapon.ammo!==Infinity
     ){
 
-        if(state.ammo<=0){
+        if(
+            state.ammo<=0
+        ){
 
             reloadWeapon();
 
             return;
+
         }
 
         state.ammo--;
 
-        updateUI();
     }
 
-    let damage=getDamage();
+    let damage=
+        getDamage();
 
     if(
-        weapon.type==="explosive"
+        weapon.type===
+        "explosive"
     ){
 
         damage*=
             1+
             state.skills.explosive*.2;
+
     }
 
     obj.hp-=damage;
 
     spawnText(
-        "-"+damage,
+        "-"+Math.floor(damage),
         obj.x,
         obj.y
     );
 
-    if(obj.hp<=0){
+    if(
+        obj.hp<=0
+    ){
 
         el.remove();
 
@@ -1998,7 +3125,9 @@ function hitMiniBoss(el,obj){
 
         state.miniBossesDefeated++;
 
-        gainMoney(obj.reward);
+        gainMoney(
+            obj.reward
+        );
 
         gainXP(300);
 
@@ -2021,56 +3150,96 @@ function hitMiniBoss(el,obj){
             obj.hp,
             obj.maxHp
         );
+
     }
 
     if(
         weapon.ammo!==Infinity &&
         state.ammo<=0
     ){
+
         reloadWeapon();
+
     }
+
+    updateUI();
+
 }
 
 
-/* =========================================================
+/* =====================================================
    BOSS PRINCIPAL
-========================================================= */
+===================================================== */
 
 function startBoss(index){
 
-    if(currentBoss)
+    if(
+        currentBoss ||
+        miniBossElement
+    )
         return;
 
-    const data=bosses[index];
+    const data=
+        bosses[index];
 
-    if(!data) return;
+    if(!data)
+        return;
 
     const hp=
         data.hp*
-        (state.newGamePlus?1.5:1);
+        (
+            state.newGamePlus
+                ?1.5
+                :1
+        );
 
     currentBoss={
+
         name:data.name,
+
         hp:hp,
+
         maxHp:hp,
+
         reward:data.reward,
-        index
+
+        index:index,
+
+        divine:false,
+
+        prime:false,
+
+        phase:1
+
     };
 
-    bossElement=document.createElement("div");
+    bossElement=
+        document.createElement(
+            "div"
+        );
 
-    bossElement.className="roach boss";
-    bossElement.textContent=data.emoji;
+    bossElement.className=
+        "roach boss";
 
-    bossElement.style.left="50%";
-    bossElement.style.top="55%";
+    bossElement.textContent=
+        data.emoji;
+
+    bossElement.style.left=
+        "50%";
+
+    bossElement.style.top=
+        "55%";
 
     bossElement.addEventListener(
         "pointerdown",
         e=>{
+
             e.preventDefault();
+
             e.stopPropagation();
+
             hitBoss();
+
         }
     );
 
@@ -2079,7 +3248,8 @@ function startBoss(index){
     );
 
     showMessage(
-        "BOSS: "+data.name
+        "BOSS: "+
+        data.name
     );
 
     updateBossBar(
@@ -2088,46 +3258,237 @@ function startBoss(index){
         hp
     );
 
-    beep(70,.5,"sawtooth");
 }
+
+
+/* =====================================================
+   BOSS DIVINO
+===================================================== */
+
+function spawnDivineRoach(){
+
+    if(
+        currentBoss ||
+        state.divineDefeated
+    )
+        return;
+
+    const hp=
+        state.newGamePlus
+            ?1000000
+            :750000;
+
+    currentBoss={
+
+        name:"BARATA DIVINA",
+
+        hp:hp,
+
+        maxHp:hp,
+
+        reward:300000,
+
+        index:99,
+
+        divine:true,
+
+        prime:false,
+
+        phase:1
+
+    };
+
+    bossElement=
+        document.createElement(
+            "div"
+        );
+
+    bossElement.className=
+        "roach boss";
+
+    bossElement.textContent=
+        "👑🪳";
+
+    bossElement.style.left=
+        "50%";
+
+    bossElement.style.top=
+        "55%";
+
+    bossElement.style.filter=
+        "drop-shadow(0 0 30px gold)";
+
+    bossElement.addEventListener(
+        "pointerdown",
+        e=>{
+
+            e.preventDefault();
+
+            e.stopPropagation();
+
+            hitBoss();
+
+        }
+    );
+
+    $("world").appendChild(
+        bossElement
+    );
+
+    showMessage(
+        "A BARATA DIVINA DESCEU DOS CÉUS."
+    );
+
+    updateBossBar(
+        "BARATA DIVINA",
+        hp,
+        hp
+    );
+
+}
+
+
+/* =====================================================
+   BARATA PRIME
+===================================================== */
+
+function spawnBarataPrime(){
+
+    if(
+        currentBoss ||
+        state.primeDefeated
+    )
+        return;
+
+    const hp=
+        state.newGamePlus
+            ?2500000
+            :1000000;
+
+    currentBoss={
+
+        name:"BARATA PRIME",
+
+        hp:hp,
+
+        maxHp:hp,
+
+        reward:1000000,
+
+        index:100,
+
+        prime:true,
+
+        divine:false,
+
+        phase:1
+
+    };
+
+    bossElement=
+        document.createElement(
+            "div"
+        );
+
+    bossElement.className=
+        "roach boss";
+
+    bossElement.textContent=
+        "🪳";
+
+    bossElement.style.left=
+        "50%";
+
+    bossElement.style.top=
+        "55%";
+
+    bossElement.style.fontSize=
+        "160px";
+
+    bossElement.style.filter=
+        "drop-shadow(0 0 30px red)";
+
+    bossElement.addEventListener(
+        "pointerdown",
+        e=>{
+
+            e.preventDefault();
+
+            e.stopPropagation();
+
+            hitBoss();
+
+        }
+    );
+
+    $("world").appendChild(
+        bossElement
+    );
+
+    showMessage(
+        "BARATA PRIME: VOCÊ REALMENTE ACHOU QUE TINHA ACABADO?"
+    );
+
+    updateBossBar(
+        "BARATA PRIME",
+        hp,
+        hp
+    );
+
+}
+
+
+/* =====================================================
+   ATAQUE DO BOSS
+===================================================== */
 
 function hitBoss(){
 
-    if(!currentBoss || reloading)
+    if(
+        !currentBoss ||
+        reloading
+    )
         return;
 
-    const weapon=getWeapon();
+    const weapon=
+        getWeapon();
 
     if(
         weapon.ammo!==Infinity
     ){
 
-        if(state.ammo<=0){
+        if(
+            state.ammo<=0
+        ){
 
             reloadWeapon();
 
             return;
+
         }
 
         state.ammo--;
 
-        updateUI();
     }
 
-    let damage=getDamage();
+    let damage=
+        getDamage();
 
     if(
-        weapon.type==="explosive"
+        weapon.type===
+        "explosive"
     ){
+
         damage*=
             1+
             state.skills.explosive*.2;
+
     }
 
     currentBoss.hp-=damage;
 
     spawnText(
-        "-"+damage,
+        "-"+Math.floor(damage),
         window.innerWidth/2,
         window.innerHeight*.55
     );
@@ -2138,9 +3499,14 @@ function hitBoss(){
         currentBoss.maxHp
     );
 
-    if(currentBoss.hp<=0){
+    updatePrimePhase();
+
+    if(
+        currentBoss.hp<=0
+    ){
 
         defeatBoss();
+
     }
 
     if(
@@ -2149,56 +3515,225 @@ function hitBoss(){
     ){
 
         reloadWeapon();
+
     }
+
 }
 
-function defeatBoss(){
 
-    if(!currentBoss) return;
+/* =====================================================
+   FASES DA PRIME
+===================================================== */
 
-    const boss=currentBoss;
+function updatePrimePhase(){
 
-    if(bossElement)
-        bossElement.remove();
+    if(
+        !currentBoss ||
+        !currentBoss.prime
+    )
+        return;
 
-    bossElement=null;
+    const ratio=
+        currentBoss.hp/
+        currentBoss.maxHp;
 
-    currentBoss=null;
+    let phase=1;
 
-    state.bossesDefeated++;
+    if(ratio<=.75)
+        phase=2;
 
-    state.skillPoints++;
+    if(ratio<=.50)
+        phase=3;
 
-    gainMoney(boss.reward);
+    if(ratio<=.25)
+        phase=4;
 
-    gainXP(1000);
+    if(
+        phase===
+        currentBoss.phase
+    )
+        return;
 
-    state.missions.boss=true;
-
-    hideBossBar();
+    currentBoss.phase=
+        phase;
 
     showMessage(
-        "BOSS DERROTADO! +$"+
-        boss.reward+
-        " | +1 SKILL"
+        "BARATA PRIME: FASE "+
+        phase
     );
 
     if(
-        boss.index===
-        bosses.length-1
+        phase===2
+    ){
+
+        setTimeout(
+            spawnMiniBoss,
+            300
+        );
+
+    }
+
+    if(
+        phase===3
+    ){
+
+        for(
+            let i=0;
+            i<6;
+            i++
+        ){
+
+            spawnRoach();
+
+        }
+
+    }
+
+    if(
+        phase===4
     ){
 
         showMessage(
-            "A BARATA PRIME ESTÁ PRÓXIMA..."
+            "BARATA PRIME ENTROU EM FÚRIA!"
         );
+
+        for(
+            let i=0;
+            i<10;
+            i++
+        ){
+
+            spawnRoach();
+
+        }
+
     }
 
-    saveGame();
 }
 
-function updateBossBar(name,hp,maxHp){
 
-    $("bossBar").style.display="block";
+/* =====================================================
+   DERROTAR BOSS
+===================================================== */
+
+function defeatBoss(){
+
+    if(!currentBoss)
+        return;
+
+    const boss=
+        currentBoss;
+
+    if(bossElement){
+
+        bossElement.remove();
+
+        bossElement=null;
+
+    }
+
+    currentBoss=null;
+
+    hideBossBar();
+
+    if(
+        boss.prime
+    ){
+
+        state.primeDefeated=
+            true;
+
+        state.kills=
+            10000;
+
+        state.money+=
+            boss.reward;
+
+        state.skillPoints+=5;
+
+        gainXP(5000);
+
+        showMessage(
+            "BARATA PRIME DESTRUÍDA!"
+        );
+
+        saveGame();
+
+        setTimeout(
+            endGame,
+            2500
+        );
+
+        return;
+
+    }
+
+    if(
+        boss.divine
+    ){
+
+        state.divineDefeated=
+            true;
+
+        state.money+=
+            boss.reward;
+
+        state.skillPoints+=3;
+
+        gainXP(3000);
+
+        showMessage(
+            "BARATA DIVINA DERROTADA!"
+        );
+
+        saveGame();
+
+        updateUI();
+
+        return;
+
+    }
+
+    state.bossesDefeated++;
+
+    gainMoney(
+        boss.reward
+    );
+
+    gainXP(1000);
+
+    state.skillPoints++;
+
+    state.missions.boss=
+        true;
+
+    showMessage(
+
+        "BOSS DERROTADO! +$"+
+        boss.reward+
+        " | +1 SKILL"
+
+    );
+
+    saveGame();
+
+    updateUI();
+
+}
+
+
+/* =====================================================
+   BARRA DO BOSS
+===================================================== */
+
+function updateBossBar(
+    name,
+    hp,
+    maxHp
+){
+
+    $("bossBar").style.display=
+        "block";
 
     const percent=
         clamp(
@@ -2216,213 +3751,38 @@ function updateBossBar(name,hp,maxHp){
         Math.ceil(hp)+
         " / "+
         Math.ceil(maxHp);
+
 }
 
 function hideBossBar(){
 
-    $("bossBar").style.display="none";
+    $("bossBar").style.display=
+        "none";
+
 }
 
 
-/* =========================================================
-   BARATA DIVINA
-========================================================= */
-
-function spawnDivineRoach(){
-
-    if(currentBoss)
-        return;
-
-    const hp=750000;
-
-    currentBoss={
-        name:"BARATA DIVINA",
-        hp,
-        maxHp:hp,
-        reward:300000,
-        index:99,
-        divine:true
-    };
-
-    bossElement=document.createElement("div");
-
-    bossElement.className="roach boss";
-
-    bossElement.textContent="👑🪳";
-
-    bossElement.style.left="50%";
-    bossElement.style.top="55%";
-
-    bossElement.style.filter=
-        "drop-shadow(0 0 25px gold)";
-
-    bossElement.addEventListener(
-        "pointerdown",
-        e=>{
-            e.preventDefault();
-            e.stopPropagation();
-            hitBoss();
-        }
-    );
-
-    $("world").appendChild(
-        bossElement
-    );
-
-    showMessage(
-        "A BARATA DIVINA DESCEU DOS CÉUS."
-    );
-
-    updateBossBar(
-        "BARATA DIVINA",
-        hp,
-        hp
-    );
-}
-
-
-/* =========================================================
-   BARATA PRIME
-========================================================= */
-
-function spawnBarataPrime(){
-
-    if(currentBoss)
-        return;
-
-    const hp=
-        state.newGamePlus
-            ? 2500000
-            : 1000000;
-
-    currentBoss={
-        name:"BARATA PRIME",
-        hp,
-        maxHp:hp,
-        reward:1000000,
-        index:100,
-        prime:true,
-        phase:1
-    };
-
-    bossElement=document.createElement("div");
-
-    bossElement.className="roach boss";
-
-    bossElement.textContent="🪳";
-
-    bossElement.style.left="50%";
-    bossElement.style.top="55%";
-
-    bossElement.style.fontSize="160px";
-
-    bossElement.style.filter=
-        "drop-shadow(0 0 30px red)";
-
-    bossElement.addEventListener(
-        "pointerdown",
-        e=>{
-            e.preventDefault();
-            e.stopPropagation();
-            hitBoss();
-        }
-    );
-
-    $("world").appendChild(
-        bossElement
-    );
-
-    showMessage(
-        "BARATA PRIME: VOCÊ REALMENTE ACHOU QUE TINHA ACABADO?"
-    );
-
-    updateBossBar(
-        "BARATA PRIME",
-        hp,
-        hp
-    );
-}
-
-function updatePrimePhase(){
-
-    if(
-        !currentBoss ||
-        !currentBoss.prime
-    )
-        return;
-
-    const ratio=
-        currentBoss.hp/
-        currentBoss.maxHp;
-
-    let phase;
-
-    if(ratio>.75)
-        phase=1;
-    else if(ratio>.5)
-        phase=2;
-    else if(ratio>.25)
-        phase=3;
-    else
-        phase=4;
-
-    if(
-        phase!==currentBoss.phase
-    ){
-
-        currentBoss.phase=phase;
-
-        showMessage(
-            "BARATA PRIME: FASE "+
-            phase
-        );
-
-        if(phase===2)
-            spawnMiniBoss();
-
-        if(phase===3){
-
-            for(let i=0;i<5;i++)
-                spawnRoach();
-        }
-
-        if(phase===4){
-
-            state.damage*=1.2;
-
-            showMessage(
-                "BARATA PRIME ENTROU EM FÚRIA."
-            );
-        }
-    }
-}
-
-
-/* =========================================================
-   BOSS OVERRIDE
-========================================================= */
-
-const originalUpdateBossBar=updateBossBar;
-
-
-/* =========================================================
-   RELOAD
-========================================================= */
+/* =====================================================
+   RECARREGAR
+===================================================== */
 
 function reloadWeapon(){
 
     if(reloading)
         return;
 
-    const weapon=getWeapon();
+    const weapon=
+        getWeapon();
 
     if(
-        weapon.ammo===Infinity
+        weapon.ammo===
+        Infinity
     )
         return;
 
     if(
-        state.ammo>=state.maxAmmo
+        state.ammo>=
+        state.maxAmmo
     )
         return;
 
@@ -2432,28 +3792,32 @@ function reloadWeapon(){
         "RECARREGANDO..."
     );
 
-    const time=getReloadTime();
+    const time=
+        getReloadTime();
 
     setTimeout(()=>{
 
-        if(!reloading)
-            return;
-
-        state.ammo=state.maxAmmo;
+        state.ammo=
+            state.maxAmmo;
 
         reloading=false;
 
         updateUI();
 
-        beep(700,.08,"triangle");
+        beep(
+            700,
+            .08,
+            "triangle"
+        );
 
     },time);
+
 }
 
 
-/* =========================================================
+/* =====================================================
    PROGRESSÃO
-========================================================= */
+===================================================== */
 
 function checkProgress(){
 
@@ -2466,49 +3830,101 @@ function checkProgress(){
     ){
 
         if(
-            state.kills>=areas[i][1]
+            state.kills>=
+            areas[i][1]
         ){
+
             newArea=i;
+
         }
+
     }
 
     if(
         newArea!==state.area
     ){
 
-        state.area=newArea;
+        state.area=
+            newArea;
 
         applyScenario();
 
         document
-            .querySelectorAll(".roach")
-            .forEach(r=>r.remove());
+            .querySelectorAll(
+                ".roach"
+            )
+            .forEach(
+                r=>r.remove()
+            );
 
         showMessage(
             "NOVA FASE: "+
             areas[newArea][0]
         );
 
+        /*
+            Bosses nas fases:
+            Porão
+            Restaurante
+            Cidade
+            Órbita
+        */
+
         if(
-            [2,4,6,8].includes(newArea)
+            [2,4,6,8]
+            .includes(newArea)
         ){
 
             const bossIndex=
-                Math.floor(newArea/2)-1;
+                Math.floor(
+                    newArea/2
+                )-1;
 
             setTimeout(()=>{
-                startBoss(bossIndex);
+
+                if(!currentBoss)
+                    startBoss(
+                        bossIndex
+                    );
+
             },700);
+
         }
+
     }
+
+    /*
+        Barata Divina:
+        aparece entre 8.500 e 9.000
+    */
+
+    if(
+        state.kills>=8500 &&
+        state.kills<9000 &&
+        !state.divineSpawned &&
+        !state.divineDefeated &&
+        !currentBoss
+    ){
+
+        state.divineSpawned=true;
+
+        spawnDivineRoach();
+
+    }
+
+    /*
+        Prime:
+        aparece aos 9.000
+    */
 
     if(
         state.kills>=9000 &&
-        !state.primeDefeated
+        !state.primeDefeated &&
+        !currentBoss
     ){
 
-        if(!currentBoss)
-            spawnBarataPrime();
+        spawnBarataPrime();
+
     }
 
     if(
@@ -2517,78 +3933,133 @@ function checkProgress(){
     ){
 
         endGame();
+
     }
 
     updateUI();
+
 }
+
+
+/* =====================================================
+   CENÁRIO
+===================================================== */
 
 function applyScenario(){
 
-    const area=areas[state.area];
+    const area=
+        areas[state.area];
 
-    $("world").className=area[2];
+    $("world").className=
+        area[2];
 
     $("phaseName").textContent=
         area[0];
+
 }
 
 
-/* =========================================================
+/* =====================================================
    EVENTOS
-========================================================= */
+===================================================== */
 
 const randomEvents=[
+
     {
-        name:"APAGÃO",
-        text:"APAGÃO! As baratas ficaram mais rápidas.",
+        text:
+            "APAGÃO! AS BARATAS FICARAM MAIS RÁPIDAS.",
+
         action:()=>{
+
             document
-                .querySelectorAll(".roach")
+                .querySelectorAll(
+                    ".roach"
+                )
                 .forEach(el=>{
-                    if(el._roach)
+
+                    if(
+                        el._roach
+                    ){
+
                         el._roach.speed*=2;
+
+                    }
+
                 });
+
         }
+
     },
 
     {
-        name:"CHUVA DE BARATAS",
-        text:"CHUVA DE BARATAS!",
+        text:
+            "CHUVA DE BARATAS!",
+
         action:()=>{
-            for(let i=0;i<12;i++)
+
+            for(
+                let i=0;
+                i<12;
+                i++
+            ){
+
                 spawnRoach();
-        }
-    },
 
-    {
-        name:"PRAGA",
-        text:"UMA PRAGA COMEÇOU!",
-        action:()=>{
-            for(let i=0;i<8;i++)
-                spawnRoach();
-        }
-    },
-
-    {
-        name:"BONUS",
-        text:"BONUS! Drops ficaram mais comuns.",
-        action:()=>{
-            for(let i=0;i<4;i++){
-
-                const x=random(
-                    100,
-                    window.innerWidth-100
-                );
-
-                const y=random(
-                    150,
-                    window.innerHeight-100
-                );
-
-                createForcedDrop(x,y);
             }
+
         }
+
+    },
+
+    {
+        text:
+            "UMA PRAGA COMEÇOU!",
+
+        action:()=>{
+
+            for(
+                let i=0;
+                i<8;
+                i++
+            ){
+
+                spawnRoach();
+
+            }
+
+        }
+
+    },
+
+    {
+        text:
+            "BONUS! DROPS APARECERAM.",
+
+        action:()=>{
+
+            for(
+                let i=0;
+                i<4;
+                i++
+            ){
+
+                createForcedDrop(
+                    random(
+                        100,
+                        window.innerWidth-100
+                    ),
+                    random(
+                        150,
+                        window.innerHeight-100
+                    )
+                );
+
+            }
+
+        }
+
     }
+
 ];
 
 function randomEvent(){
@@ -2600,7 +4071,9 @@ function randomEvent(){
     )
         return;
 
-    if(!chance(8))
+    if(
+        !chance(8)
+    )
         return;
 
     const event=
@@ -2617,11 +4090,17 @@ function randomEvent(){
     event.action();
 
     setTimeout(()=>{
+
         $("eventText").textContent="";
+
     },3000);
+
 }
 
-function createForcedDrop(x,y){
+function createForcedDrop(
+    x,
+    y
+){
 
     const drop=
         dropTypes[
@@ -2631,49 +4110,74 @@ function createForcedDrop(x,y){
             )
         ];
 
-    const el=document.createElement("div");
+    const el=
+        document.createElement(
+            "div"
+        );
 
-    el.className="drop";
+    el.className=
+        "drop";
 
-    el.textContent=drop.emoji;
+    el.textContent=
+        drop.emoji;
 
-    el.style.left=x+"px";
-    el.style.top=y+"px";
+    el.style.left=
+        x+"px";
+
+    el.style.top=
+        y+"px";
 
     el.addEventListener(
         "pointerdown",
         e=>{
+
+            e.preventDefault();
+
             e.stopPropagation();
-            collectDrop(el,drop.type);
+
+            collectDrop(
+                el,
+                drop.type
+            );
+
         }
     );
 
-    $("world").appendChild(el);
+    $("world").appendChild(
+        el
+    );
 
     setTimeout(()=>{
+
         if(el.parentNode)
             el.remove();
+
     },10000);
+
 }
 
 
-/* =========================================================
+/* =====================================================
    SPAWN LOOP
-========================================================= */
+===================================================== */
 
 function startSpawner(){
 
-    clearTimeout(spawnTimer);
+    clearTimeout(
+        spawnTimer
+    );
 
     function loop(){
 
         if(
             gameStarted &&
             !paused &&
-            !currentBoss
+            !currentBoss &&
+            !miniBossElement
         ){
 
             spawnRoach();
+
         }
 
         let delay=
@@ -2683,32 +4187,44 @@ function startSpawner(){
                 state.skills.speed*70
             );
 
-        if(state.hard)
+        if(
+            state.hard
+        ){
+
             delay*=.7;
 
-        spawnTimer=setTimeout(
-            loop,
-            delay
-        );
+        }
+
+        spawnTimer=
+            setTimeout(
+                loop,
+                delay
+            );
+
     }
 
     loop();
+
 }
 
 function startEvents(){
 
-    clearInterval(eventTimer);
-
-    eventTimer=setInterval(
-        randomEvent,
-        9000
+    clearInterval(
+        eventTimer
     );
+
+    eventTimer=
+        setInterval(
+            randomEvent,
+            9000
+        );
+
 }
 
 
-/* =========================================================
+/* =====================================================
    UI
-========================================================= */
+===================================================== */
 
 function updateUI(){
 
@@ -2733,26 +4249,32 @@ function updateUI(){
         "COMBO: "+
         state.combo;
 
-    const xpPercent=
-        state.xp/
-        xpRequired()*
-        100;
-
     $("xpfill").style.width=
-        xpPercent+"%";
+        (
+            state.xp/
+            xpRequired()*
+            100
+        )+"%";
 
-    const weapon=getWeapon();
+    const weapon=
+        getWeapon();
 
-    let ammoText=
-        weapon.ammo===Infinity
-            ? "∞"
-            : state.ammo+
-              " / "+
-              state.maxAmmo;
+    const ammoText=
+        weapon.ammo===
+        Infinity
+
+            ?"∞"
+
+            :
+            state.ammo+
+            " / "+
+            state.maxAmmo;
 
     let reloadText="";
 
-    if(weapon.reload>0){
+    if(
+        weapon.reload>0
+    ){
 
         reloadText=
             " | Recarga: "+
@@ -2760,21 +4282,71 @@ function updateUI(){
                 getReloadTime()
             )+
             "ms";
+
     }
 
     $("weaponInfo").textContent=
+
         weapon.name+
         " | Dano: "+
-        Math.floor(getDamage())+
+        Math.floor(
+            getDamage()
+        )+
         " | Munição: "+
         ammoText+
         reloadText;
+
 }
 
 
-/* =========================================================
+/* =====================================================
+   MISSÕES
+===================================================== */
+
+function checkMissions(){
+
+    if(
+        state.kills>=100
+    ){
+
+        state.missions.kills100=
+            true;
+
+    }
+
+    if(
+        state.kills>=1000
+    ){
+
+        state.missions.kills1000=
+            true;
+
+    }
+
+    if(
+        state.combo>=20
+    ){
+
+        state.missions.combo20=
+            true;
+
+    }
+
+    if(
+        state.money>=10000
+    ){
+
+        state.missions.money10000=
+            true;
+
+    }
+
+}
+
+
+/* =====================================================
    MENUS
-========================================================= */
+===================================================== */
 
 function openMenu(type){
 
@@ -2783,17 +4355,26 @@ function openMenu(type){
     $("menu").style.display=
         "flex";
 
-    if(type==="shop")
+    if(
+        type==="shop"
+    )
         renderShop();
 
-    if(type==="skills")
+    if(
+        type==="skills"
+    )
         renderSkills();
 
-    if(type==="missions")
+    if(
+        type==="missions"
+    )
         renderMissions();
 
-    if(type==="achievements")
+    if(
+        type==="achievements"
+    )
         renderAchievements();
+
 }
 
 function closeMenu(){
@@ -2802,11 +4383,13 @@ function closeMenu(){
         "none";
 
     paused=false;
+
 }
 
 function renderShop(){
 
-    let html="<h2>LOJA</h2>";
+    let html=
+        "<h2>LOJA</h2>";
 
     html+=
         "<p>Dinheiro: $"+
@@ -2816,34 +4399,68 @@ function renderShop(){
     html+=
         '<div class="shopGrid">';
 
-    weapons.forEach((w,i)=>{
+    weapons.forEach(
+        (w,i)=>{
 
-        const owned=
-            state.weapon===w.name;
+            const equipped=
+                state.weapon===
+                w.name;
 
-        html+=`
-            <div class="card">
-                <h3>${w.name}</h3>
-                <p>Dano: ${w.damage}</p>
-                <p>Munição: ${
-                    w.ammo===Infinity
-                        ?"∞"
-                        :w.ammo
-                }</p>
-                <p>Preço: $${w.price}</p>
-                <button
-                    onclick="buyWeapon(${i})"
-                    ${state.money<w.price?"disabled":""}
-                >
-                    ${owned?"EQUIPADO":"COMPRAR"}
-                </button>
-            </div>
-        `;
-    });
+            html+=`
 
-    html+="</div>";
+                <div class="card">
 
-    $("menuContent").innerHTML=html;
+                    <h3>
+                        ${w.name}
+                    </h3>
+
+                    <p>
+                        Dano: ${w.damage}
+                    </p>
+
+                    <p>
+                        Munição:
+                        ${
+                            w.ammo===
+                            Infinity
+                                ?"∞"
+                                :w.ammo
+                        }
+                    </p>
+
+                    <p>
+                        Preço: $${w.price}
+                    </p>
+
+                    <button
+                        onclick="buyWeapon(${i})"
+                        ${
+                            state.money<
+                            w.price
+                                ?"disabled"
+                                :""
+                        }
+                    >
+                        ${
+                            equipped
+                                ?"EQUIPADO"
+                                :"COMPRAR"
+                        }
+                    </button>
+
+                </div>
+
+            `;
+
+        }
+    );
+
+    html+=
+        "</div>";
+
+    $("menuContent").innerHTML=
+        html;
+
 }
 
 function renderSkills(){
@@ -2859,61 +4476,85 @@ function renderSkills(){
     html+=
         '<div class="skillGrid">';
 
-    for(const id in skillData){
+    for(
+        const id in skillData
+    ){
 
-        const skill=skillData[id];
+        const skill=
+            skillData[id];
 
         html+=`
+
             <div class="card">
-                <h3>${skill.name}</h3>
-                <p>${skill.description}</p>
-                <p>Nível: ${
-                    state.skills[id]
-                }</p>
+
+                <h3>
+                    ${skill.name}
+                </h3>
+
+                <p>
+                    ${skill.description}
+                </p>
+
+                <p>
+                    Nível:
+                    ${state.skills[id]}
+                </p>
 
                 <button
                     onclick="buySkill('${id}')"
                     ${
                         state.skillPoints<
                         skill.cost
-                        ?"disabled"
-                        :""
+                            ?"disabled"
+                            :""
                     }
                 >
                     COMPRAR
                 </button>
+
             </div>
+
         `;
+
     }
 
-    html+="</div>";
+    html+=
+        "</div>";
 
-    $("menuContent").innerHTML=html;
+    $("menuContent").innerHTML=
+        html;
+
 }
 
 function renderMissions(){
 
     const missions=[
+
         [
             "100 BARATAS",
             state.missions.kills100
         ],
+
         [
             "COMBO 20",
             state.missions.combo20
         ],
+
         [
             "DERROTAR UM BOSS",
             state.missions.boss
         ],
+
         [
             "$10.000",
             state.missions.money10000
         ],
+
         [
             "1000 BARATAS",
             state.missions.kills1000
         ]
+
     ];
 
     let html=
@@ -2922,62 +4563,84 @@ function renderMissions(){
     html+=
         '<div class="missionGrid">';
 
-    missions.forEach(m=>{
+    missions.forEach(
+        mission=>{
 
-        html+=`
-            <div class="card">
-                <h3>${m[0]}</h3>
-                <p>
-                    ${
-                        m[1]
-                            ?"CONCLUÍDA"
-                            :"PENDENTE"
-                    }
-                </p>
-            </div>
-        `;
-    });
+            html+=`
 
-    html+="</div>";
+                <div class="card">
 
-    $("menuContent").innerHTML=html;
+                    <h3>
+                        ${mission[0]}
+                    </h3>
+
+                    <p>
+                        ${
+                            mission[1]
+                                ?"CONCLUÍDA"
+                                :"PENDENTE"
+                        }
+                    </p>
+
+                </div>
+
+            `;
+
+        }
+    );
+
+    html+=
+        "</div>";
+
+    $("menuContent").innerHTML=
+        html;
+
 }
 
 function renderAchievements(){
 
     const achievements=[
+
         [
-            "Primeiro Sangue",
+            "PRIMEIRO SANGUE",
             state.kills>=1
         ],
+
         [
-            "Exterminador",
+            "EXTERMINADOR",
             state.kills>=1000
         ],
+
         [
-            "Milionário",
+            "MILIONÁRIO",
             state.money>=1000000
         ],
+
         [
-            "Caçador de Boss",
+            "CAÇADOR DE BOSS",
             state.bossesDefeated>=4
         ],
+
         [
-            "Mini-Boss Hunter",
+            "CAÇADOR DE MINI-BOSS",
             state.miniBossesDefeated>=3
         ],
+
         [
-            "Deus da Destruição",
+            "DEUS DA DESTRUIÇÃO",
             state.kills>=10000
         ],
+
         [
-            "Barata Divina",
-            state.kills>=9000
+            "BARATA DIVINA",
+            state.divineDefeated
         ],
+
         [
             "PRIME",
             state.primeDefeated
         ]
+
     ];
 
     let html=
@@ -2986,32 +4649,50 @@ function renderAchievements(){
     html+=
         '<div class="missionGrid">';
 
-    achievements.forEach(a=>{
+    achievements.forEach(
+        achievement=>{
 
-        html+=`
-            <div class="card">
-                <h3>${a[0]}</h3>
-                <p>
-                    ${a[1]?"DESBLOQUEADA":"BLOQUEADA"}
-                </p>
-            </div>
-        `;
-    });
+            html+=`
 
-    html+="</div>";
+                <div class="card">
 
-    $("menuContent").innerHTML=html;
+                    <h3>
+                        ${achievement[0]}
+                    </h3>
+
+                    <p>
+                        ${
+                            achievement[1]
+                                ?"DESBLOQUEADA"
+                                :"BLOQUEADA"
+                        }
+                    </p>
+
+                </div>
+
+            `;
+
+        }
+    );
+
+    html+=
+        "</div>";
+
+    $("menuContent").innerHTML=
+        html;
+
 }
 
 
-/* =========================================================
+/* =====================================================
    PAUSA
-========================================================= */
+===================================================== */
 
 function togglePause(){
 
     if(
-        $("menu").style.display==="flex"
+        $("menu").style.display===
+        "flex"
     )
         return;
 
@@ -3021,12 +4702,13 @@ function togglePause(){
         paused
             ?"flex"
             :"none";
+
 }
 
 
-/* =========================================================
+/* =====================================================
    FINAL
-========================================================= */
+===================================================== */
 
 function endGame(){
 
@@ -3037,40 +4719,46 @@ function endGame(){
 
     gameStarted=false;
 
-    clearTimeout(spawnTimer);
-    clearInterval(eventTimer);
+    clearTimeout(
+        spawnTimer
+    );
+
+    clearInterval(
+        eventTimer
+    );
 
     $("ending").style.display=
         "flex";
 
     saveGame();
+
 }
 
 
-/* =========================================================
+/* =====================================================
    NOVO JOGO+
-========================================================= */
+===================================================== */
 
 function newGamePlus(){
 
-    state={
-        ...JSON.parse(
-            JSON.stringify(defaultState)
-        ),
+    state=
+        JSON.parse(
+            JSON.stringify(
+                defaultState
+            )
+        );
 
-        newGamePlus:true,
+    state.newGamePlus=true;
 
-        money:5000,
+    state.money=5000;
 
-        damage:1,
+    state.weapon="MÃO";
 
-        weapon:"MÃO",
+    state.weaponType="melee";
 
-        weaponType:"melee"
-    };
+    state.ammo=Infinity;
 
     state.maxAmmo=Infinity;
-    state.ammo=Infinity;
 
     $("ending").style.display=
         "none";
@@ -3078,43 +4766,59 @@ function newGamePlus(){
     $("intro").style.display=
         "none";
 
+    $("menu").style.display=
+        "none";
+
+    $("pauseOverlay").style.display=
+        "none";
+
     gameStarted=true;
 
     paused=false;
 
     currentBoss=null;
+
     bossElement=null;
+
     miniBossElement=null;
+
+    lastMiniBossThreshold=0;
 
     $("world").innerHTML="";
 
     applyScenario();
 
-    startSpawner();
-    startEvents();
-
     updateUI();
+
+    startSpawner();
+
+    startEvents();
 
     saveGame();
 
     showMessage(
         "NOVO JOGO+ INICIADO"
     );
+
 }
 
 
-/* =========================================================
-   INÍCIO
-========================================================= */
+/* =====================================================
+   INICIAR
+===================================================== */
 
 function startGame(){
 
     initAudio();
 
-    if(audioCtx &&
-       audioCtx.state==="suspended"){
+    if(
+        audioCtx &&
+        audioCtx.state===
+        "suspended"
+    ){
 
         audioCtx.resume();
+
     }
 
     $("intro").style.display=
@@ -3141,153 +4845,42 @@ function startGame(){
     startEvents();
 
     saveGame();
+
 }
 
 
-/* =========================================================
-   FINAL DA BARATA PRIME
-========================================================= */
-
-const oldDefeatBoss=defeatBoss;
-
-defeatBoss=function(){
-
-    if(
-        currentBoss &&
-        currentBoss.prime
-    ){
-
-        const boss=currentBoss;
-
-        if(bossElement)
-            bossElement.remove();
-
-        bossElement=null;
-
-        currentBoss=null;
-
-        state.primeDefeated=true;
-
-        state.kills=10000;
-
-        state.money+=boss.reward;
-
-        state.skillPoints+=5;
-
-        gainXP(5000);
-
-        hideBossBar();
-
-        showMessage(
-            "BARATA PRIME DESTRUÍDA."
-        );
-
-        saveGame();
-
-        setTimeout(()=>{
-            endGame();
-        },2500);
-
-        return;
-    }
-
-    if(
-        currentBoss &&
-        currentBoss.divine
-    ){
-
-        const boss=currentBoss;
-
-        if(bossElement)
-            bossElement.remove();
-
-        bossElement=null;
-
-        currentBoss=null;
-
-        state.money+=boss.reward;
-
-        state.skillPoints+=3;
-
-        gainXP(3000);
-
-        hideBossBar();
-
-        showMessage(
-            "A BARATA DIVINA FOI DERROTADA."
-        );
-
-        saveGame();
-
-        return;
-    }
-
-    oldDefeatBoss();
-};
-
-
-/* =========================================================
-   ALTERAÇÃO DO HIT BOSS
-========================================================= */
-
-const originalHitBoss=hitBoss;
-
-hitBoss=function(){
-
-    originalHitBoss();
-
-    updatePrimePhase();
-};
-
-
-/* =========================================================
-   CONTROLES DO MOUSE
-========================================================= */
-
-$("game").addEventListener(
-    "pointermove",
-    e=>{
-
-        if(
-            window.innerWidth<700
-        )
-            return;
-
-        $("crosshair").style.display=
-            "block";
-
-        $("crosshair").style.left=
-            e.clientX+"px";
-
-        $("crosshair").style.top=
-            e.clientY+"px";
-    }
-);
-
-
-/* =========================================================
+/* =====================================================
    TECLADO
-========================================================= */
+===================================================== */
 
 document.addEventListener(
     "keydown",
     e=>{
 
-        if(e.key.toLowerCase()==="r")
+        if(
+            e.key.toLowerCase()==="r"
+        ){
+
             reloadWeapon();
+
+        }
 
         if(
             e.key==="Escape" ||
             e.key.toLowerCase()==="p"
-        )
+        ){
+
             togglePause();
+
+        }
+
     }
 );
 
 
-/* =========================================================
-   MOBILE
-========================================================= */
+/* =====================================================
+   CONTROLES TOUCH
+===================================================== */
 
 document.addEventListener(
     "contextmenu",
@@ -3305,9 +4898,9 @@ document.addEventListener(
 );
 
 
-/* =========================================================
+/* =====================================================
    AUTO PAUSE
-========================================================= */
+===================================================== */
 
 document.addEventListener(
     "visibilitychange",
@@ -3322,14 +4915,16 @@ document.addEventListener(
 
             $("pauseOverlay").style.display=
                 "flex";
+
         }
+
     }
 );
 
 
-/* =========================================================
+/* =====================================================
    RESIZE
-========================================================= */
+===================================================== */
 
 window.addEventListener(
     "resize",
@@ -3339,79 +4934,75 @@ window.addEventListener(
 );
 
 
-/* =========================================================
-   MONEY MISSION
-========================================================= */
-
-setInterval(()=>{
-
-    if(
-        state.money>=10000 &&
-        !state.missions.money10000
-    ){
-
-        state.missions.money10000=true;
-
-        showMessage(
-            "MISSÃO: $10.000!"
-        );
-
-        saveGame();
-    }
-
-},1000);
-
-
-/* =========================================================
-   BARATA DIVINA AUTOMÁTICA
-========================================================= */
-
-setInterval(()=>{
-
-    if(
-        state.kills>=8500 &&
-        state.kills<10000 &&
-        !state.primeDefeated &&
-        !currentBoss &&
-        !state._divineSpawned
-    ){
-
-        state._divineSpawned=true;
-
-        spawnDivineRoach();
-    }
-
-},2000);
-
-
-/* =========================================================
+/* =====================================================
    AUTO SAVE
-========================================================= */
+===================================================== */
 
-setInterval(()=>{
+setInterval(
+    ()=>{
 
-    if(gameStarted)
-        saveGame();
+        if(
+            gameStarted
+        ){
 
-},10000);
+            checkMissions();
+
+            saveGame();
+
+        }
+
+    },
+    10000
+);
 
 
-/* =========================================================
+/* =====================================================
    INICIALIZAÇÃO
-========================================================= */
+===================================================== */
 
 loadGame();
 
+state.skills={
+    ...defaultState.skills,
+    ...(state.skills||{})
+};
+
+state.missions={
+    ...defaultState.missions,
+    ...(state.missions||{})
+};
+
 if(
-    state.maxAmmo===undefined
+    state.weapon==="MÃO" ||
+    state.weaponType==="melee"
 ){
+
+    state.maxAmmo=
+        Infinity;
+
+    state.ammo=
+        Infinity;
+
+}else{
 
     state.maxAmmo=
         getMagazineSize();
 
-    state.ammo=
-        state.maxAmmo;
+    if(
+        state.ammo===
+        Infinity ||
+        state.ammo>
+        state.maxAmmo
+    ){
+
+        state.ammo=
+            state.maxAmmo;
+
+    }
+
 }
+
+applyScenario();
 
 updateUI();
 
