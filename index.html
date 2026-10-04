@@ -1,0 +1,1085 @@
+```html
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>OPERAÇÃO EXTERMÍNIO V2</title>
+
+<style>
+*{box-sizing:border-box;user-select:none}
+body{
+    margin:0;
+    overflow:hidden;
+    background:#111;
+    color:#eee;
+    font-family:Arial,sans-serif
+}
+#hud{
+    height:65px;
+    background:#191919;
+    border-bottom:2px solid #444;
+    display:flex;
+    align-items:center;
+    justify-content:space-around;
+    gap:10px;
+    position:relative;
+    z-index:20;
+    font-size:14px
+}
+.stat b{color:#ffd23c}
+#game{
+    width:100vw;
+    height:calc(100vh - 65px);
+    position:relative;
+    overflow:hidden;
+    background:
+      linear-gradient(#292929 1px,transparent 1px),
+      linear-gradient(90deg,#292929 1px,transparent 1px);
+    background-size:45px 45px;
+}
+#area{
+    position:absolute;
+    left:15px;
+    top:15px;
+    font-weight:bold;
+    font-size:18px
+}
+button{
+    border:0;
+    border-radius:7px;
+    padding:8px 12px;
+    font-weight:bold;
+    cursor:pointer;
+    background:#e2aa24;
+}
+button:hover{filter:brightness(1.2)}
+#shop,#menu,#bossBar{
+    display:none;
+    position:fixed;
+    z-index:100;
+}
+#shop{
+    right:15px;
+    bottom:15px;
+    width:300px;
+    max-height:75vh;
+    overflow:auto;
+    background:#181818;
+    border:2px solid #555;
+    border-radius:12px;
+    padding:15px
+}
+.item{
+    background:#252525;
+    padding:10px;
+    margin:8px 0;
+    border-radius:8px
+}
+#menu{
+    inset:0;
+    background:rgba(0,0,0,.93);
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+}
+.menuBox{max-width:700px;padding:25px}
+.menuBox h1{
+    font-size:clamp(35px,8vw,80px);
+    color:#e8ad28
+}
+#bossBar{
+    left:10%;
+    top:80px;
+    width:80%;
+    height:25px;
+    border:2px solid white;
+    background:#300;
+}
+#bossHP{
+    width:100%;
+    height:100%;
+    background:#e22;
+}
+.roach{
+    position:absolute;
+    width:55px;
+    height:40px;
+    cursor:pointer;
+    z-index:10;
+    transition:transform .08s;
+}
+.roach:hover{transform:scale(1.15)}
+.roachBody{
+    position:absolute;
+    width:30px;
+    height:42px;
+    left:13px;
+    top:0;
+    border-radius:50%;
+    background:#47220d;
+    border:2px solid #1b0b03;
+}
+.roachHead{
+    position:absolute;
+    width:19px;
+    height:19px;
+    left:19px;
+    top:18px;
+    border-radius:50%;
+    background:#210e05
+}
+.eye{
+    position:absolute;
+    width:5px;
+    height:5px;
+    border-radius:50%;
+    background:red;
+    top:24px
+}
+.e1{left:20px}.e2{left:31px}
+.leg{
+    position:absolute;
+    width:25px;
+    height:3px;
+    background:#180a03
+}
+.l1{left:-4px;top:11px;transform:rotate(25deg)}
+.l2{left:33px;top:11px;transform:rotate(-25deg)}
+.l3{left:-7px;top:22px;transform:rotate(-25deg)}
+.l4{left:35px;top:22px;transform:rotate(25deg)}
+.l5{left:-4px;top:31px;transform:rotate(10deg)}
+.l6{left:33px;top:31px;transform:rotate(-10deg)}
+.giant{
+    transform:scale(1.8)
+}
+.fast{
+    filter:brightness(1.4)
+}
+.mutant{
+    filter:hue-rotate(80deg) saturate(2)
+}
+#combo{
+    position:fixed;
+    top:95px;
+    right:20px;
+    font-size:20px;
+    color:#ffd23c;
+    font-weight:bold;
+    z-index:30
+}
+#xpbar{
+    position:absolute;
+    left:10px;
+    bottom:10px;
+    width:220px;
+    height:12px;
+    background:#222;
+    border:1px solid #777;
+}
+#xpfill{
+    width:0%;
+    height:100%;
+    background:#36b5ff;
+}
+#message{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    background:rgba(0,0,0,.85);
+    padding:18px 25px;
+    border-radius:10px;
+    font-weight:bold;
+    font-size:20px;
+    display:none;
+    z-index:50;
+    text-align:center
+}
+@media(max-width:600px){
+    #hud{font-size:11px;height:60px}
+    #game{height:calc(100vh - 60px)}
+    #shop{width:90vw;right:5vw}
+}
+</style>
+</head>
+
+<body>
+
+<div id="hud">
+
+    <div class="stat">
+        PONTOS<br><b id="money">0</b>
+    </div>
+
+    <div class="stat">
+        MORTAS<br><b id="kills">0</b>
+    </div>
+
+    <div class="stat">
+        NÍVEL<br><b id="level">1</b>
+    </div>
+
+    <div class="stat">
+        ARMA<br><b id="weapon">MÃO</b>
+    </div>
+
+    <button onclick="openShop()">LOJA</button>
+    <button onclick="saveGame()">SALVAR</button>
+
+</div>
+
+<div id="game">
+
+    <div id="area">ÁREA: COZINHA</div>
+
+    <div id="combo">COMBO x1</div>
+
+    <div id="xpbar">
+        <div id="xpfill"></div>
+    </div>
+
+    <div id="message"></div>
+
+</div>
+
+<div id="bossBar">
+    <div id="bossHP"></div>
+</div>
+
+<div id="shop">
+
+<h2>LOJA DO INFERNO</h2>
+
+<div class="item">
+<b>Chinelo</b><br>
+Dano +2<br>
+Preço: 100
+<br><button onclick="buyWeapon('chinelo',100,2)">COMPRAR</button>
+</div>
+
+<div class="item">
+<b>Chinelo de Titânio</b><br>
+Dano +8<br>
+Preço: 1.000
+<br><button onclick="buyWeapon('titânio',1000,8)">COMPRAR</button>
+</div>
+
+<div class="item">
+<b>Spray Químico</b><br>
+Dano +15<br>
+Preço: 5.000
+<br><button onclick="buyWeapon('spray',5000,15)">COMPRAR</button>
+</div>
+
+<div class="item">
+<b>Espingarda</b><br>
+Dano +40<br>
+Preço: 20.000
+<br><button onclick="buyWeapon('espingarda',20000,40)">COMPRAR</button>
+</div>
+
+<div class="item">
+<b>Lança-Chamas</b><br>
+Dano +80<br>
+Preço: 75.000
+<br><button onclick="buyWeapon('lançachamas',75000,80)">COMPRAR</button>
+</div>
+
+<div class="item">
+<b>Bazuca</b><br>
+Dano +250<br>
+Preço: 250.000
+<br><button onclick="buyWeapon('bazuca',250000,250)">COMPRAR</button>
+</div>
+
+<div class="item">
+<b>Canhão Orbital</b><br>
+Dano +1.000<br>
+Preço: 1.000.000
+<br><button onclick="buyWeapon('orbital',1000000,1000)">COMPRAR</button>
+</div>
+
+<hr>
+
+<h3>UPGRADES</h3>
+
+<div class="item">
+<b>Força</b><br>
++10% dano<br>
+Preço: <span id="damagePrice">500</span>
+<br><button onclick="upgradeDamage()">UPGRADE</button>
+</div>
+
+<div class="item">
+<b>Velocidade</b><br>
+Baratas aparecem mais rápido<br>
+Preço: <span id="speedPrice">1000</span>
+<br><button onclick="upgradeSpeed()">UPGRADE</button>
+</div>
+
+<button onclick="closeShop()">FECHAR</button>
+
+</div>
+
+<div id="menu">
+<div class="menuBox">
+
+<h1>OPERAÇÃO EXTERMÍNIO</h1>
+
+<p>
+Você é a última esperança da humanidade.
+</p>
+
+<p>
+As baratas estão evoluindo.
+</p>
+
+<p>
+Mate <b>10.000</b> delas.
+</p>
+
+<p>
+Compre armas.
+Suba de nível.
+Derrote os chefes.
+Sobreviva.
+</p>
+
+<button onclick="startGame()">COMEÇAR</button>
+
+</div>
+</div>
+
+<script>
+
+/* =========================
+   ESTADO DO JOGO
+========================= */
+
+let money = 0;
+let kills = 0;
+let xp = 0;
+let level = 1;
+
+let damage = 1;
+let weaponName = "MÃO";
+
+let combo = 1;
+let comboTimer = null;
+
+let damagePrice = 500;
+let speedPrice = 1000;
+
+let spawnDelay = 1800;
+let gameStarted = false;
+let bossActive = false;
+
+let areaIndex = 0;
+
+const areas = [
+    "COZINHA",
+    "BANHEIRO",
+    "PORÃO",
+    "RESTAURANTE",
+    "ESGOTO",
+    "LABORATÓRIO",
+    "CIDADE",
+    "BASE MILITAR",
+    "ÓRBITA TERRESTRE",
+    "DIMENSÃO DAS BARATAS"
+];
+
+const game = document.getElementById("game");
+
+/* =========================
+   INÍCIO
+========================= */
+
+document.getElementById("menu").style.display="flex";
+
+function startGame(){
+
+    document.getElementById("menu").style.display="none";
+
+    gameStarted=true;
+
+    for(let i=0;i<5;i++)
+        spawnRoach();
+
+    spawnLoop();
+
+}
+
+/* =========================
+   SPAWN
+========================= */
+
+function spawnLoop(){
+
+    if(!gameStarted || bossActive) return;
+
+    spawnRoach();
+
+    setTimeout(spawnLoop,spawnDelay);
+
+}
+
+function spawnRoach(){
+
+    if(!gameStarted || bossActive) return;
+
+    let r=document.createElement("div");
+
+    r.className="roach";
+
+    let type=Math.random();
+
+    let hp=1;
+    let reward=10;
+
+    if(kills>500 && type<.15){
+
+        r.classList.add("fast");
+        hp=5;
+        reward=35;
+
+    }
+
+    if(kills>1500 && type<.10){
+
+        r.classList.add("giant");
+        hp=20;
+        reward=100;
+
+    }
+
+    if(kills>3000 && type<.08){
+
+        r.classList.add("mutant");
+        hp=50;
+        reward=300;
+
+    }
+
+    r.innerHTML=`
+    <div class="roachBody"></div>
+    <div class="roachHead"></div>
+    <div class="eye e1"></div>
+    <div class="eye e2"></div>
+    <div class="leg l1"></div>
+    <div class="leg l2"></div>
+    <div class="leg l3"></div>
+    <div class="leg l4"></div>
+    <div class="leg l5"></div>
+    <div class="leg l6"></div>
+    `;
+
+    r.style.left=Math.random()*90+"%";
+    r.style.top=(Math.random()*75+10)+"%";
+
+    r.dataset.hp=hp;
+
+    r.onclick=function(e){
+
+        e.stopPropagation();
+
+        hitRoach(r,reward);
+
+    };
+
+    game.appendChild(r);
+
+    moveRoach(r);
+
+}
+
+/* =========================
+   MOVIMENTO
+========================= */
+
+function moveRoach(r){
+
+    if(!r.parentNode)return;
+
+    let time=Math.random()*2500+1200;
+
+    r.style.transition=`left ${time}ms linear,top ${time}ms linear`;
+
+    r.style.left=Math.random()*90+"%";
+    r.style.top=(Math.random()*75+10)+"%";
+
+    setTimeout(()=>moveRoach(r),time);
+
+}
+
+/* =========================
+   ATAQUE
+========================= */
+
+function hitRoach(r,reward){
+
+    let hp=Number(r.dataset.hp);
+
+    hp-=damage;
+
+    r.dataset.hp=hp;
+
+    if(hp>0){
+
+        r.style.transform="scale(1.3)";
+
+        setTimeout(()=>r.style.transform="",100);
+
+        return;
+
+    }
+
+    r.remove();
+
+    kills++;
+
+    combo++;
+
+    clearTimeout(comboTimer);
+
+    comboTimer=setTimeout(()=>{
+        combo=1;
+    },2500);
+
+    let finalReward=Math.floor(reward*combo);
+
+    money+=finalReward;
+
+    gainXP(10+Math.floor(reward/10));
+
+    showMessage(
+        "BARATA ELIMINADA<br>+"+
+        finalReward+
+        " pontos<br>COMBO x"+
+        combo
+    );
+
+    update();
+
+    checkMilestones();
+
+}
+
+/* =========================
+   XP
+========================= */
+
+function gainXP(amount){
+
+    xp+=amount;
+
+    let needed=100+level*50;
+
+    while(xp>=needed){
+
+        xp-=needed;
+
+        level++;
+
+        damage+=2;
+
+        showMessage(
+            "NÍVEL "+level+
+            "<br>DANO AUMENTADO!"
+        );
+
+        needed=100+level*50;
+
+    }
+
+    document.getElementById("xpfill").style.width=
+        (xp/needed*100)+"%";
+
+}
+
+/* =========================
+   MARCOS
+========================= */
+
+function checkMilestones(){
+
+    if(kills===100){
+
+        areaIndex=1;
+        changeArea();
+    }
+
+    if(kills===500){
+
+        areaIndex=2;
+        changeArea();
+    }
+
+    if(kills===1000){
+
+        areaIndex=3;
+        changeArea();
+        boss("A BARATA GORDONA",5000);
+    }
+
+    if(kills===2000){
+
+        areaIndex=4;
+        changeArea();
+    }
+
+    if(kills===3000){
+
+        areaIndex=5;
+        changeArea();
+        boss("DR. BARATOVSKY",30000);
+    }
+
+    if(kills===5000){
+
+        areaIndex=6;
+        changeArea();
+    }
+
+    if(kills===6500){
+
+        areaIndex=7;
+        changeArea();
+        boss("GENERAL BARATA",100000);
+    }
+
+    if(kills===8000){
+
+        areaIndex=8;
+        changeArea();
+    }
+
+    if(kills===9000){
+
+        areaIndex=9;
+        changeArea();
+        boss("IMPERADOR DAS BARATAS",500000);
+    }
+
+    if(kills>=10000){
+
+        final();
+
+    }
+
+}
+
+/* =========================
+   ÁREAS
+========================= */
+
+function changeArea(){
+
+    document.getElementById("area").textContent=
+        "ÁREA: "+areas[areaIndex];
+
+    showMessage(
+        "NOVA ÁREA<br>"+
+        areas[areaIndex]
+    );
+
+}
+
+/* =========================
+   CHEFE
+========================= */
+
+function boss(name,hp){
+
+    bossActive=true;
+
+    document.querySelectorAll(".roach")
+        .forEach(r=>r.remove());
+
+    let b=document.createElement("div");
+
+    b.className="roach giant mutant";
+
+    b.style.position="absolute";
+    b.style.left="42%";
+    b.style.top="40%";
+    b.style.width="150px";
+    b.style.height="100px";
+    b.style.transform="scale(2)";
+
+    b.innerHTML=`
+    <div class="roachBody"></div>
+    <div class="roachHead"></div>
+    <div class="eye e1"></div>
+    <div class="eye e2"></div>
+    <div class="leg l1"></div>
+    <div class="leg l2"></div>
+    <div class="leg l3"></div>
+    <div class="leg l4"></div>
+    <div class="leg l5"></div>
+    <div class="leg l6"></div>
+    `;
+
+    game.appendChild(b);
+
+    let maxHP=hp;
+    let currentHP=hp;
+
+    document.getElementById("bossBar").style.display="block";
+    document.getElementById("bossHP").style.width="100%";
+
+    showMessage(
+        "CHEFE<br>"+name
+    );
+
+    b.onclick=function(){
+
+        currentHP-=damage;
+
+        let percent=Math.max(0,currentHP/maxHP*100);
+
+        document.getElementById("bossHP")
+            .style.width=percent+"%";
+
+        if(currentHP<=0){
+
+            b.remove();
+
+            document.getElementById("bossBar")
+                .style.display="none";
+
+            bossActive=false;
+
+            money+=hp;
+
+            showMessage(
+                "CHEFE DERROTADO!<br>"+
+                "+"+hp+" PONTOS"
+            );
+
+            update();
+
+            spawnLoop();
+
+        }
+
+    };
+
+}
+
+/* =========================
+   LOJA
+========================= */
+
+function openShop(){
+
+    document.getElementById("shop")
+        .style.display="block";
+
+}
+
+function closeShop(){
+
+    document.getElementById("shop")
+        .style.display="none";
+
+}
+
+function buyWeapon(name,cost,dmg){
+
+    if(money<cost){
+
+        showMessage("VOCÊ NÃO TEM DINHEIRO, PORRA.");
+
+        return;
+
+    }
+
+    money-=cost;
+
+    weaponName=name;
+    damage=Math.max(damage,dmg);
+
+    document.getElementById("weapon")
+        .textContent=name.toUpperCase();
+
+    update();
+
+    showMessage(
+        "COMPRADO:<br>"+
+        name.toUpperCase()
+    );
+
+}
+
+function upgradeDamage(){
+
+    if(money<damagePrice){
+
+        showMessage("DINHEIRO INSUFICIENTE.");
+
+        return;
+
+    }
+
+    money-=damagePrice;
+
+    damage*=1.1;
+
+    damage=Math.floor(damage);
+
+    damagePrice=Math.floor(damagePrice*1.7);
+
+    document.getElementById("damagePrice")
+        .textContent=damagePrice;
+
+    update();
+
+}
+
+function upgradeSpeed(){
+
+    if(money<speedPrice){
+
+        showMessage("DINHEIRO INSUFICIENTE.");
+
+        return;
+
+    }
+
+    money-=speedPrice;
+
+    spawnDelay=Math.max(150,spawnDelay*.85);
+
+    speedPrice=Math.floor(speedPrice*1.8);
+
+    document.getElementById("speedPrice")
+        .textContent=speedPrice;
+
+    update();
+
+}
+
+/* =========================
+   EVENTOS
+========================= */
+
+setInterval(()=>{
+
+    if(!gameStarted || bossActive)return;
+
+    let chance=Math.random();
+
+    if(chance<.04){
+
+        eventMeteor();
+
+    }else if(chance<.07){
+
+        eventSwarm();
+
+    }
+
+},10000);
+
+function eventMeteor(){
+
+    showMessage(
+        "CHUVA DE BARATAS!<br>"+
+        "MATE O MÁXIMO QUE CONSEGUIR!"
+    );
+
+    for(let i=0;i<15;i++){
+
+        setTimeout(()=>spawnRoach(),i*150);
+
+    }
+
+}
+
+function eventSwarm(){
+
+    showMessage(
+        "INVASÃO!<br>"+
+        "AS BARATAS ESTÃO FICANDO LOUCAS!"
+    );
+
+    let old=spawnDelay;
+
+    spawnDelay=100;
+
+    setTimeout(()=>{
+        spawnDelay=old;
+    },8000);
+
+}
+
+/* =========================
+   FINAL
+========================= */
+
+function final(){
+
+    gameStarted=false;
+
+    document.querySelectorAll(".roach")
+        .forEach(r=>r.remove());
+
+    document.getElementById("menu").style.display="flex";
+
+    document.querySelector("#menu h1")
+        .textContent="VOCÊ VENCEU.";
+
+    document.querySelector("#menu .menuBox")
+        .innerHTML=`
+
+        <h1>VOCÊ VENCEU.</h1>
+
+        <p>
+        10.000 BARATAS FORAM ELIMINADAS.
+        </p>
+
+        <p>
+        A humanidade está salva.
+        </p>
+
+        <h2>
+        MAS ENTÃO O PLANETA COMEÇOU A TREMER.
+        </h2>
+
+        <p>
+        A Lua rachou ao meio.
+        </p>
+
+        <p>
+        De dentro dela surgiu uma barata
+        do tamanho do SISTEMA SOLAR.
+        </p>
+
+        <h1>🪳</h1>
+
+        <h2>
+        BARATA PRIME.
+        </h2>
+
+        <p>
+        Ela olha para a Terra.
+        </p>
+
+        <p>
+        Você olha para ela.
+        </p>
+
+        <h2>
+        Você percebe uma coisa.
+        </h2>
+
+        <h1>
+        VOCÊ ESQUECEU DE COMPRAR O CHINELO.
+        </h1>
+
+        <p>
+        FIM.
+        </p>
+        `;
+
+}
+
+/* =========================
+   SAVE
+========================= */
+
+function saveGame(){
+
+    localStorage.setItem(
+        "baratasSave",
+        JSON.stringify({
+            money,
+            kills,
+            xp,
+            level,
+            damage,
+            weaponName,
+            spawnDelay,
+            damagePrice,
+            speedPrice,
+            areaIndex
+        })
+    );
+
+    showMessage("JOGO SALVO.");
+
+}
+
+function loadGame(){
+
+    let save=localStorage.getItem("baratasSave");
+
+    if(!save)return;
+
+    let s=JSON.parse(save);
+
+    money=s.money||0;
+    kills=s.kills||0;
+    xp=s.xp||0;
+    level=s.level||1;
+    damage=s.damage||1;
+    weaponName=s.weaponName||"MÃO";
+    spawnDelay=s.spawnDelay||1800;
+    damagePrice=s.damagePrice||500;
+    speedPrice=s.speedPrice||1000;
+    areaIndex=s.areaIndex||0;
+
+    document.getElementById("area").textContent=
+        "ÁREA: "+areas[areaIndex];
+
+    document.getElementById("weapon").textContent=
+        weaponName.toUpperCase();
+
+    update();
+
+}
+
+/* =========================
+   ATUALIZAÇÃO
+========================= */
+
+function update(){
+
+    document.getElementById("money")
+        .textContent=Math.floor(money);
+
+    document.getElementById("kills")
+        .textContent=kills;
+
+    document.getElementById("level")
+        .textContent=level;
+
+}
+
+function showMessage(txt){
+
+    let m=document.getElementById("message");
+
+    m.innerHTML=txt;
+
+    m.style.display="block";
+
+    clearTimeout(m.timer);
+
+    m.timer=setTimeout(()=>{
+        m.style.display="none";
+    },1300);
+
+}
+
+/* CARREGAR */
+
+loadGame();
+
+</script>
+
+</body>
+</html>
+```
