@@ -2,489 +2,550 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0,
+               minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
+
 <title>Muriel: Extermínio</title>
 
 <style>
 *{
     box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
+    -webkit-touch-callout:none;
     user-select:none;
 }
 
-body{
+html,body{
     margin:0;
-    background:#090909;
+    padding:0;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    background:#080808;
     color:white;
     font-family:Arial,Helvetica,sans-serif;
-    overflow:hidden;
+    touch-action:none;
 }
 
 button{
     border:0;
-    padding:12px 18px;
-    border-radius:8px;
-    background:#e63946;
     color:white;
+    background:#222;
     font-weight:bold;
     cursor:pointer;
-    transition:.15s;
+    min-height:46px;
+    border-radius:10px;
+    padding:10px 14px;
+    font-size:14px;
+    touch-action:manipulation;
 }
 
-button:hover{
-    transform:scale(1.04);
-    background:#ff4d5a;
+button:active{
+    transform:scale(.94);
 }
 
 .screen{
     position:fixed;
     inset:0;
-    display:flex;
+    width:100%;
+    height:100%;
+    display:none;
     align-items:center;
     justify-content:center;
-    background:
-        radial-gradient(circle at center,#241414 0%,#090909 65%);
-    z-index:20;
+    flex-direction:column;
+    background:#090909;
+    z-index:1000;
+    padding:
+        max(15px,env(safe-area-inset-top))
+        max(15px,env(safe-area-inset-right))
+        max(15px,env(safe-area-inset-bottom))
+        max(15px,env(safe-area-inset-left));
 }
 
-.panel{
-    width:min(800px,92vw);
-    max-height:90vh;
-    overflow:auto;
-    padding:35px;
-    border:2px solid #552020;
-    border-radius:15px;
-    background:#111;
-    box-shadow:0 0 50px #000;
+.screen.active{
+    display:flex;
+}
+
+.screen h1{
     text-align:center;
+    font-size:clamp(28px,8vw,70px);
+    margin:10px;
+    color:#ff4444;
 }
 
-h1{
-    font-size:clamp(35px,7vw,70px);
-    margin:0 0 10px;
-    color:#e63946;
-    text-shadow:0 0 20px #e63946;
+.screen p{
+    max-width:700px;
+    text-align:center;
+    line-height:1.5;
+    font-size:clamp(14px,3.5vw,20px);
 }
 
-h2{
-    color:#ff5964;
+.primary{
+    background:#c62828;
+    padding:15px 25px;
+    font-size:18px;
 }
 
-.lore{
-    text-align:left;
-    line-height:1.7;
-    color:#ddd;
+/* GAME */
+
+#game{
+    width:100%;
+    height:100%;
+    display:none;
+    flex-direction:column;
+    position:relative;
+    overflow:hidden;
 }
 
-.quote{
-    margin:25px 0;
-    padding:20px;
-    border-left:4px solid #e63946;
-    background:#191919;
-    font-size:20px;
-    font-weight:bold;
-}
-
-.hidden{
-    display:none!important;
+#game.active{
+    display:flex;
 }
 
 /* HUD */
 
-#game{
-    position:fixed;
-    inset:0;
+#hud{
+    flex:0 0 auto;
+    width:100%;
     background:#111;
+    border-bottom:2px solid #333;
+    padding:8px;
+    z-index:100;
 }
 
-#hud{
-    height:80px;
-    display:flex;
-    justify-content:space-around;
-    align-items:center;
-    background:#090909;
-    border-bottom:2px solid #292929;
-    position:relative;
-    z-index:5;
+.hud-main{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:5px;
 }
 
 .stat{
+    background:#1b1b1b;
+    border-radius:7px;
+    padding:7px 4px;
     text-align:center;
-    min-width:90px;
+    font-size:12px;
 }
 
-.stat small{
+.stat b{
     display:block;
-    color:#777;
+    color:#ffd54a;
+    font-size:15px;
 }
 
-.stat strong{
-    font-size:20px;
+#xpContainer{
+    height:8px;
+    margin-top:6px;
+    background:#333;
+    border-radius:20px;
+    overflow:hidden;
 }
+
+#xpBar{
+    width:0%;
+    height:100%;
+    background:#42a5f5;
+}
+
+.desktop-menu{
+    display:flex;
+    gap:5px;
+    margin-top:6px;
+}
+
+.desktop-menu button{
+    flex:1;
+}
+
+/* GAME AREA */
 
 #gameArea{
-    position:absolute;
-    top:80px;
-    bottom:0;
-    left:0;
-    right:0;
+    position:relative;
+    flex:1;
     overflow:hidden;
-    cursor:crosshair;
-}
-
-#background{
-    position:absolute;
-    inset:0;
-    transition:.5s;
-}
-
-.areaKitchen{
     background:
-        linear-gradient(#302b25aa,#111c),
-        repeating-linear-gradient(
-            90deg,
-            #292929 0px,
-            #292929 80px,
-            #222 80px,
-            #222 160px
-        );
+        radial-gradient(circle at center,#242424,#090909 75%);
+    touch-action:none;
 }
-
-.areaBathroom{
-    background:
-        linear-gradient(#17333baa,#111c),
-        repeating-linear-gradient(
-            0deg,
-            #355 0px,
-            #355 45px,
-            #233 45px,
-            #233 90px
-        );
-}
-
-.areaBasement{
-    background:
-        radial-gradient(circle,#272727,#050505);
-}
-
-.areaRestaurant{
-    background:
-        linear-gradient(#4a1717,#111);
-}
-
-.areaSewer{
-    background:
-        linear-gradient(#142b18,#050805);
-}
-
-.areaLab{
-    background:
-        linear-gradient(#19354a,#071018);
-}
-
-.areaCity{
-    background:
-        linear-gradient(#101936,#05050b);
-}
-
-.areaMilitary{
-    background:
-        linear-gradient(#29351d,#090d06);
-}
-
-.areaSpace{
-    background:
-        radial-gradient(circle,#18204a,#020207);
-}
-
-.areaDimension{
-    background:
-        radial-gradient(circle,#481052,#080008);
-}
-
-/* Area info */
 
 #areaInfo{
     position:absolute;
-    top:15px;
+    top:8px;
     left:50%;
     transform:translateX(-50%);
-    text-align:center;
-    z-index:3;
-    pointer-events:none;
+    background:#111d;
+    border:1px solid #444;
+    padding:7px 14px;
+    border-radius:20px;
+    z-index:20;
+    font-size:13px;
+    white-space:nowrap;
 }
 
-#areaName{
-    font-size:24px;
-    font-weight:bold;
-}
-
-#objective{
-    color:#aaa;
-    font-size:14px;
-}
-
-/* Cockroaches */
-
-.roach{
+#weaponInfo{
     position:absolute;
-    width:50px;
-    height:32px;
-    transform:translate(-50%,-50%);
-    cursor:pointer;
-    z-index:2;
-    transition:transform .08s;
-}
-
-.roach:hover{
-    transform:translate(-50%,-50%) scale(1.1);
-}
-
-.body{
-    position:absolute;
-    width:34px;
-    height:22px;
-    left:8px;
-    top:5px;
-    border-radius:50%;
-    background:#492916;
-    border:2px solid #241309;
-}
-
-.head{
-    position:absolute;
-    width:15px;
-    height:15px;
-    border-radius:50%;
-    right:0;
-    top:8px;
-    background:#241309;
-}
-
-.leg{
-    position:absolute;
-    width:20px;
-    height:3px;
-    background:#241309;
-}
-
-.l1{left:2px;top:5px;transform:rotate(25deg)}
-.l2{left:1px;top:14px;transform:rotate(-25deg)}
-.l3{left:16px;top:3px;transform:rotate(15deg)}
-.l4{left:16px;top:23px;transform:rotate(-15deg)}
-
-.fast .body{
-    background:#9b2525;
-}
-
-.giant{
-    transform:translate(-50%,-50%) scale(1.8);
-}
-
-.mutant .body{
-    background:#541c67;
-}
-
-.armored .body{
-    background:#777;
-    border-color:#aaa;
-}
-
-/* Effects */
-
-.hit{
-    position:absolute;
-    pointer-events:none;
-    font-weight:bold;
-    color:#ffdc45;
-    font-size:20px;
-    animation:hit .5s forwards;
-    z-index:10;
-}
-
-@keyframes hit{
-    from{
-        opacity:1;
-        transform:translateY(0) scale(1);
-    }
-    to{
-        opacity:0;
-        transform:translateY(-50px) scale(1.4);
-    }
-}
-
-.dead{
-    animation:dead .25s forwards;
-}
-
-@keyframes dead{
-    to{
-        transform:translate(-50%,-50%) rotate(90deg) scale(.1);
-        opacity:0;
-    }
+    left:10px;
+    bottom:10px;
+    background:#111d;
+    padding:8px 12px;
+    border-radius:10px;
+    z-index:20;
+    font-size:13px;
 }
 
 #combo{
     position:absolute;
-    right:20px;
-    top:20px;
-    color:#ffd43b;
-    font-size:22px;
+    top:48px;
+    left:50%;
+    transform:translateX(-50%);
+    font-size:24px;
     font-weight:bold;
+    color:#ffca28;
+    z-index:30;
+    pointer-events:none;
 }
 
 #message{
     position:absolute;
     left:50%;
-    bottom:25px;
-    transform:translateX(-50%);
-    background:#090909dd;
-    padding:12px 20px;
-    border-radius:8px;
-    opacity:0;
-    transition:.2s;
-    z-index:10;
-    text-align:center;
-}
-
-#message.show{
-    opacity:1;
-}
-
-#weaponDisplay{
-    position:absolute;
-    bottom:20px;
-    left:20px;
-    background:#090909dd;
-    padding:12px 18px;
-    border-radius:8px;
-    z-index:4;
-}
-
-#pauseButton{
-    position:absolute;
-    right:20px;
-    bottom:20px;
-    z-index:10;
-}
-
-/* Boss */
-
-#bossBar{
-    position:absolute;
-    top:65px;
-    left:50%;
-    transform:translateX(-50%);
-    width:min(600px,80vw);
-    height:22px;
-    border:2px solid #e63946;
-    background:#111;
-    z-index:4;
-}
-
-#bossFill{
-    width:100%;
-    height:100%;
-    background:#e63946;
-}
-
-#bossName{
-    position:absolute;
-    top:90px;
-    left:50%;
-    transform:translateX(-50%);
-    z-index:4;
+    top:50%;
+    transform:translate(-50%,-50%);
+    z-index:100;
+    pointer-events:none;
+    font-size:22px;
     font-weight:bold;
+    text-align:center;
+    text-shadow:0 2px 5px #000;
 }
 
-/* Shop */
+/* BOSS */
 
-.shopGrid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-    gap:12px;
-    margin-top:20px;
-}
-
-.shopItem{
-    background:#1b1b1b;
-    padding:15px;
-    border-radius:10px;
-    border:1px solid #333;
-}
-
-.shopItem h3{
-    margin-top:0;
-}
-
-.price{
-    color:#ffd43b;
-}
-
-/* Pause */
-
-#pauseScreen{
-    background:#000b;
-    z-index:30;
-}
-
-/* Ending */
-
-#ending{
+#bossUI{
+    display:none;
+    position:absolute;
+    top:85px;
+    left:5%;
+    width:90%;
     z-index:50;
 }
 
-.finalRoach{
-    font-size:100px;
-    animation:pulse 1s infinite alternate;
+#bossName{
+    text-align:center;
+    font-size:16px;
+    font-weight:bold;
+    margin-bottom:4px;
 }
 
-@keyframes pulse{
-    to{transform:scale(1.2)}
+#bossBarBg{
+    width:100%;
+    height:14px;
+    background:#300;
+    border:2px solid #fff;
+    border-radius:20px;
+    overflow:hidden;
 }
 
-/* Mobile */
+#bossBar{
+    width:100%;
+    height:100%;
+    background:#e53935;
+}
 
-@media(max-width:600px){
+/* COCKROACH */
+
+.roach{
+    position:absolute;
+    width:55px;
+    height:40px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:32px;
+    cursor:pointer;
+    z-index:10;
+    transform-origin:center;
+    touch-action:none;
+}
+
+.roach:active{
+    transform:scale(.8);
+}
+
+.flying{
+    animation:flying .7s infinite alternate;
+}
+
+.invisible{
+    opacity:.25;
+}
+
+@keyframes flying{
+    from{transform:translateY(-4px) rotate(-4deg)}
+    to{transform:translateY(4px) rotate(4deg)}
+}
+
+/* MOBILE BAR */
+
+#mobileControls{
+    display:none;
+    flex:0 0 auto;
+    width:100%;
+    background:#111;
+    border-top:2px solid #333;
+    padding:
+        6px
+        max(6px,env(safe-area-inset-right))
+        max(6px,env(safe-area-inset-bottom))
+        max(6px,env(safe-area-inset-left));
+    gap:5px;
+    z-index:200;
+}
+
+#mobileControls button{
+    flex:1;
+    min-width:0;
+    font-size:11px;
+    padding:8px 3px;
+}
+
+/* MENUS */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:#000b;
+    z-index:500;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:15px;
+}
+
+.modal.active{
+    display:flex;
+}
+
+.modalBox{
+    width:min(700px,100%);
+    max-height:90%;
+    overflow:auto;
+    background:#151515;
+    border:2px solid #444;
+    border-radius:15px;
+    padding:15px;
+}
+
+.modalBox h2{
+    margin-top:0;
+    text-align:center;
+    color:#ff5252;
+}
+
+.close{
+    width:100%;
+    margin-top:10px;
+    background:#333;
+}
+
+.shopItem,
+.skillItem,
+.missionItem,
+.achievementItem{
+    background:#202020;
+    border:1px solid #333;
+    padding:12px;
+    margin:7px 0;
+    border-radius:10px;
+}
+
+.shopItem{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:8px;
+}
+
+.shopItem button{
+    background:#8e2424;
+}
+
+.shopItem small{
+    color:#aaa;
+}
+
+/* PAUSE */
+
+#pauseScreen{
+    background:#000c;
+    z-index:800;
+}
+
+#pauseScreen h1{
+    color:white;
+}
+
+/* SETTINGS */
+
+.setting{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:#202020;
+    padding:12px;
+    border-radius:10px;
+    margin:7px 0;
+}
+
+/* PARTICLES */
+
+.particle{
+    position:absolute;
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    pointer-events:none;
+    z-index:40;
+}
+
+/* MOBILE */
+
+@media(max-width:700px){
 
     #hud{
-        height:65px;
-        font-size:12px;
+        padding:5px;
+    }
+
+    .hud-main{
+        grid-template-columns:repeat(4,1fr);
+        gap:3px;
     }
 
     .stat{
-        min-width:60px;
+        padding:5px 2px;
+        font-size:10px;
     }
 
-    .stat strong{
-        font-size:15px;
-    }
-
-    #gameArea{
-        top:65px;
-    }
-
-    #areaName{
-        font-size:18px;
-    }
-
-    #objective{
-        font-size:11px;
-    }
-
-    .panel{
-        padding:20px;
-    }
-
-    #weaponDisplay{
-        bottom:15px;
-        left:10px;
+    .stat b{
         font-size:13px;
     }
 
-    #pauseButton{
-        right:10px;
-        bottom:15px;
+    .desktop-menu{
+        display:none;
     }
+
+    #mobileControls{
+        display:flex;
+    }
+
+    #weaponInfo{
+        bottom:8px;
+        font-size:11px;
+    }
+
+    #areaInfo{
+        top:5px;
+        font-size:11px;
+    }
+
+    #bossUI{
+        top:65px;
+    }
+
+    .roach{
+        width:62px;
+        height:48px;
+        font-size:35px;
+    }
+
+    .modalBox{
+        max-height:86%;
+        padding:12px;
+    }
+
+    button{
+        min-height:48px;
+    }
+}
+
+/* RETRATO */
+
+@media(max-width:700px) and (orientation:portrait){
+
+    #gameArea{
+        min-height:0;
+    }
+
+    #message{
+        font-size:18px;
+        width:90%;
+    }
+}
+
+/* PAISAGEM */
+
+@media(max-width:900px) and (orientation:landscape){
+
+    #hud{
+        padding:3px 6px;
+    }
+
+    .stat{
+        padding:3px;
+    }
+
+    .stat b{
+        font-size:12px;
+    }
+
+    #xpContainer{
+        height:5px;
+        margin-top:3px;
+    }
+
+    #mobileControls{
+        padding:3px 6px;
+    }
+
+    #mobileControls button{
+        min-height:38px;
+        font-size:10px;
+    }
+
+    .roach{
+        width:55px;
+        height:42px;
+    }
+
+    #bossUI{
+        top:50px;
+    }
+}
+
+/* TELAS MUITO PEQUENAS */
+
+@media(max-width:380px){
+
+    .stat{
+        font-size:8px;
+    }
+
+    .stat b{
+        font-size:11px;
+    }
+
+    #mobileControls button{
+        font-size:9px;
+    }
+}
+
+/* REDUZ ANIMAÇÕES EM DISPOSITIVOS FRACOS */
+
+.reduce-effects .particle{
+    display:none;
+}
+
+.reduce-effects .roach{
+    animation:none!important;
 }
 </style>
 </head>
@@ -493,660 +554,761 @@ h2{
 
 <!-- INTRO -->
 
-<div id="intro" class="screen">
-    <div class="panel">
+<div id="intro" class="screen active">
+    <h1>MURIEL: EXTERMÍNIO</h1>
 
-        <h1>MURIEL</h1>
-        <h2>EXTERMÍNIO</h2>
+    <p>
+        Muriel era um homem normal.<br>
+        Tinha uma casa normal, uma rotina normal e uma namorada normal.
+    </p>
 
-        <div class="lore">
+    <p>
+        Até que uma barata apareceu na cozinha.
+    </p>
 
-            <p>
-                Muriel era um cara comum.
-            </p>
+    <p>
+        Muriel matou uma.
+        Depois apareceram duas.
+        Depois dez.
+        Depois milhares.
+    </p>
 
-            <p>
-                Tinha uma casa, uma rotina e uma namorada que amava.
-            </p>
+    <p>
+        Sua namorada olhou para ele e disse:
+        <b>“Acaba com todas elas.”</b>
+    </p>
 
-            <p>
-                Só havia um problema.
-            </p>
-
-            <div class="quote">
-                A namorada de Muriel odiava baratas.
-            </div>
-
-            <p>
-                Uma noite, ela encontrou uma barata na cozinha.
-            </p>
-
-            <p>
-                Muriel matou.
-            </p>
-
-            <p>
-                Então apareceu outra.
-            </p>
-
-            <p>
-                E outra.
-            </p>
-
-            <p>
-                E outra.
-            </p>
-
-            <p>
-                Quando percebeu, a casa inteira estava infestada.
-            </p>
-
-            <div class="quote">
-                "Acaba com todas elas."
-            </div>
-
-            <p>
-                Muriel pegou o primeiro objeto que encontrou.
-            </p>
-
-            <p style="text-align:center;font-size:35px;">
-                🩴
-            </p>
-
-            <p>
-                E começou o extermínio.
-            </p>
-
-        </div>
-
-        <button id="startButton">
-            COMEÇAR O EXTERMÍNIO
-        </button>
-
-    </div>
+    <button class="primary" onclick="startGame()">
+        COMEÇAR EXTERMÍNIO
+    </button>
 </div>
-
 
 <!-- GAME -->
 
-<div id="game" class="hidden">
+<div id="game">
 
     <div id="hud">
 
-        <div class="stat">
-            <small>DINHEIRO</small>
-            <strong id="money">$0</strong>
+        <div class="hud-main">
+
+            <div class="stat">
+                DINHEIRO
+                <b id="money">$0</b>
+            </div>
+
+            <div class="stat">
+                MORTES
+                <b id="kills">0</b>
+            </div>
+
+            <div class="stat">
+                NÍVEL
+                <b id="level">1</b>
+            </div>
+
+            <div class="stat">
+                DANO
+                <b id="damage">1</b>
+            </div>
+
         </div>
 
-        <div class="stat">
-            <small>BARATAS</small>
-            <strong id="kills">0</strong>
+        <div id="xpContainer">
+            <div id="xpBar"></div>
         </div>
 
-        <div class="stat">
-            <small>NÍVEL</small>
-            <strong id="level">1</strong>
+        <div class="desktop-menu">
+            <button onclick="openModal('shopModal')">LOJA</button>
+            <button onclick="openModal('skillModal')">SKILLS</button>
+            <button onclick="openModal('missionModal')">MISSÕES</button>
+            <button onclick="openModal('achievementModal')">CONQUISTAS</button>
+            <button onclick="openModal('settingsModal')">CONFIG</button>
         </div>
-
-        <div class="stat">
-            <small>DANO</small>
-            <strong id="damage">1</strong>
-        </div>
-
-        <button id="shopButton">LOJA</button>
 
     </div>
 
     <div id="gameArea">
 
-        <div id="background" class="areaKitchen"></div>
-
         <div id="areaInfo">
-            <div id="areaName">COZINHA</div>
-            <div id="objective">Elimine 100 baratas</div>
+            COZINHA • 0 / 100
         </div>
 
         <div id="combo"></div>
 
-        <div id="bossBar" class="hidden">
-            <div id="bossFill"></div>
+        <div id="bossUI">
+            <div id="bossName">BOSS</div>
+            <div id="bossBarBg">
+                <div id="bossBar"></div>
+            </div>
         </div>
 
-        <div id="bossName" class="hidden"></div>
-
-        <div id="weaponDisplay">
-            ARMA: <b id="weapon">MÃO</b>
+        <div id="weaponInfo">
+            MÃO • DANO 1
         </div>
-
-        <button id="pauseButton">
-            PAUSAR
-        </button>
 
         <div id="message"></div>
 
     </div>
 
-</div>
+    <div id="mobileControls">
 
-
-<!-- SHOP -->
-
-<div id="shopScreen" class="screen hidden">
-
-    <div class="panel">
-
-        <h2>ARSENAL DE MURIEL</h2>
-
-        <p>
-            Dinheiro: <b id="shopMoney">$0</b>
-        </p>
-
-        <div class="shopGrid">
-
-            <div class="shopItem">
-                <h3>🖐️ Mão</h3>
-                <p>Dano: 1</p>
-                <button onclick="buyWeapon('MÃO',0,1)">
-                    EQUIPAR
-                </button>
-            </div>
-
-            <div class="shopItem">
-                <h3>🩴 Chinelo</h3>
-                <p>Dano: 5</p>
-                <p class="price">$50</p>
-                <button onclick="buyWeapon('CHINELO',50,5)">
-                    COMPRAR
-                </button>
-            </div>
-
-            <div class="shopItem">
-                <h3>🔨 Chinelo de Titânio</h3>
-                <p>Dano: 15</p>
-                <p class="price">$300</p>
-                <button onclick="buyWeapon('CHINELO DE TITÂNIO',300,15)">
-                    COMPRAR
-                </button>
-            </div>
-
-            <div class="shopItem">
-                <h3>☠️ Spray Químico</h3>
-                <p>Dano: 35</p>
-                <p class="price">$800</p>
-                <button onclick="buyWeapon('SPRAY QUÍMICO',800,35)">
-                    COMPRAR
-                </button>
-            </div>
-
-            <div class="shopItem">
-                <h3>🔫 Espingarda</h3>
-                <p>Dano: 100</p>
-                <p class="price">$2.000</p>
-                <button onclick="buyWeapon('ESPINGARDA',2000,100)">
-                    COMPRAR
-                </button>
-            </div>
-
-            <div class="shopItem">
-                <h3>🔥 Lança-Chamas</h3>
-                <p>Dano: 300</p>
-                <p class="price">$5.000</p>
-                <button onclick="buyWeapon('LANÇA-CHAMAS',5000,300)">
-                    COMPRAR
-                </button>
-            </div>
-
-            <div class="shopItem">
-                <h3>🚀 Bazuca</h3>
-                <p>Dano: 1.000</p>
-                <p class="price">$15.000</p>
-                <button onclick="buyWeapon('BAZUCA',15000,1000)">
-                    COMPRAR
-                </button>
-            </div>
-
-            <div class="shopItem">
-                <h3>☄️ Canhão Orbital</h3>
-                <p>Dano: 10.000</p>
-                <p class="price">$50.000</p>
-                <button onclick="buyWeapon('CANHÃO ORBITAL',50000,10000)">
-                    COMPRAR
-                </button>
-            </div>
-
-            <div class="shopItem">
-                <h3>🌀 Destruidor Dimensional</h3>
-                <p>Dano: 100.000</p>
-                <p class="price">$250.000</p>
-                <button onclick="buyWeapon('DESTRUIDOR DIMENSIONAL',250000,100000)">
-                    COMPRAR
-                </button>
-            </div>
-
-        </div>
-
-        <br>
-
-        <button onclick="closeShop()">
-            VOLTAR
-        </button>
-
-    </div>
-
-</div>
-
-
-<!-- PAUSE -->
-
-<div id="pauseScreen" class="screen hidden">
-
-    <div class="panel">
-
-        <h1>PAUSADO</h1>
-
-        <p>
-            Até as baratas tiveram um descanso.
-        </p>
-
-        <button onclick="resumeGame()">
-            CONTINUAR
-        </button>
-
-        <button onclick="openShopFromPause()">
+        <button onclick="openModal('shopModal')">
             LOJA
         </button>
 
-        <button onclick="saveGame()">
-            SALVAR
+        <button onclick="openModal('skillModal')">
+            SKILLS
         </button>
 
-        <button onclick="location.reload()">
-            MENU
+        <button onclick="openModal('missionModal')">
+            MISSÕES
         </button>
 
-    </div>
+        <button onclick="openModal('achievementModal')">
+            CONQUISTAS
+        </button>
 
-</div>
+        <button id="reloadButton" onclick="reload()">
+            ∞
+        </button>
 
-
-<!-- ENDING -->
-
-<div id="ending" class="screen hidden">
-
-    <div class="panel">
-
-        <div class="finalRoach">
-            🪳
-        </div>
-
-        <h1>BARATA PRIME</h1>
-
-        <h2>A PRIMEIRA BARATA</h2>
-
-        <p>
-            Muriel atravessou cozinhas.
-        </p>
-
-        <p>
-            Banheiros.
-        </p>
-
-        <p>
-            Porões.
-        </p>
-
-        <p>
-            Esgotos.
-        </p>
-
-        <p>
-            Laboratórios.
-        </p>
-
-        <p>
-            Cidades.
-        </p>
-
-        <p>
-            Bases militares.
-        </p>
-
-        <p>
-            O espaço.
-        </p>
-
-        <p>
-            Até chegar à dimensão das baratas.
-        </p>
-
-        <div class="quote">
-            10.000 BARATAS ELIMINADAS.
-        </div>
-
-        <p>
-            Muriel dispara sua arma definitiva.
-        </p>
-
-        <p>
-            Silêncio.
-        </p>
-
-        <h2>VOCÊ VENCEU.</h2>
-
-        <p>
-            Muriel finalmente volta para casa.
-        </p>
-
-        <p>
-            Sua namorada o espera na porta.
-        </p>
-
-        <p>
-            Ela olha para o chão.
-        </p>
-
-        <div class="finalRoach">
-            🪳
-        </div>
-
-        <div class="quote">
-            "MURIEL."
-        </div>
-
-        <p>
-            Muriel olha para a barata.
-        </p>
-
-        <p>
-            Olha para sua arma.
-        </p>
-
-        <p>
-            Olha para ela.
-        </p>
-
-        <h2>
-            E ENTENDE QUE O TRABALHO NUNCA TERMINA.
-        </h2>
-
-        <button onclick="location.reload()">
-            COMEÇAR NOVAMENTE
+        <button onclick="togglePause()">
+            PAUSA
         </button>
 
     </div>
 
 </div>
 
+<!-- SHOP -->
+
+<div id="shopModal" class="modal">
+    <div class="modalBox">
+        <h2>LOJA</h2>
+        <div id="shopList"></div>
+        <button class="close" onclick="closeModals()">FECHAR</button>
+    </div>
+</div>
+
+<!-- SKILLS -->
+
+<div id="skillModal" class="modal">
+    <div class="modalBox">
+        <h2>ÁRVORE DE SKILLS</h2>
+
+        <p>
+            Pontos disponíveis:
+            <b id="skillPoints">0</b>
+        </p>
+
+        <div class="skillItem">
+            <b>FORÇA</b>
+            <p>+10% de dano por nível.</p>
+            <button onclick="buySkill('damage')">MELHORAR</button>
+        </div>
+
+        <div class="skillItem">
+            <b>GANÂNCIA</b>
+            <p>+15% dinheiro por nível.</p>
+            <button onclick="buySkill('money')">MELHORAR</button>
+        </div>
+
+        <div class="skillItem">
+            <b>REFLEXOS</b>
+            <p>Baratas aparecem mais lentamente.</p>
+            <button onclick="buySkill('speed')">MELHORAR</button>
+        </div>
+
+        <div class="skillItem">
+            <b>PRECISÃO</b>
+            <p>Aumenta a chance de crítico.</p>
+            <button onclick="buySkill('crit')">MELHORAR</button>
+        </div>
+
+        <div class="skillItem">
+            <b>DEMOLIÇÃO</b>
+            <p>+25% de dano explosivo por nível.</p>
+            <button onclick="buySkill('explosive')">MELHORAR</button>
+        </div>
+
+        <button class="close" onclick="closeModals()">FECHAR</button>
+    </div>
+</div>
+
+<!-- MISSIONS -->
+
+<div id="missionModal" class="modal">
+    <div class="modalBox">
+        <h2>MISSÕES DA NAMORADA</h2>
+        <div id="missionList"></div>
+        <button class="close" onclick="closeModals()">FECHAR</button>
+    </div>
+</div>
+
+<!-- ACHIEVEMENTS -->
+
+<div id="achievementModal" class="modal">
+    <div class="modalBox">
+        <h2>CONQUISTAS</h2>
+        <div id="achievementList"></div>
+        <button class="close" onclick="closeModals()">FECHAR</button>
+    </div>
+</div>
+
+<!-- SETTINGS -->
+
+<div id="settingsModal" class="modal">
+    <div class="modalBox">
+        <h2>CONFIGURAÇÕES</h2>
+
+        <div class="setting">
+            <span>MÚSICA</span>
+            <button onclick="toggleMusic()" id="musicButton">ON</button>
+        </div>
+
+        <div class="setting">
+            <span>EFEITOS</span>
+            <button onclick="toggleSfx()" id="sfxButton">ON</button>
+        </div>
+
+        <div class="setting">
+            <span>MODO DIFÍCIL</span>
+            <button onclick="toggleHard()" id="hardButton">OFF</button>
+        </div>
+
+        <div class="setting">
+            <span>TELA CHEIA</span>
+            <button onclick="fullscreen()">ATIVAR</button>
+        </div>
+
+        <button class="close" onclick="closeModals()">FECHAR</button>
+    </div>
+</div>
+
+<!-- PAUSE -->
+
+<div id="pauseScreen" class="screen">
+    <h1>PAUSADO</h1>
+    <button class="primary" onclick="togglePause()">
+        CONTINUAR
+    </button>
+</div>
+
+<!-- END -->
+
+<div id="ending" class="screen">
+    <h1>10.000 BARATAS</h1>
+
+    <p>
+        Muriel finalmente encontrou Barata Prime,
+        a primeira e mais poderosa barata.
+    </p>
+
+    <p>
+        Após uma batalha absurda, ele venceu.
+    </p>
+
+    <p>
+        Muriel voltou para casa.
+    </p>
+
+    <p>
+        Sua namorada olhou para ele.
+    </p>
+
+    <p>
+        Ela apontou para o chão.
+    </p>
+
+    <h2>Uma barata.</h2>
+
+    <h1>MURIEL.</h1>
+
+    <button class="primary" onclick="newGamePlus()">
+        NOVO JOGO+
+    </button>
+</div>
 
 <script>
 
-/* =========================
-   ESTADO DO JOGO
-========================= */
+/* =========================================================
+   CONFIGURAÇÃO MOBILE
+========================================================= */
+
+const isMobile =
+    /Android|iPhone|iPad|iPod|Windows Phone/i.test(
+        navigator.userAgent
+    ) ||
+    window.innerWidth <= 700;
+
+const maxRoaches = isMobile ? 10 : 20;
+const maxParticles = isMobile ? 18 : 45;
+
+if(isMobile){
+    document.documentElement.classList.add("mobile");
+}
+
+/* =========================================================
+   ESTADO
+========================================================= */
 
 const state = {
 
     money:0,
     kills:0,
+
     level:1,
     xp:0,
+
     damage:1,
 
     weapon:"MÃO",
+    weaponType:"melee",
+
+    ammo:Infinity,
+    maxAmmo:Infinity,
 
     combo:0,
     comboTimer:null,
 
-    paused:false,
-    bossActive:false,
-
     area:0,
 
-    areas:[
-        {
-            name:"COZINHA",
-            goal:100,
-            bg:"areaKitchen"
-        },
-        {
-            name:"BANHEIRO",
-            goal:250,
-            bg:"areaBathroom"
-        },
-        {
-            name:"PORÃO",
-            goal:500,
-            bg:"areaBasement"
-        },
-        {
-            name:"RESTAURANTE",
-            goal:800,
-            bg:"areaRestaurant"
-        },
-        {
-            name:"ESGOTO",
-            goal:1200,
-            bg:"areaSewer"
-        },
-        {
-            name:"LABORATÓRIO",
-            goal:1800,
-            bg:"areaLab"
-        },
-        {
-            name:"CIDADE",
-            goal:2500,
-            bg:"areaCity"
-        },
-        {
-            name:"BASE MILITAR",
-            goal:4000,
-            bg:"areaMilitary"
-        },
-        {
-            name:"ÓRBITA TERRESTRE",
-            goal:6000,
-            bg:"areaSpace"
-        },
-        {
-            name:"DIMENSÃO DAS BARATAS",
-            goal:10000,
-            bg:"areaDimension"
-        }
-    ]
+    skillPoints:0,
 
+    skills:{
+        damage:0,
+        money:0,
+        speed:0,
+        crit:0,
+        explosive:0
+    },
+
+    music:true,
+    sfx:true,
+    hard:false,
+
+    missions:{
+        kills100:false,
+        kills1000:false,
+        combo20:false,
+        money10000:false,
+        boss:false
+    },
+
+    achievements:[],
+
+    playing:false,
+    paused:false,
+    bossActive:false,
+    boss:null
 };
 
-let spawnTimer;
-let gameStarted=false;
+/* =========================================================
+   ÁREAS
+========================================================= */
 
+const areas = [
 
-/* =========================
+    ["COZINHA",100],
+    ["BANHEIRO",250],
+    ["PORÃO",500],
+    ["RESTAURANTE",800],
+    ["ESGOTO",1200],
+    ["LABORATÓRIO",1800],
+    ["CIDADE",2500],
+    ["BASE MILITAR",4000],
+    ["ÓRBITA TERRESTRE",6000],
+    ["DIMENSÃO DAS BARATAS",10000]
+
+];
+
+/* =========================================================
+   ARMAS
+========================================================= */
+
+const weapons = [
+
+    {
+        name:"MÃO",
+        damage:1,
+        price:0,
+        ammo:Infinity,
+        type:"melee"
+    },
+
+    {
+        name:"CHINELO",
+        damage:5,
+        price:50,
+        ammo:Infinity,
+        type:"melee"
+    },
+
+    {
+        name:"CHINELO DE TITÂNIO",
+        damage:20,
+        price:500,
+        ammo:Infinity,
+        type:"melee"
+    },
+
+    {
+        name:"SPRAY QUÍMICO",
+        damage:40,
+        price:1500,
+        ammo:80,
+        type:"spray"
+    },
+
+    {
+        name:"ESPINGARDA",
+        damage:180,
+        price:5000,
+        ammo:6,
+        type:"explosive"
+    },
+
+    {
+        name:"LANÇA-CHAMAS",
+        damage:450,
+        price:12000,
+        ammo:100,
+        type:"flame"
+    },
+
+    {
+        name:"BAZUCA",
+        damage:2000,
+        price:30000,
+        ammo:5,
+        type:"explosive"
+    },
+
+    {
+        name:"CANHÃO ORBITAL",
+        damage:20000,
+        price:100000,
+        ammo:3,
+        type:"explosive"
+    },
+
+    {
+        name:"DESTRUIDOR DIMENSIONAL",
+        damage:100000,
+        price:500000,
+        ammo:2,
+        type:"explosive"
+    }
+
+];
+
+/* =========================================================
+   BOSSES
+========================================================= */
+
+const bosses = [
+
+    {
+        name:"BARATA GORDONA",
+        hp:5000,
+        reward:5000
+    },
+
+    {
+        name:"DR. BARATOVSKY",
+        hp:20000,
+        reward:15000
+    },
+
+    {
+        name:"GENERAL BARATA",
+        hp:70000,
+        reward:50000
+    },
+
+    {
+        name:"IMPERADOR DAS BARATAS",
+        hp:200000,
+        reward:150000
+    }
+
+];
+
+/* =========================================================
+   TIPOS DE BARATA
+========================================================= */
+
+const roachTypes = [
+
+    {
+        name:"normal",
+        hp:1,
+        reward:10
+    },
+
+    {
+        name:"fast",
+        hp:2,
+        reward:20
+    },
+
+    {
+        name:"giant",
+        hp:15,
+        reward:80
+    },
+
+    {
+        name:"mutant",
+        hp:40,
+        reward:150
+    },
+
+    {
+        name:"armored",
+        hp:100,
+        reward:300
+    },
+
+    {
+        name:"flying",
+        hp:25,
+        reward:120
+    },
+
+    {
+        name:"explosive",
+        hp:30,
+        reward:200
+    },
+
+    {
+        name:"invisible",
+        hp:50,
+        reward:250
+    }
+
+];
+
+/* =========================================================
    ELEMENTOS
-========================= */
+========================================================= */
 
-const intro =
-document.getElementById("intro");
+const game = document.getElementById("game");
+const gameArea = document.getElementById("gameArea");
 
-const game =
-document.getElementById("game");
+const moneyEl = document.getElementById("money");
+const killsEl = document.getElementById("kills");
+const levelEl = document.getElementById("level");
+const damageEl = document.getElementById("damage");
+const xpBar = document.getElementById("xpBar");
 
-const gameArea =
-document.getElementById("gameArea");
+const areaInfo = document.getElementById("areaInfo");
+const weaponInfo = document.getElementById("weaponInfo");
+const comboEl = document.getElementById("combo");
+const messageEl = document.getElementById("message");
 
-const background =
-document.getElementById("background");
+const bossUI = document.getElementById("bossUI");
+const bossName = document.getElementById("bossName");
+const bossBar = document.getElementById("bossBar");
 
-const moneyEl =
-document.getElementById("money");
+const reloadButton =
+    document.getElementById("reloadButton");
 
-const killsEl =
-document.getElementById("kills");
+/* =========================================================
+   UTILIDADES
+========================================================= */
 
-const levelEl =
-document.getElementById("level");
+function random(min,max){
+    return Math.random()*(max-min)+min;
+}
 
-const damageEl =
-document.getElementById("damage");
+function randInt(min,max){
+    return Math.floor(random(min,max+1));
+}
 
-const weaponEl =
-document.getElementById("weapon");
+function clamp(value,min,max){
+    return Math.max(min,Math.min(max,value));
+}
 
-const areaNameEl =
-document.getElementById("areaName");
-
-const objectiveEl =
-document.getElementById("objective");
-
-const comboEl =
-document.getElementById("combo");
-
-const messageEl =
-document.getElementById("message");
-
-const bossBar =
-document.getElementById("bossBar");
-
-const bossFill =
-document.getElementById("bossFill");
-
-const bossName =
-document.getElementById("bossName");
-
-const pauseScreen =
-document.getElementById("pauseScreen");
-
-const shopScreen =
-document.getElementById("shopScreen");
-
-
-/* =========================
-   INICIAR
-========================= */
-
-document
-.getElementById("startButton")
-.addEventListener("click",startGame);
+/* =========================================================
+   INÍCIO
+========================================================= */
 
 function startGame(){
 
-    intro.classList.add("hidden");
+    document.getElementById("intro").classList.remove("active");
 
-    game.classList.remove("hidden");
+    game.classList.add("active");
 
-    gameStarted=true;
+    state.playing=true;
 
-    updateAll();
+    updateUI();
 
-    showMessage(
-        "A exterminação começou."
-    );
+    renderShop();
+    renderMissions();
+    renderAchievements();
+
+    startMusic();
 
     spawnLoop();
 
+    showMessage("ACABE COM TODAS ELAS.");
+
+    saveGame();
 }
 
+/* =========================================================
+   UI
+========================================================= */
 
-/* =========================
+function updateUI(){
+
+    moneyEl.textContent =
+        "$"+Math.floor(state.money).toLocaleString("pt-BR");
+
+    killsEl.textContent =
+        state.kills.toLocaleString("pt-BR");
+
+    levelEl.textContent =
+        state.level;
+
+    damageEl.textContent =
+        Math.floor(getDamage()).toLocaleString("pt-BR");
+
+    const requiredXP =
+        state.level*100;
+
+    xpBar.style.width =
+        clamp(
+            state.xp/requiredXP*100,
+            0,
+            100
+        )+"%";
+
+    const area = areas[state.area];
+
+    areaInfo.textContent =
+        `${area[0]} • ${state.kills.toLocaleString("pt-BR")} / ${area[1].toLocaleString("pt-BR")}`;
+
+    weaponInfo.textContent =
+        `${state.weapon} • DANO ${Math.floor(getDamage()).toLocaleString("pt-BR")}`;
+
+    if(isFinite(state.ammo)){
+        reloadButton.textContent =
+            "RECARREGAR "+state.ammo;
+    }else{
+        reloadButton.textContent="∞";
+    }
+
+    document.getElementById("skillPoints").textContent =
+        state.skillPoints;
+
+    document.getElementById("musicButton").textContent =
+        state.music ? "ON":"OFF";
+
+    document.getElementById("sfxButton").textContent =
+        state.sfx ? "ON":"OFF";
+
+    document.getElementById("hardButton").textContent =
+        state.hard ? "ON":"OFF";
+}
+
+/* =========================================================
+   DANO
+========================================================= */
+
+function getDamage(){
+
+    return state.damage *
+        (1 + state.skills.damage*0.10);
+}
+
+/* =========================================================
    SPAWN
-========================= */
+========================================================= */
+
+let spawnTimer=null;
 
 function spawnLoop(){
 
-    if(!gameStarted)return;
-
     clearTimeout(spawnTimer);
 
-    if(state.paused || state.bossActive){
-        spawnTimer=setTimeout(spawnLoop,500);
+    if(!state.playing || state.paused){
         return;
     }
 
-    spawnRoach();
+    if(state.bossActive){
+        spawnTimer=setTimeout(spawnLoop,1000);
+        return;
+    }
 
-    let speed =
+    const current =
+        gameArea.querySelectorAll(".roach").length;
+
+    if(current < maxRoaches){
+        spawnRoach();
+    }
+
+    let delay =
         Math.max(
-            250,
+            300,
             1100 -
-            state.level * 30
+            state.level*25 -
+            state.skills.speed*50
         );
 
-    spawnTimer =
-        setTimeout(
-            spawnLoop,
-            speed
-        );
+    if(state.hard){
+        delay*=0.7;
+    }
+
+    if(isMobile){
+        delay=Math.max(delay,500);
+    }
+
+    spawnTimer=setTimeout(spawnLoop,delay);
 }
 
-
-/* =========================
-   CRIAR BARATA
-========================= */
+/* =========================================================
+   SPAWN BARATA
+========================================================= */
 
 function spawnRoach(){
+
+    if(!state.playing || state.paused) return;
+
+    const type =
+        roachTypes[
+            randInt(0,roachTypes.length-1)
+        ];
 
     const roach =
         document.createElement("div");
 
-    roach.className="roach";
+    roach.className =
+        "roach "+type.name;
 
-    let type =
-        Math.random();
+    roach.textContent="🪳";
 
-    if(type < .08){
-        roach.classList.add("giant");
-        roach.dataset.hp =
-            Math.max(3,state.damage*3);
-
-    }else if(type < .18){
-
-        roach.classList.add("fast");
-
-        roach.dataset.hp =
-            Math.max(1,state.damage);
-
-    }else if(type < .25){
-
-        roach.classList.add("mutant");
-
-        roach.dataset.hp =
-            Math.max(2,state.damage*2);
-
-    }else if(type < .32){
-
-        roach.classList.add("armored");
-
-        roach.dataset.hp =
-            Math.max(5,state.damage*5);
-
-    }else{
-
-        roach.dataset.hp =
-            Math.max(1,state.damage);
-
-    }
-
-    roach.innerHTML=`
-        <div class="body"></div>
-        <div class="head"></div>
-        <div class="leg l1"></div>
-        <div class="leg l2"></div>
-        <div class="leg l3"></div>
-        <div class="leg l4"></div>
-    `;
+    roach.dataset.hp=type.hp;
+    roach.dataset.maxhp=type.hp;
+    roach.dataset.reward=type.reward;
+    roach.dataset.type=type.name;
 
     const rect =
         gameArea.getBoundingClientRect();
 
     const x =
-        30 +
-        Math.random() *
-        (rect.width-60);
+        random(
+            5,
+            Math.max(6,rect.width-65)
+        );
 
     const y =
-        100 +
-        Math.random() *
-        (rect.height-150);
+        random(
+            55,
+            Math.max(60,rect.height-65)
+        );
 
     roach.style.left=x+"px";
     roach.style.top=y+"px";
@@ -1155,48 +1317,160 @@ function spawnRoach(){
         "pointerdown",
         function(e){
 
+            e.preventDefault();
             e.stopPropagation();
 
-            hitRoach(
-                roach,
-                e.clientX,
-                e.clientY
-            );
+            attackRoach(roach);
 
-        }
+        },
+        {passive:false}
     );
 
     gameArea.appendChild(roach);
 
+    if(type.name==="fast"){
+        moveRoach(roach);
+    }
+
+    if(type.name==="flying"){
+        moveFlying(roach);
+    }
 }
 
+/* =========================================================
+   MOVIMENTO
+========================================================= */
 
-/* =========================
-   ATACAR
-========================= */
+function moveRoach(roach){
 
-function hitRoach(
-    roach,
-    x,
-    y
-){
+    if(!roach.isConnected) return;
 
-    if(state.paused)return;
+    const rect =
+        gameArea.getBoundingClientRect();
+
+    const x =
+        random(5,Math.max(6,rect.width-65));
+
+    const y =
+        random(55,Math.max(60,rect.height-65));
+
+    roach.animate(
+        [
+            {
+                left:roach.offsetLeft+"px",
+                top:roach.offsetTop+"px"
+            },
+            {
+                left:x+"px",
+                top:y+"px"
+            }
+        ],
+        {
+            duration:random(500,1000),
+            fill:"forwards"
+        }
+    ).onfinish=()=>{
+        if(roach.isConnected){
+            moveRoach(roach);
+        }
+    };
+}
+
+function moveFlying(roach){
+
+    if(!roach.isConnected) return;
+
+    const rect =
+        gameArea.getBoundingClientRect();
+
+    const x =
+        random(5,Math.max(6,rect.width-65));
+
+    const y =
+        random(55,Math.max(60,rect.height-65));
+
+    roach.animate(
+        [
+            {
+                transform:"translate(0,0)"
+            },
+            {
+                transform:
+                    `translate(${random(-100,100)}px,${random(-70,70)}px)`
+            }
+        ],
+        {
+            duration:random(500,1200),
+            fill:"forwards"
+        }
+    ).onfinish=()=>{
+        if(roach.isConnected){
+            moveFlying(roach);
+        }
+    };
+}
+
+/* =========================================================
+   ATAQUE
+========================================================= */
+
+function attackRoach(roach){
+
+    if(state.paused) return;
+
+    let damage=getDamage();
+
+    if(
+        state.skills.crit>0 &&
+        Math.random() <
+        state.skills.crit*0.05
+    ){
+
+        damage*=2;
+
+        showMessage("CRÍTICO!");
+
+    }
+
+    if(
+        state.weaponType==="explosive"
+    ){
+
+        damage*=
+            1+
+            state.skills.explosive*0.25;
+
+    }
+
+    if(
+        state.weaponType==="spray"
+    ){
+        damage*=1.1;
+    }
+
+    if(
+        state.weaponType==="flame"
+    ){
+        damage*=1.2;
+    }
 
     let hp =
         Number(roach.dataset.hp);
 
-    hp -= state.damage;
+    hp-=damage;
 
     roach.dataset.hp=hp;
 
-    createHit(
-        x,
-        y,
-        "-" + state.damage
+    playSfx("hit");
+
+    hitEffect(roach);
+
+    weaponEffect(
+        roach,
+        damage
     );
 
-    if(hp <= 0){
+    if(hp<=0){
 
         killRoach(roach);
 
@@ -1204,705 +1478,1351 @@ function hitRoach(
 
         roach.animate(
             [
-                {transform:"translate(-50%,-50%)"},
-                {transform:"translate(-50%,-50%) translateX(-8px)"},
-                {transform:"translate(-50%,-50%) translateX(8px)"},
-                {transform:"translate(-50%,-50%)"}
+                {transform:"scale(1)"},
+                {transform:"scale(1.25)"},
+                {transform:"scale(1)"}
             ],
             {
-                duration:120
+                duration:100
             }
         );
+    }
+
+    useAmmo();
+
+    updateUI();
+}
+
+/* =========================================================
+   MUNIÇÃO
+========================================================= */
+
+function useAmmo(){
+
+    if(!isFinite(state.ammo)){
+        return;
+    }
+
+    state.ammo--;
+
+    if(state.ammo<=0){
+
+        showMessage("SEM MUNIÇÃO!");
+
+        setTimeout(()=>{
+            reload();
+        },300);
 
     }
 
+    updateUI();
 }
 
+let reloading=false;
 
-/* =========================
+function reload(){
+
+    if(!isFinite(state.maxAmmo)){
+        return;
+    }
+
+    if(reloading) return;
+
+    if(state.ammo>=state.maxAmmo){
+        return;
+    }
+
+    reloading=true;
+
+    showMessage("RECARREGANDO...");
+
+    setTimeout(()=>{
+
+        state.ammo=
+            state.maxAmmo;
+
+        reloading=false;
+
+        playSfx("reload");
+
+        updateUI();
+
+    },800);
+}
+
+/* =========================================================
+   EFEITOS
+========================================================= */
+
+function hitEffect(roach){
+
+    roach.animate(
+        [
+            {filter:"brightness(1)"},
+            {filter:"brightness(4)"},
+            {filter:"brightness(1)"}
+        ],
+        {
+            duration:100
+        }
+    );
+}
+
+function weaponEffect(roach,damage){
+
+    if(
+        state.weaponType==="explosive"
+    ){
+
+        explosion(
+            roach.offsetLeft,
+            roach.offsetTop
+        );
+
+        const nearby =
+            [...gameArea.querySelectorAll(".roach")]
+            .filter(r=>r!==roach);
+
+        nearby.forEach(r=>{
+
+            const dx =
+                r.offsetLeft-roach.offsetLeft;
+
+            const dy =
+                r.offsetTop-roach.offsetTop;
+
+            const distance =
+                Math.sqrt(dx*dx+dy*dy);
+
+            if(distance<120){
+
+                let hp=
+                    Number(r.dataset.hp);
+
+                hp-=damage*0.3;
+
+                r.dataset.hp=hp;
+
+                if(hp<=0){
+                    killRoach(r);
+                }
+            }
+
+        });
+    }
+
+    if(
+        state.weaponType==="flame"
+    ){
+
+        roach.style.filter=
+            "sepia(1) saturate(5)";
+
+    }
+}
+
+function explosion(x,y){
+
+    const e =
+        document.createElement("div");
+
+    e.style.position="absolute";
+    e.style.left=(x-60)+"px";
+    e.style.top=(y-60)+"px";
+    e.style.width="120px";
+    e.style.height="120px";
+    e.style.borderRadius="50%";
+    e.style.border="5px solid #ff9800";
+    e.style.pointerEvents="none";
+    e.style.zIndex="35";
+
+    gameArea.appendChild(e);
+
+    e.animate(
+        [
+            {
+                transform:"scale(.2)",
+                opacity:1
+            },
+            {
+                transform:"scale(1.5)",
+                opacity:0
+            }
+        ],
+        {
+            duration:350
+        }
+    ).onfinish=()=>{
+        e.remove();
+    };
+}
+
+/* =========================================================
    MORTE
-========================= */
+========================================================= */
 
 function killRoach(roach){
 
-    if(roach.dataset.dead)return;
+    if(!roach.isConnected){
+        return;
+    }
 
-    roach.dataset.dead=true;
-
-    roach.classList.add("dead");
-
-    state.kills++;
+    const type =
+        roach.dataset.type;
 
     let reward =
-        5 + state.level * 2;
+        Number(roach.dataset.reward);
 
-    if(roach.classList.contains("giant"))
-        reward*=4;
-
-    if(roach.classList.contains("mutant"))
-        reward*=3;
-
-    if(roach.classList.contains("armored"))
-        reward*=5;
+    reward*=
+        1+
+        state.skills.money*0.15;
 
     state.money+=reward;
 
+    state.kills++;
+
     state.combo++;
-
-    gainXP(10);
-
-    comboEl.textContent =
-        state.combo > 1
-        ? "COMBO x"+state.combo
-        : "";
 
     clearTimeout(state.comboTimer);
 
-    state.comboTimer =
+    state.comboTimer=
         setTimeout(()=>{
             state.combo=0;
             comboEl.textContent="";
-        },1800);
+        },2500);
 
-    setTimeout(
-        ()=>roach.remove(),
-        200
+    if(state.combo>=2){
+
+        comboEl.textContent=
+            "COMBO x"+state.combo;
+    }
+
+    gainXP(10);
+
+    if(type==="explosive"){
+        explosion(
+            roach.offsetLeft,
+            roach.offsetTop
+        );
+    }
+
+    particles(
+        roach.offsetLeft,
+        roach.offsetTop
     );
 
+    roach.remove();
+
+    checkMissions();
+    checkAchievements();
     checkProgress();
 
+    updateUI();
+
+    saveGame();
 }
 
-
-/* =========================
+/* =========================================================
    XP
-========================= */
+========================================================= */
 
 function gainXP(amount){
 
     state.xp+=amount;
 
-    let needed =
-        state.level * 100;
+    const required=
+        state.level*100;
 
-    while(state.xp>=needed){
+    while(state.xp>=required){
 
-        state.xp-=needed;
+        state.xp-=
+            state.level*100;
 
         state.level++;
 
-        state.damage++;
+        state.skillPoints++;
 
-        needed =
-            state.level * 100;
+        state.damage*=1.05;
 
         showMessage(
-            "MURIEL SUBIU PARA O NÍVEL " +
-            state.level
+            "NÍVEL "+state.level+"!"
         );
-
     }
-
-    updateAll();
-
 }
 
+/* =========================================================
+   PARTÍCULAS
+========================================================= */
 
-/* =========================
-   PROGRESSO
-========================= */
+function particles(x,y){
+
+    for(
+        let i=0;
+        i<Math.min(maxParticles,18);
+        i++
+    ){
+
+        const p =
+            document.createElement("div");
+
+        p.className="particle";
+
+        p.style.left=
+            (x+random(-10,10))+"px";
+
+        p.style.top=
+            (y+random(-10,10))+"px";
+
+        p.style.background=
+            Math.random()>.5
+            ? "#ff5252"
+            : "#ffd740";
+
+        gameArea.appendChild(p);
+
+        const dx=random(-70,70);
+        const dy=random(-70,70);
+
+        p.animate(
+            [
+                {
+                    transform:"translate(0,0)",
+                    opacity:1
+                },
+                {
+                    transform:
+                        `translate(${dx}px,${dy}px)`,
+                    opacity:0
+                }
+            ],
+            {
+                duration:random(250,500)
+            }
+        ).onfinish=()=>{
+            p.remove();
+        };
+    }
+}
+
+/* =========================================================
+   PROGRESSÃO
+========================================================= */
 
 function checkProgress(){
 
     if(state.kills>=10000){
 
-        finalBattle();
+        endGame();
 
         return;
-
     }
 
-    let current =
-        state.areas[state.area];
+    let newArea=0;
 
-    if(
-        state.kills>=current.goal
-    ){
+    for(let i=0;i<areas.length;i++){
 
-        if(state.area <
-           state.areas.length-1){
-
-            state.area++;
-
-            changeArea();
-
-            if(
-                state.area===2 ||
-                state.area===4 ||
-                state.area===6 ||
-                state.area===7 ||
-                state.area===9
-            ){
-
-                startBoss();
-
-            }
-
+        if(state.kills>=areas[i][1]){
+            newArea=i;
         }
-
     }
 
-    updateAll();
+    if(newArea!==state.area){
 
+        state.area=newArea;
+
+        showMessage(
+            areas[state.area][0]
+        );
+
+        if(
+            [2,4,6,8].includes(state.area)
+        ){
+
+            startBoss();
+        }
+    }
 }
 
-
-/* =========================
-   ÁREA
-========================= */
-
-function changeArea(){
-
-    const area =
-        state.areas[state.area];
-
-    background.className =
-        area.bg;
-
-    areaNameEl.textContent =
-        area.name;
-
-    showMessage(
-        "MURIEL ENTROU EM: " +
-        area.name
-    );
-
-}
-
-
-/* =========================
+/* =========================================================
    BOSS
-========================= */
-
-const bosses = [
-
-    {
-        name:"BARATA GORDONA",
-        hp:5000
-    },
-
-    {
-        name:"DR. BARATOVSKY",
-        hp:15000
-    },
-
-    {
-        name:"GENERAL BARATA",
-        hp:50000
-    },
-
-    {
-        name:"IMPERADOR DAS BARATAS",
-        hp:100000
-    },
-
-    {
-        name:"BARATA PRIME",
-        hp:1000000
-    }
-
-];
-
-let bossIndex=0;
-let currentBossHP=0;
-let maxBossHP=0;
+========================================================= */
 
 function startBoss(){
 
-    if(bossIndex>=bosses.length)
-        return;
+    const bossIndex=
+        Math.floor(state.area/2)-1;
 
-    const boss =
+    const boss=
         bosses[bossIndex];
 
-    bossIndex++;
+    if(!boss) return;
 
     state.bossActive=true;
 
-    currentBossHP=
-        boss.hp;
+    state.boss={
+        name:boss.name,
+        hp:boss.hp,
+        maxhp:boss.hp,
+        reward:boss.reward
+    };
 
-    maxBossHP=
-        boss.hp;
-
-    bossBar.classList.remove("hidden");
-    bossName.classList.remove("hidden");
-
-    bossName.textContent =
+    bossName.textContent=
         boss.name;
 
-    updateBoss();
+    bossBar.style.width="100%";
+
+    bossUI.style.display="block";
 
     showMessage(
-        "UM CHEFE APARECEU: " +
-        boss.name
+        "BOSS: "+boss.name
     );
-
 }
 
+function attackBoss(){
 
-/* Clique no boss */
-
-bossBar.addEventListener(
-    "pointerdown",
-    function(e){
-        e.stopPropagation();
+    if(!state.bossActive){
+        return;
     }
-);
 
+    let damage=getDamage();
 
-/*
-   Área inteira pode receber
-   ataques no boss por clique
-*/
+    if(
+        state.skills.crit>0 &&
+        Math.random() <
+        state.skills.crit*0.05
+    ){
+        damage*=2;
+        showMessage("CRÍTICO!");
+    }
+
+    if(state.weaponType==="explosive"){
+        damage*=
+            1+
+            state.skills.explosive*0.25;
+    }
+
+    state.boss.hp-=damage;
+
+    playSfx("hit");
+
+    bossBar.style.width=
+        clamp(
+            state.boss.hp/
+            state.boss.maxhp*100,
+            0,
+            100
+        )+"%";
+
+    useAmmo();
+
+    if(state.boss.hp<=0){
+
+        defeatBoss();
+    }
+
+    updateUI();
+}
+
+/* =========================================================
+   ÁREA DE TOQUE
+========================================================= */
 
 gameArea.addEventListener(
     "pointerdown",
     function(e){
 
-        if(!state.bossActive)
-            return;
-
         if(
-            e.target.closest(".roach") ||
-            e.target.closest("button")
-        )
+            e.target.closest(".roach")
+        ){
             return;
-
-        currentBossHP-=state.damage;
-
-        createHit(
-            e.clientX,
-            e.clientY,
-            "-" + state.damage
-        );
-
-        updateBoss();
-
-        if(currentBossHP<=0){
-
-            defeatBoss();
-
         }
 
-    }
+        if(
+            state.bossActive
+        ){
+
+            e.preventDefault();
+
+            attackBoss();
+        }
+
+    },
+    {passive:false}
 );
 
-
-function updateBoss(){
-
-    let percentage =
-        Math.max(
-            0,
-            currentBossHP/maxBossHP*100
-        );
-
-    bossFill.style.width =
-        percentage+"%";
-
-}
-
+/* =========================================================
+   BOSS DERROTADO
+========================================================= */
 
 function defeatBoss(){
 
-    state.bossActive=false;
-
-    bossBar.classList.add("hidden");
-    bossName.classList.add("hidden");
+    if(!state.bossActive){
+        return;
+    }
 
     state.money+=
-        1000 * bossIndex;
+        state.boss.reward;
 
-    state.kills+=
-        25 * bossIndex;
+    state.skillPoints++;
 
-    showMessage(
-        "CHEFE DERROTADO!"
-    );
+    state.bossActive=false;
 
-    gainXP(
-        100 * bossIndex
-    );
+    bossUI.style.display="none";
 
-    updateAll();
+    state.boss=null;
 
-}
-
-
-/* =========================
-   FINAL
-========================= */
-
-function finalBattle(){
-
-    state.paused=true;
-
-    clearTimeout(spawnTimer);
-
-    document
-    .getElementById("ending")
-    .classList.remove("hidden");
-
-}
-
-
-/* =========================
-   SHOP
-========================= */
-
-function openShop(){
-
-    state.paused=true;
-
-    shopScreen.classList.remove(
-        "hidden"
-    );
-
-    updateShop();
-
-}
-
-
-function closeShop(){
-
-    shopScreen.classList.add(
-        "hidden"
-    );
-
-    state.paused=false;
-
-}
-
-
-function openShopFromPause(){
-
-    pauseScreen.classList.add(
-        "hidden"
-    );
-
-    shopScreen.classList.remove(
-        "hidden"
-    );
-
-}
-
-
-function buyWeapon(
-    name,
-    price,
-    damage
-){
-
-    if(price===0){
-
-        state.weapon=name;
-        state.damage=damage;
-
-        updateAll();
-
-        showMessage(
-            "Equipado: "+name
-        );
-
-        return;
-
-    }
-
-    if(
-        state.money < price
-    ){
-
-        showMessage(
-            "Dinheiro insuficiente."
-        );
-
-        return;
-
-    }
-
-    if(
-        damage <= state.damage
-    ){
-
-        showMessage(
-            "Você já possui uma arma melhor."
-        );
-
-        return;
-
-    }
-
-    state.money-=price;
-
-    state.weapon=name;
-
-    state.damage=damage;
-
-    updateAll();
+    state.missions.boss=true;
 
     showMessage(
-        "Comprado: "+name
+        "BOSS DERROTADO!"
     );
 
+    checkAchievements();
+
+    saveGame();
+
+    updateUI();
 }
 
+/* =========================================================
+   SKILLS
+========================================================= */
 
-/* =========================
-   PAUSE
-========================= */
+function buySkill(type){
 
-document
-.getElementById("pauseButton")
-.addEventListener(
-    "click",
-    pauseGame
-);
-
-
-function pauseGame(){
-
-    state.paused=true;
-
-    pauseScreen.classList.remove(
-        "hidden"
-    );
-
-}
-
-
-function resumeGame(){
-
-    pauseScreen.classList.add(
-        "hidden"
-    );
-
-    state.paused=false;
-
-}
-
-
-/* =========================
-   SAVE
-========================= */
-
-function saveGame(){
-
-    localStorage.setItem(
-        "muriel_exterminio",
-        JSON.stringify(state)
-    );
-
-    showMessage(
-        "Jogo salvo."
-    );
-
-}
-
-
-/* =========================
-   LOAD
-========================= */
-
-function loadGame(){
-
-    const save =
-        localStorage.getItem(
-            "muriel_exterminio"
-        );
-
-    if(!save)return;
-
-    const data =
-        JSON.parse(save);
-
-    Object.assign(
-        state,
-        data
-    );
-
-    changeArea();
-
-    updateAll();
-
-}
-
-
-/* =========================
-   UI
-========================= */
-
-function updateAll(){
-
-    moneyEl.textContent =
-        "$"+Math.floor(state.money);
-
-    killsEl.textContent =
-        state.kills;
-
-    levelEl.textContent =
-        state.level;
-
-    damageEl.textContent =
-        state.damage;
-
-    weaponEl.textContent =
-        state.weapon;
-
-    const area =
-        state.areas[state.area];
-
-    areaNameEl.textContent =
-        area.name;
-
-    objectiveEl.textContent =
-        "Elimine " +
-        area.goal +
-        " baratas";
-
-    updateShop();
-
-}
-
-
-function updateShop(){
-
-    const shopMoney =
-        document.getElementById(
-            "shopMoney"
-        );
-
-    if(shopMoney){
-
-        shopMoney.textContent =
-            "$"+Math.floor(state.money);
-
+    if(state.skillPoints<=0){
+        showMessage("SEM PONTOS!");
+        return;
     }
 
+    state.skillPoints--;
+
+    state.skills[type]++;
+
+    updateUI();
+
+    saveGame();
 }
 
+/* =========================================================
+   LOJA
+========================================================= */
 
-/* =========================
+function renderShop(){
+
+    const list=
+        document.getElementById("shopList");
+
+    list.innerHTML="";
+
+    weapons.forEach((weapon,index)=>{
+
+        const item=
+            document.createElement("div");
+
+        item.className="shopItem";
+
+        const owned =
+            weapon.damage<=state.damage;
+
+        item.innerHTML=`
+
+            <div>
+                <b>${weapon.name}</b><br>
+                <small>
+                    Dano: ${weapon.damage.toLocaleString("pt-BR")}
+                    |
+                    Preço: $${weapon.price.toLocaleString("pt-BR")}
+                </small>
+            </div>
+
+            <button>
+                ${owned ? "USAR" : "$"+weapon.price.toLocaleString("pt-BR")}
+            </button>
+        `;
+
+        item.querySelector("button")
+            .onclick=()=>{
+
+                if(owned){
+
+                    equipWeapon(weapon);
+
+                }else{
+
+                    buyWeapon(weapon);
+
+                }
+
+            };
+
+        list.appendChild(item);
+
+    });
+}
+
+function buyWeapon(weapon){
+
+    if(state.money<weapon.price){
+
+        showMessage("DINHEIRO INSUFICIENTE!");
+
+        return;
+    }
+
+    state.money-=weapon.price;
+
+    equipWeapon(weapon);
+
+    renderShop();
+
+    saveGame();
+
+    updateUI();
+}
+
+function equipWeapon(weapon){
+
+    state.weapon=
+        weapon.name;
+
+    state.damage=
+        weapon.damage;
+
+    state.weaponType=
+        weapon.type;
+
+    state.maxAmmo=
+        weapon.ammo;
+
+    state.ammo=
+        weapon.ammo;
+
+    showMessage(
+        weapon.name+" EQUIPADO"
+    );
+
+    updateUI();
+}
+
+/* =========================================================
+   MISSÕES
+========================================================= */
+
+function checkMissions(){
+
+    if(state.kills>=100)
+        state.missions.kills100=true;
+
+    if(state.kills>=1000)
+        state.missions.kills1000=true;
+
+    if(state.combo>=20)
+        state.missions.combo20=true;
+
+    if(state.money>=10000)
+        state.missions.money10000=true;
+}
+
+function renderMissions(){
+
+    const list=
+        document.getElementById("missionList");
+
+    list.innerHTML="";
+
+    const missions=[
+
+        [
+            "100 BARATAS",
+            state.missions.kills100
+        ],
+
+        [
+            "1000 BARATAS",
+            state.missions.kills1000
+        ],
+
+        [
+            "COMBO 20",
+            state.missions.combo20
+        ],
+
+        [
+            "$10.000",
+            state.missions.money10000
+        ],
+
+        [
+            "DERROTE UM BOSS",
+            state.missions.boss
+        ]
+
+    ];
+
+    missions.forEach(m=>{
+
+        const div=
+            document.createElement("div");
+
+        div.className="missionItem";
+
+        div.innerHTML=
+            `${m[1]?"✓":"□"} ${m[0]}`;
+
+        list.appendChild(div);
+    });
+}
+
+/* =========================================================
+   CONQUISTAS
+========================================================= */
+
+const achievements=[
+
+    ["first","Primeira Barata"],
+    ["100","100 Mortes"],
+    ["1000","1000 Mortes"],
+    ["combo","Combo 20"],
+    ["boss","Primeiro Boss"],
+    ["level10","Nível 10"],
+    ["titanium","Chinelo de Titânio"],
+    ["bazooka","Bazuca"],
+    ["orbital","Canhão Orbital"],
+    ["final","10.000 Mortes"]
+
+];
+
+function checkAchievements(){
+
+    const unlock=(id)=>{
+
+        if(!state.achievements.includes(id)){
+
+            state.achievements.push(id);
+
+            showMessage(
+                "CONQUISTA!"
+            );
+        }
+    };
+
+    if(state.kills>=1)
+        unlock("first");
+
+    if(state.kills>=100)
+        unlock("100");
+
+    if(state.kills>=1000)
+        unlock("1000");
+
+    if(state.combo>=20)
+        unlock("combo");
+
+    if(state.missions.boss)
+        unlock("boss");
+
+    if(state.level>=10)
+        unlock("level10");
+
+    if(state.weapon==="CHINELO DE TITÂNIO")
+        unlock("titanium");
+
+    if(state.weapon==="BAZUCA")
+        unlock("bazooka");
+
+    if(state.weapon==="CANHÃO ORBITAL")
+        unlock("orbital");
+
+    if(state.kills>=10000)
+        unlock("final");
+
+    renderAchievements();
+
+    saveGame();
+}
+
+function renderAchievements(){
+
+    const list=
+        document.getElementById("achievementList");
+
+    list.innerHTML="";
+
+    achievements.forEach(a=>{
+
+        const unlocked=
+            state.achievements.includes(a[0]);
+
+        const div=
+            document.createElement("div");
+
+        div.className="achievementItem";
+
+        div.innerHTML=
+            `${unlocked?"✓":"🔒"} ${a[1]}`;
+
+        list.appendChild(div);
+    });
+}
+
+/* =========================================================
    MENSAGENS
-========================= */
+========================================================= */
+
+let messageTimer=null;
 
 function showMessage(text){
 
     messageEl.textContent=text;
 
-    messageEl.classList.add("show");
+    clearTimeout(messageTimer);
 
-    setTimeout(
-        ()=>{
-            messageEl.classList.remove(
-                "show"
+    messageTimer=
+        setTimeout(()=>{
+            messageEl.textContent="";
+        },1200);
+}
+
+/* =========================================================
+   MODAIS
+========================================================= */
+
+function openModal(id){
+
+    if(state.paused){
+        return;
+    }
+
+    closeModals();
+
+    document.getElementById(id)
+        .classList.add("active");
+
+    if(id==="shopModal")
+        renderShop();
+
+    if(id==="missionModal")
+        renderMissions();
+
+    if(id==="achievementModal")
+        renderAchievements();
+
+}
+
+function closeModals(){
+
+    document
+        .querySelectorAll(".modal")
+        .forEach(m=>{
+            m.classList.remove("active");
+        });
+}
+
+/* =========================================================
+   PAUSA
+========================================================= */
+
+function togglePause(){
+
+    if(!state.playing){
+        return;
+    }
+
+    state.paused=
+        !state.paused;
+
+    if(state.paused){
+
+        closeModals();
+
+        document
+            .getElementById("pauseScreen")
+            .classList.add("active");
+
+    }else{
+
+        document
+            .getElementById("pauseScreen")
+            .classList.remove("active");
+
+        spawnLoop();
+    }
+}
+
+/* =========================================================
+   CONFIGURAÇÕES
+========================================================= */
+
+function toggleMusic(){
+
+    state.music=!state.music;
+
+    if(!state.music){
+        stopMusic();
+    }else{
+        startMusic();
+    }
+
+    updateUI();
+    saveGame();
+}
+
+function toggleSfx(){
+
+    state.sfx=!state.sfx;
+
+    updateUI();
+    saveGame();
+}
+
+function toggleHard(){
+
+    state.hard=!state.hard;
+
+    updateUI();
+    saveGame();
+}
+
+/* =========================================================
+   FULLSCREEN
+========================================================= */
+
+function fullscreen(){
+
+    const element=document.documentElement;
+
+    if(element.requestFullscreen){
+
+        element.requestFullscreen()
+            .catch(()=>{});
+
+    }else if(
+        element.webkitRequestFullscreen
+    ){
+
+        element.webkitRequestFullscreen();
+    }
+}
+
+/* =========================================================
+   SONS
+========================================================= */
+
+let audioCtx=null;
+let musicInterval=null;
+
+function getAudio(){
+
+    if(!audioCtx){
+
+        audioCtx=
+            new (
+                window.AudioContext ||
+                window.webkitAudioContext
+            )();
+
+    }
+
+    if(audioCtx.state==="suspended"){
+        audioCtx.resume();
+    }
+
+    return audioCtx;
+}
+
+function playSfx(type){
+
+    if(!state.sfx) return;
+
+    const ctx=getAudio();
+
+    const osc=
+        ctx.createOscillator();
+
+    const gain=
+        ctx.createGain();
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    if(type==="hit"){
+        osc.frequency.value=120;
+    }else{
+        osc.frequency.value=250;
+    }
+
+    gain.gain.setValueAtTime(
+        .08,
+        ctx.currentTime
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+        .001,
+        ctx.currentTime+.08
+    );
+
+    osc.start();
+
+    osc.stop(
+        ctx.currentTime+.08
+    );
+}
+
+/* =========================================================
+   MÚSICA
+========================================================= */
+
+function startMusic(){
+
+    if(!state.music) return;
+
+    if(musicInterval){
+        return;
+    }
+
+    const ctx=getAudio();
+
+    const notes=[
+        110,
+        130.81,
+        146.83,
+        164.81
+    ];
+
+    let index=0;
+
+    musicInterval=
+        setInterval(()=>{
+
+            if(
+                !state.music ||
+                state.paused
+            ){
+                return;
+            }
+
+            const osc=
+                ctx.createOscillator();
+
+            const gain=
+                ctx.createGain();
+
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+
+            osc.frequency.value=
+                notes[index%notes.length];
+
+            gain.gain.value=.015;
+
+            osc.start();
+
+            osc.stop(
+                ctx.currentTime+.15
             );
-        },
-        1800
-    );
 
+            index++;
+
+        },350);
 }
 
+function stopMusic(){
 
-/* =========================
-   DANO VISUAL
-========================= */
+    clearInterval(musicInterval);
 
-function createHit(
-    x,
-    y,
-    text
-){
-
-    const el =
-        document.createElement("div");
-
-    el.className="hit";
-
-    el.textContent=text;
-
-    el.style.left=x+"px";
-    el.style.top=y+"px";
-
-    document.body.appendChild(el);
-
-    setTimeout(
-        ()=>el.remove(),
-        500
-    );
-
+    musicInterval=null;
 }
 
+/* =========================================================
+   SAVE
+========================================================= */
 
-/* =========================
-   LOJA
-========================= */
+const SAVE_KEY=
+    "murielExterminioMobileV5";
 
-document
-.getElementById("shopButton")
-.addEventListener(
-    "click",
-    openShop
-);
+function saveGame(){
 
+    try{
 
-/* =========================
-   TECLAS
-========================= */
+        localStorage.setItem(
+            SAVE_KEY,
+            JSON.stringify(state)
+        );
+
+    }catch(e){}
+}
+
+function loadGame(){
+
+    try{
+
+        const saved=
+            localStorage.getItem(SAVE_KEY);
+
+        if(!saved){
+            return;
+        }
+
+        const data=
+            JSON.parse(saved);
+
+        Object.assign(
+            state,
+            data
+        );
+
+        if(!state.skills){
+
+            state.skills={
+                damage:0,
+                money:0,
+                speed:0,
+                crit:0,
+                explosive:0
+            };
+        }
+
+        updateUI();
+
+    }catch(e){}
+}
+
+/* =========================================================
+   NOVO JOGO+
+========================================================= */
+
+function newGamePlus(){
+
+    state.money=0;
+    state.kills=0;
+    state.level=1;
+    state.xp=0;
+    state.damage=1;
+
+    state.weapon="MÃO";
+    state.weaponType="melee";
+
+    state.ammo=Infinity;
+    state.maxAmmo=Infinity;
+
+    state.combo=0;
+    state.area=0;
+
+    state.skillPoints=0;
+
+    state.skills={
+        damage:0,
+        money:0,
+        speed:0,
+        crit:0,
+        explosive:0
+    };
+
+    state.missions={
+        kills100:false,
+        kills1000:false,
+        combo20:false,
+        money10000:false,
+        boss:false
+    };
+
+    state.achievements=[];
+
+    state.bossActive=false;
+    state.boss=null;
+
+    document
+        .getElementById("ending")
+        .classList.remove("active");
+
+    game.classList.add("active");
+
+    state.playing=true;
+
+    updateUI();
+
+    spawnLoop();
+
+    saveGame();
+}
+
+/* =========================================================
+   FINAL
+========================================================= */
+
+function endGame(){
+
+    state.playing=false;
+
+    clearTimeout(spawnTimer);
+
+    gameArea
+        .querySelectorAll(".roach")
+        .forEach(r=>r.remove());
+
+    game.classList.remove("active");
+
+    document
+        .getElementById("ending")
+        .classList.add("active");
+
+    checkAchievements();
+
+    saveGame();
+}
+
+/* =========================================================
+   TECLADO
+========================================================= */
 
 document.addEventListener(
     "keydown",
-    e=>{
+    function(e){
 
-        if(e.key==="Escape" ||
-           e.key.toLowerCase()==="p"){
+        if(e.key==="Escape" || e.key.toLowerCase()==="p"){
 
-            if(
-                shopScreen.classList.contains(
-                    "hidden"
-                )
-            ){
+            togglePause();
+        }
 
-                if(state.paused)
-                    resumeGame();
-                else
-                    pauseGame();
+        if(e.key.toLowerCase()==="r"){
 
-            }
-
+            reload();
         }
 
     }
 );
 
+/* =========================================================
+   MOBILE: IMPEDIR GESTOS INDESEJADOS
+========================================================= */
 
-/* =========================
-   AUTOSAVE
-========================= */
-
-setInterval(
-    ()=>{
-
-        if(gameStarted)
-            saveGame();
-
-    },
-    30000
+document.addEventListener(
+    "contextmenu",
+    function(e){
+        e.preventDefault();
+    }
 );
 
+document.addEventListener(
+    "gesturestart",
+    function(e){
+        e.preventDefault();
+    }
+);
 
-/* =========================
-   CARREGAR SAVE
-========================= */
+document.addEventListener(
+    "dblclick",
+    function(e){
+        e.preventDefault();
+    }
+);
+
+let lastTouch=0;
+
+document.addEventListener(
+    "touchend",
+    function(e){
+
+        const now=Date.now();
+
+        if(now-lastTouch<=300){
+            e.preventDefault();
+        }
+
+        lastTouch=now;
+
+    },
+    {passive:false}
+);
+
+/* =========================================================
+   VISIBILIDADE
+========================================================= */
+
+document.addEventListener(
+    "visibilitychange",
+    function(){
+
+        if(
+            document.hidden &&
+            state.playing &&
+            !state.paused
+        ){
+
+            togglePause();
+        }
+
+    }
+);
+
+/* =========================================================
+   RESIZE
+========================================================= */
+
+window.addEventListener(
+    "resize",
+    function(){
+
+        updateUI();
+
+        document
+            .querySelectorAll(".roach")
+            .forEach(r=>{
+
+                const rect=
+                    gameArea.getBoundingClientRect();
+
+                const x=
+                    clamp(
+                        r.offsetLeft,
+                        0,
+                        rect.width-60
+                    );
+
+                const y=
+                    clamp(
+                        r.offsetTop,
+                        45,
+                        rect.height-60
+                    );
+
+                r.style.left=x+"px";
+                r.style.top=y+"px";
+            });
+
+    }
+);
+
+/* =========================================================
+   OTIMIZAÇÃO
+========================================================= */
+
+if(
+    isMobile &&
+    (
+        navigator.hardwareConcurrency &&
+        navigator.hardwareConcurrency<=4
+    )
+){
+
+    document.body.classList.add(
+        "reduce-effects"
+    );
+}
+
+/* =========================================================
+   AUTO SAVE
+========================================================= */
+
+setInterval(
+    saveGame,
+    15000
+);
+
+/* =========================================================
+   CARREGAR
+========================================================= */
 
 loadGame();
 
